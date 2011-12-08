@@ -3,7 +3,9 @@ module Kameleon
     class Guest < Abstract
       def initialize(rspec_world, options={})
         @rspec_world = rspec_world
-        change_session(options.delete(:session_name), options.delete(:driver))
+        @driver_name = options.delete(:driver)
+        @session_name = options.delete(:session_name)
+        set_session
       end
     end
   end

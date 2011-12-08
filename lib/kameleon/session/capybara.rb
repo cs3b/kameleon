@@ -1,25 +1,29 @@
 module Kameleon
   module Session
     module Capybara
-      def change_session(session_name, driver_name)
-        @session = find_or_create_session(session_name, driver_name) ||
+
+      attr_accessor :session_name
+      attr_accessor :driver_name
+
+      def set_session
+        @session = find_or_create_session ||
             current_session
       end
 
       private
 
-      def find_or_create_session(session_name, driver_name)
-        find_session(session_name) ||
-            create_session(session_name, driver_name)
+      def find_or_create_session
+        find_session ||
+            create_session
       end
 
       #! in future we should print notice when selected drive is different then session that have been chosen
-      def find_session(session_name)
+      def find_session
         session_pool[session_name]
       end
 
-      def create_session(session_name, driver_name)
-        ::Capybara::Session.new(current_driver(driver_name), ::Capybara.app).tap do |session|
+      def create_session
+        ::Capybara::Session.new(current_driver, ::Capybara.app).tap do |session|
           session_pool[session_name] = session
         end if session_name
       end
@@ -32,7 +36,7 @@ module Kameleon
         ::Capybara.current_session
       end
 
-      def current_driver(driver_name)
+      def current_driver
         driver_name ||
             ::Capybara.current_driver
       end
