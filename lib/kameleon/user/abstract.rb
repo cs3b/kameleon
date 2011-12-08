@@ -15,6 +15,10 @@ module Kameleon
         session.should rspec_world.have_content(content)
       end
 
+      def will(&block)
+        instance_eval(&block)
+      end
+
       private
 
       def load_homepage?

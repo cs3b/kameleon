@@ -53,5 +53,11 @@ describe "Kameleon::User::Guest" do
     it "should be able to see response" do
       @user.see("Hello")
     end
+
+    it "using will block" do
+      @user.will do
+        see "Hello"
+      end
+    end
   end
 end
