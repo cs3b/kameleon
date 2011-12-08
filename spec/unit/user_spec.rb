@@ -4,14 +4,13 @@ describe "Kameleon::User::Guest" do
   include ::Capybara::DSL
 
   before(:all) do
-    Capybara.app = Hey
+    Capybara.app = Hey.new
   end
 
 
   context "guest user" do
     before(:all) do
       @guest = Kameleon::User::Guest.new(self, {:session_name => :see_world})
-      @selenium = Kameleon::User::Guest.new(self, {:session_name => :new_world, :driver => :selenium})
       @another_guest = Kameleon::User::Guest.new(self)
     end
 
@@ -31,6 +30,9 @@ describe "Kameleon::User::Guest" do
       end
 
       context "selecting custom driver" do
+        before(:all) do
+          @selenium = Kameleon::User::Guest.new(self, {:session_name => :new_world, :driver => :selenium, :skip_page_autoload => true})
+        end
         it "should set Selenium if params :driver => :selenium" do
           @selenium.session.driver.should be_a Capybara::Selenium::Driver
         end
@@ -40,6 +42,16 @@ describe "Kameleon::User::Guest" do
           end
         end
       end
+    end
+  end
+
+  context "perform request" do
+    before(:all) do
+      @user = Kameleon::User::Guest.new(self)
+    end
+
+    it "should be able to see response" do
+      @user.see("Hello")
     end
   end
 end
