@@ -16,6 +16,8 @@ module Kameleon
         @options = options
         set_session
         session.visit('/') if load_homepage?
+        yield if block_given?
+        after_initialization
       end
 
       def visit(page)
@@ -38,6 +40,10 @@ module Kameleon
         else
           opts
         end
+      end
+
+      def after_initialization
+        # stub, should be implemented in subclass
       end
     end
   end
