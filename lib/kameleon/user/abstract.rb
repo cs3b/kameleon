@@ -11,8 +11,16 @@ module Kameleon
         session.visit(page)
       end
 
-      def see(content)
-        session.should rspec_world.have_content(content)
+      def see(*content)
+        content.each do |content_part|
+          session.should rspec_world.have_content(content_part)
+        end
+      end
+
+      def not_see(*content)
+        content.each do |content_part|
+          session.should_not rspec_world.have_content(content_part)
+        end
       end
 
       def will(&block)
