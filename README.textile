@@ -4,22 +4,16 @@ high abstraction dsl for acceptance / integration / functional tests from end us
 
 h2. example of usage
 
-bc. 
-scenario "deducting module credits", :status => 'done', :driver => :selenium do
-    @somebody.click "index.link_new_somebody", :within => "#sidebar"
-    create_neo_candidate_click(@somebody)
-    @somebody.populate_form "activerecord.attributes.somebody.first_name" => "MrName",
-                            "activerecord.attributes.somebody.last_name" => "Candidate",
-                            "activerecord.attributes.somebody.mobile" => "1234567890",
-                            "activerecord.attributes.somebody.email" => "somebody@cs3b.com",
-                            "tfs_neo_project_candidates_attributes_3_life_situation" => "Rekruttering til ekspertstilling",
-                            "activerecord.attributes.somebody.gender" => "common.gender.female",
-                            "customer.candidates.new.label_send_invitations" => false,
-                            "activerecord.attributes.somebody.year_of_birth" => "1990"
-    @somebody.click "button_submit"
-    @somebody.click "sample_project"
-    @somebody.click "index.link_new_candidate", :within => "#sidebar"
-    @somebody.see_within "#sidebar", "196"
+bc.
+background do
+  @user = Kameleon::User::Guest.new(self, {:session_name => 'my_account', :driver => :selenium)
+end
+bc.
+scenario "opening list of news", :status => 'done' do
+    @user.will do
+      click "homepage", "community", "news"
+      see "new medicine developed last weekend"
+    end
 end
 
 
