@@ -4,11 +4,10 @@ high abstraction dsl for acceptance / integration / functional tests from end us
 
 h2. example of usage
 
-bc.
+bc. #rspec scenario
 background do
   @user = Kameleon::User::Guest.new(self, {:session_name => 'my_account', :driver => :selenium)
 end
-bc.
 scenario "opening list of news", :status => 'done' do
     @user.will do
       click "homepage", "community", "news"
