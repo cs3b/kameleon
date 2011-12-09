@@ -167,5 +167,11 @@ describe "See" do
         @user.see 'this is great value' => 'X-Large input'
       end
     end
+
+    context "that are not value for form" do
+      it "by input id" do
+        @user.not_see 'this is not such a great value' => 'xlInput'
+      end
+    end
   end
 end
