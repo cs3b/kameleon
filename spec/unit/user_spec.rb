@@ -4,7 +4,7 @@ describe "Kameleon::User::Guest" do
   include ::Capybara::DSL
 
   before(:all) do
-    Capybara.app = Hey.new
+    Capybara.app = Hey.new("Hello You :-)")
   end
 
 
