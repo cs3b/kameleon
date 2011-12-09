@@ -8,6 +8,12 @@ module Kameleon
         end
       end
 
+      def fill_in(fields)
+        fields.each_pair do |value, selector|
+          session.fill_in selector, :with => value
+        end
+      end
+
       #      def click(link_text, options={:within => DEFAULT_AREA})
       #  yield if block_given?
       #  rspec_world.within(options[:within]) do

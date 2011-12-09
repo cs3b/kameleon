@@ -7,5 +7,9 @@ describe "Kameleon::User::Base" do
     Capybara.app = Hey.new("Hello You :-)")
   end
 
+  # initilization
+
   #! overwriting using block for initialization
+
+  # login in
 end

@@ -15,7 +15,6 @@ module Kameleon
         @session_name = options.delete(:session_name)
         @options = options
         set_session
-        session.visit('/') if load_homepage?
         yield if block_given?
         after_initialization
       end
@@ -25,7 +24,19 @@ module Kameleon
       end
 
       def will(&block)
-        instance_eval(&block)
+        default_selector ?
+            within(default_selector, &block) :
+            instance_eval(&block)
+      end
+
+      def within(selector, &block)
+        session.within(get_selector(selector)) do
+          instance_eval(&block)
+        end
+      end
+
+      def page_areas
+        {}
       end
 
       private
@@ -44,6 +55,14 @@ module Kameleon
 
       def after_initialization
         # stub, should be implemented in subclass
+      end
+
+      def get_selector(selector)
+        selector.is_a?(Symbol) ? page_areas[selector] : selector
+      end
+
+      def default_selector
+        page_areas[:main]
       end
     end
   end
