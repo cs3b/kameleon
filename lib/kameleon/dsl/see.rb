@@ -18,7 +18,6 @@ module Kameleon
           else
             raise "Not Implemented Structure #{options} :: #{options.class}"
         end
-
       end
 
       def not_see(*content)
@@ -39,10 +38,6 @@ module Kameleon
             raise "Not Implemented Structure #{options} :: #{options.class}"
         end
       end
-
-      private
-
-
     end
   end
 end
