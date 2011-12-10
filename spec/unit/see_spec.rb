@@ -14,6 +14,8 @@ describe "See" do
           <legend>Example form legend</legend>
             <label for="xlInput">X-Large input</label>
               <input type="text" size="30" name="xlInput" id="xlInput" value="this is great value" class="xlarge">
+              <input type="text" size="30" name="xlInput" id="xlInput_two" value="" class="xlarge">
+              <input type="text" size="30" name="xlInput" id="xlInput_three" value="" class="xlarge">
 
             <label for="normalSelect">Select</label>
               <select id="normalSelect" name="normalSelect">
@@ -205,9 +207,21 @@ describe "See" do
 
         it "when not all are checked" do
           lambda {
-          @user.see :checked => ["Appended checkbox", "appendedInput", "optionsCheckboxes_one"]
+            @user.see :checked => ["Appended checkbox", "appendedInput", "optionsCheckboxes_one"]
           }.should raise_error(RSpec::Expectations::ExpectationNotMetError)
         end
+      end
+    end
+
+    context "see empty fields should validate many at once" do
+      it "and fails when at least one input are not empty" do
+        lambda {
+          @user.see :empty => ["xlInput_two", "X-Large input"]
+        }.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+
+      it "succeed when all fields are empty" do
+         @user.see :empty => ["xlInput_two", "xlInput_three"]
       end
     end
   end

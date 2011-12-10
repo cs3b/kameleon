@@ -14,6 +14,11 @@ module Kameleon
           when 'Hash'
             options.each_pair do |value, locator|
               case value
+                when :empty
+                  one_or_all(locator).each do |selector|
+                    session.should rspec_world.have_field(selector)
+                    session.find_field(selector).value.should == ""
+                  end
                 when :checked, :selected
                   one_or_all(locator).each do |selector|
                     session.should rspec_world.have_checked_field(selector)
