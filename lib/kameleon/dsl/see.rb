@@ -54,13 +54,6 @@ module Kameleon
             raise "Not Implemented Structure #{options} :: #{options.class}"
         end
       end
-
-      private
-
-      def one_or_all(elements)
-        elements.is_a?(Array) ? elements : [elements]
-      end
-
     end
   end
 end

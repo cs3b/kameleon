@@ -64,6 +64,10 @@ module Kameleon
       def default_selector
         page_areas[:main]
       end
+
+      def one_or_all(elements)
+        elements.is_a?(Array) ? elements : [elements]
+      end
     end
   end
 end
