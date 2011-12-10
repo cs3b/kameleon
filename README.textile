@@ -4,9 +4,31 @@ high abstraction dsl for acceptance / integration / functional tests from end us
 
 h2. example of usage
 
+
+bc. # definition for particular type of user
+class TestUserAdministrator < Kameleon::User::Base
+  def initialize(rspec_world, options={})
+    factory_name = options.delete(:user_factory)
+    @user = Factory(factory_name || :puffer_user)
+    super
+  end
+  # will do ... end giblock by default scope by :main selector - if defined
+  def page_areas
+    {
+        :top => '.header',
+        :left => '.column sidebar',
+        :main => '#content'
+    }
+  end
+  private
+  def user_login_path
+    rspec_world.new_admin_session_path
+  end
+end
+
 bc. #rspec scenario
 background do
-  @user = Kameleon::User::Guest.new(self, {:session_name => 'my_account', :driver => :selenium)
+  @user = TestUserAdministrator.new(self, {:session_name => 'my_account', :driver => :selenium)
 end
 scenario "opening list of news", :status => 'done' do
     @user.will do
@@ -14,7 +36,6 @@ scenario "opening list of news", :status => 'done' do
       see "new medicine developed last weekend"
     end
 end
-
 
 h2. it depends on
 
