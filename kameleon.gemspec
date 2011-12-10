@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'kameleon'
-  s.version = '0.0.4'
+  s.version = '0.0.5'
   s.files = Dir['lib/**/*.rb'] + Dir['spec/**/*.rb'] + ['LICENCE']
   s.add_runtime_dependency 'capybara'
   s.add_runtime_dependency 'rspec'
@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = "high abstraction dsl for end user perspective tests, kameleon - it's a polish word for chameleon"
   s.authors = ["Michał Czyż [@cs3b]"]
   s.email = 'michalczyz@gmail.com'
-  s.homepage = 'http://kameleon.cs3b.com'
+  s.homepage = 'https://github.com/cs3b/kameleon'
 
   s.license = 'MIT'
 end
