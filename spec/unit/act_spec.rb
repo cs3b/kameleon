@@ -81,7 +81,6 @@ describe "Act" do
         @user.will do
           see :unchecked => ["Prepended Checkbox", "Appended checkbox", "Awesome Checkbox"]
           fill_in :check => ["Appended checkbox", "Awesome Checkbox"]
-          session.save_and_open_page
           see :checked => ["Appended checkbox", "Awesome Checkbox"],
               :unchecked => "Prepended Checkbox"
         end
