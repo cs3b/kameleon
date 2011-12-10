@@ -9,6 +9,10 @@ describe "See" do
     <p>and there is many lines</p>
     <p>i that app</p>
 
+      <a href="/i-want/to">What you want</a>
+
+      <a href="/what-i/need">What I need</a>
+
       <form>
         <fieldset>
           <legend>Example form legend</legend>
@@ -221,7 +225,17 @@ describe "See" do
       end
 
       it "succeed when all fields are empty" do
-         @user.see :empty => ["xlInput_two", "xlInput_three"]
+        @user.see :empty => ["xlInput_two", "xlInput_three"]
+      end
+    end
+    context "I can recognize links" do
+      it "see when they are placed" do
+        @user.see :link => {'What you want' => '/i-want/to'}
+      end
+      it "throw error if not found" do
+        lambda {
+          @user.see :link => {'What I need' => '/no-way'}
+        }.should raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end
   end

@@ -27,6 +27,10 @@ module Kameleon
                   one_or_all(locator).each do |selector|
                     session.should rspec_world.have_unchecked_field(selector)
                   end
+                when :link, :links
+                  locator.each_pair do |link_text, url|
+                    session.should rspec_world.have_link(link_text, :href => url)
+                  end
                 else
                   session.should rspec_world.have_field(locator, :with => value)
               end
