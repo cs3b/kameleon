@@ -57,7 +57,7 @@ describe "See" do
                 <input type="text" size="16" name="prependedInput2" id="prependedInput2" class="mini">
 
             <label for="appendedInput">Appended checkbox</label>
-                <input type="text" size="16" name="appendedInput" id="appendedInput" class="mini">
+                <input type="text" size="16" name="appendedInput" id="appendedInput" checked="checked" class="mini">
                 <label class="add-on active"><input type="checkbox" checked="checked" value="" id="" name=""></label>
 
             <label for="fileInput">File input</label>
@@ -68,12 +68,12 @@ describe "See" do
             <label id="optionsCheckboxes">List of options</label>
 
                   <label>
-                    <input type="checkbox" value="option1" name="optionsCheckboxes">
+                    <input type="checkbox" value="option1" name="optionsCheckboxes_one">
                     <span>Option one is this and that&mdash;be sure to include why it's great</span>
                   </label>
 
                   <label>
-                    <input type="checkbox" value="option2" name="optionsCheckboxes">
+                    <input type="checkbox" value="option2" checked="checked" name="optionsCheckboxes_two">
                     <span>Option two can also be checked and included in form results</span>
                   </label>
 
@@ -171,6 +171,43 @@ describe "See" do
     context "that are not value for form" do
       it "by input id" do
         @user.not_see 'this is not such a great value' => 'xlInput'
+      end
+    end
+
+    context "values for checkbox'es" do
+      context "veirfy status for single checkbox'es'" do
+        context "is checked" do
+          it "by Label" do
+            @user.see :checked => "Appended checkbox"
+          end
+          it "by dom id" do
+            @user.see :checked => "appendedInput"
+          end
+        end
+
+        context "is unchecked" do
+          it "by Label" do
+            @user.see :unchecked => "Prepended checkbox"
+          end
+          it "by dom id" do
+            @user.see :unchecked => "prependedInput"
+          end
+        end
+      end
+
+      context "should understand status for multiple checkbox'es'" do
+        it "checked" do
+          @user.see :checked => ["Appended checkbox", "appendedInput", "optionsCheckboxes_two"]
+        end
+        it "when unchecked" do
+          @user.see :unchecked => ["Prepended checkbox", "optionsCheckboxes", "optionsCheckboxes_one"]
+        end
+
+        it "when not all are checked" do
+          lambda {
+          @user.see :checked => ["Appended checkbox", "appendedInput", "optionsCheckboxes_one"]
+          }.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end
       end
     end
   end
