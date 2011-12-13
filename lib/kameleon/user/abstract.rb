@@ -3,7 +3,6 @@ module Kameleon
     class Abstract
       attr_accessor :options
       attr_accessor :rspec_world
-      attr_accessor :session
 
       include Kameleon::Session::Capybara
       include Kameleon::Dsl::See
@@ -39,10 +38,18 @@ module Kameleon
         {}
       end
 
+      def debug
+        session
+      end
+
       private
 
       def load_homepage?
         !options[:skip_page_autoload]
+      end
+
+      def session
+        @session
       end
 
       def extract_options(opts)
