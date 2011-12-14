@@ -23,6 +23,18 @@ module Kameleon
               one_or_all(selector).each do |locator|
                 session.uncheck locator
               end
+            when :select
+              selector.each_pair do |value, select_locator|
+                one_or_all(select_locator).each do |locator|
+                  session.select value, :with => locator
+                end
+              end
+            when :unselect
+              selector.each_pair do |value, select_locator|
+                one_or_all(select_locator).each do |locator|
+                  session.unselect value, :with => locator
+                end
+              end
             else
               session.fill_in selector, :with => value
           end

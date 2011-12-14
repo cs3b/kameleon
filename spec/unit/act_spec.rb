@@ -95,5 +95,9 @@ describe "Act" do
         end
       end
     end
+
+    it "perform operation on radio button" do
+
+    end
   end
 end
