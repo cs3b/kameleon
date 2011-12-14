@@ -10,6 +10,19 @@ module Kameleon
             current_session
       end
 
+      def refresh_page
+        case session.driver
+          when :selenium
+            visit session.driver.browser.current_url
+          when :racktest
+            visit [current_path, session.driver.last_request.env['QUERY_STRING']].reject(&:blank?).join('?')
+          when :culerity
+            session.driver.browser.refresh
+          else
+            raise 'unsupported driver'
+        end
+      end
+
       private
 
       def find_or_create_session
