@@ -15,6 +15,10 @@ module Kameleon
               one_or_all(selector).each do |locator|
                 session.check locator
               end
+            when :choose
+              one_or_all(selector).each do |locator|
+                session.choose(locator)
+              end
             when :uncheck
               one_or_all(selector).each do |locator|
                 session.uncheck locator
