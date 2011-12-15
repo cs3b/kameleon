@@ -65,7 +65,21 @@ module Kameleon
       end
 
       def get_selector(selector)
-        selector.is_a?(Symbol) ? page_areas[selector] : selector
+        case selector.class.name
+          when 'Hash'
+            selector.each_pair do |key, value|
+              case key
+                when :row
+                   "//tr[*='#{value}'][1]"
+                else
+                  raise "not supported selectors"
+              end
+            end
+          when 'Symbol'
+            page_areas[selector]
+          else
+            selector
+        end
       end
 
       def default_selector

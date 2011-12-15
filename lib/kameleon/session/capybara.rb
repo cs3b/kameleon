@@ -11,12 +11,12 @@ module Kameleon
       end
 
       def refresh_page
-        case session.driver
-          when :selenium
+        case session.driver.class.name
+          when 'Capybara::Selenium::Driver'
             visit session.driver.browser.current_url
-          when :racktest
+          when 'Capybara::RackTest::Driver'
             visit [current_path, session.driver.last_request.env['QUERY_STRING']].reject(&:blank?).join('?')
-          when :culerity
+          when 'Capybara::Culerity::Driver'
             session.driver.browser.refresh
           else
             raise 'unsupported driver'

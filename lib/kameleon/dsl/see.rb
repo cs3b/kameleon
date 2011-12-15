@@ -13,24 +13,32 @@ module Kameleon
             end
           when 'Hash'
             options.each_pair do |value, locator|
-              case value
-                when :empty
-                  one_or_all(locator).each do |selector|
-                    session.should rspec_world.have_field(selector)
-                    session.find_field(selector).value.should == ""
+              case value.class.name
+                when 'Symbol'
+                  case value
+                    when :empty
+                      one_or_all(locator).each do |selector|
+                        session.should rspec_world.have_field(selector)
+                        session.find_field(selector).value.should == ""
+                      end
+                    when :checked, :selected
+                      one_or_all(locator).each do |selector|
+                        session.should rspec_world.have_checked_field(selector)
+                      end
+                    when :unchecked, :unselected
+                      one_or_all(locator).each do |selector|
+                        session.should rspec_world.have_unchecked_field(selector)
+                      end
+                    when :link, :links
+                      locator.each_pair do |link_text, url|
+                        session.should rspec_world.have_link(link_text, :href => url)
+                      end
+                    else
+                      raise("User can not see #{value} - you need to teach him how")
                   end
-                when :checked, :selected
-                  one_or_all(locator).each do |selector|
-                    session.should rspec_world.have_checked_field(selector)
-                  end
-                when :unchecked, :unselected
-                  one_or_all(locator).each do |selector|
-                    session.should rspec_world.have_unchecked_field(selector)
-                  end
-                when :link, :links
-                  locator.each_pair do |link_text, url|
-                    session.should rspec_world.have_link(link_text, :href => url)
-                  end
+                when 'Fixnum'
+                  session.should rspec_world.have_xpath(get_selector(locator), count => value)
+
                 else
                   session.should rspec_world.have_field(locator, :with => value)
               end
