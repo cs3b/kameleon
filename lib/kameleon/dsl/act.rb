@@ -36,7 +36,9 @@ module Kameleon
                 end
               end
             else
-              session.fill_in selector, :with => value
+              one_or_all(selector).each do |locator|
+                session.fill_in locator, :with => value
+              end
           end
         end
       end
