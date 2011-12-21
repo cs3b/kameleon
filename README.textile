@@ -17,6 +17,7 @@ class TestUserAdministrator < Kameleon::User::Base
     {
         :top => '.header',
         :left => '.column sidebar',
+        :second_level_menu_items => [:xpath, '//ul[@class="level_two"]/li'],
         :main => '#content'
     }
   end

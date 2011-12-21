@@ -81,6 +81,22 @@ describe "Kameleon::User::Guest" do
       end
     end
 
+    context "overwriting sector type" do
+      it "should see within default selector" do
+        @user.stub!(:page_areas).and_return({:main => [:xpath, '//div[@id="some_div"]']})
+        @user.will do
+          see "This is It"
+          not_see "Hello"
+        end
+      end
+
+      it "should not see within" do
+        @user.within(:xpath, '//div[@id="some_div"]') do
+          not_see "Hello"
+        end
+      end
+    end
+
 
     # would be nice to be possible in future
     # it's hard because of block closing

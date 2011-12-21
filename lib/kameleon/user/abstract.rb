@@ -24,12 +24,12 @@ module Kameleon
 
       def will(&block)
         default_selector ?
-            within(default_selector, &block) :
+            within(*default_selector, &block) :
             instance_eval(&block)
       end
 
-      def within(selector, &block)
-        session.within(get_selector(selector)) do
+      def within(*selector, &block)
+        session.within(*get_selector(selector)) do
           instance_eval(&block)
         end
       end
@@ -70,11 +70,11 @@ module Kameleon
             selector.each_pair do |key, value|
               case key
                 when :row
-                   "//tr[*='#{value}'][1]"
+                  "//tr[*='#{value}'][1]"
                 else
                   raise "not supported selectors"
               end
-            end
+            end.join('')
           when 'Symbol'
             page_areas[selector]
           else
