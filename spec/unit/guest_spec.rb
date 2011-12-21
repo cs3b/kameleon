@@ -4,7 +4,7 @@ describe "Kameleon::User::Guest" do
   include ::Capybara::DSL
 
   before(:all) do
-    Capybara.app = Hey.new("Hello You :-)")
+    Capybara.app = Hey.new("Hello You :-) <div id=\"some_div\"> This is It</div>")
   end
 
 
@@ -60,5 +60,39 @@ describe "Kameleon::User::Guest" do
         see "Hello"
       end
     end
+
+    it "should see within using block" do
+      @user.within("#some_div") do
+        see "This is It"
+      end
+    end
+
+    it "should see within default selector" do
+      @user.stub!(:page_areas).and_return({:main => '#some_div'})
+      @user.will do
+        see "This is It"
+        not_see "Hello"
+      end
+    end
+
+    it "should not see within" do
+      @user.within("#some_div") do
+        not_see "Hello"
+      end
+    end
+
+
+    # would be nice to be possible in future
+    # it's hard because of block closing
+    # it "should see within specific selector" do
+    #   @user.within("#some_div").see "This is It"
+    #   @user.within("#some_div").not_see "Hello"
+    # end
+    #
+    # it "should see within default selector" do
+    #   @user.stub!(:page_areas).and_return({:main => '#some_div'})
+    #   @user.will.see "This is It"
+    #   @user.will.not_see "Hello"
+    # end
   end
 end
