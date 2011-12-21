@@ -15,7 +15,7 @@ module Kameleon
           when 'Capybara::Selenium::Driver'
             visit session.driver.browser.current_url
           when 'Capybara::RackTest::Driver'
-            visit [current_path, session.driver.last_request.env['QUERY_STRING']].reject(&:blank?).join('?')
+            visit [rspec_world.current_path, session.driver.last_request.env['QUERY_STRING']].reject(&:blank?).join('?')
           when 'Capybara::Culerity::Driver'
             session.driver.browser.refresh
           else
