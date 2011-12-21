@@ -41,6 +41,9 @@ end
 h2. it depends on
 
 * rspec
+    # ensure that you loads dsl and rspec matchers into rspec
+    require 'capybara/dsl'
+    require 'capybara/rspec/matchers'
 * capybara
 * devise ( all authentication facilities )
 * selenium && racktest drivers

@@ -77,8 +77,10 @@ module Kameleon
             end.join('')
           when 'Symbol'
             page_areas[selector]
-          else
+          when 'Array'
             selector
+          else
+            [Capybara.default_selector, selector]
         end
       end
 

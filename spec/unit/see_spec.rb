@@ -107,7 +107,7 @@ describe "See" do
               <textarea rows="3" name="textarea2" id="textarea2" class="xxlarge"></textarea>
 
             <label id="optionsRadio">List of options</label>
-            <div class="input">
+            <div id="some_labels" class="input">
                   <label>
                     <input type="radio" value="option1" name="optionsRadios" checked="">
                     <span>Option one is this and that&mdash;be sure to include why it's great</span>
@@ -235,6 +235,27 @@ describe "See" do
       it "throw error if not found" do
         lambda {
           @user.see :link => {'What I need' => '/no-way'}
+        }.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+
+    context "can count things" do
+      it "by css" do
+        @user.within("#normalSelect") do
+          see 5 => 'option'
+        end
+      end
+
+      it "by xpath from page areas" do
+        @user.stub!(:page_areas).and_return({:some_labels => [:xpath, '//div[@id="some_labels"]/label']})
+        @user.see 2 => :some_labels
+      end
+
+      it "show error when there is no match" do
+        lambda {
+        @user.within("#normalSelect") do
+          see 3 => 'option'
+        end
         }.should raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end
