@@ -12,10 +12,8 @@ module Kameleon
 
       def refresh_page
         case session.driver.class.name
-          when 'Capybara::Selenium::Driver'
+          when 'Capybara::Selenium::Driver', 'Capybara::RackTest::Driver'
             visit session.driver.browser.current_url
-          when 'Capybara::RackTest::Driver'
-            visit [rspec_world.current_path, session.driver.last_request.env['QUERY_STRING']].reject(&:blank?).join('?')
           when 'Capybara::Culerity::Driver'
             session.driver.browser.refresh
           else
