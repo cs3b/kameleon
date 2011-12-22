@@ -4,7 +4,25 @@ module Kameleon
 
       def click(*links)
         links.each do |link|
-          session.click_on(link)
+          case link.class.name
+            when 'String'
+              session.click_on(link)
+            when 'Hash'
+              link.each_pair do |what, locator|
+                case what
+                  when :image
+                    session.find(:xpath, "//img[@alt=\"#{locator}\"").click
+                  when :and_accept
+                    click(locator)
+                    session.driver.browser.switch_to.alert.accept
+                  when :and_dismiss
+                    click(locator)
+                    session.driver.browser.switch_to.alert.dismiss
+                  else
+                    raise("User do not know how to click #{key} - you need to teach him how")
+                end
+              end
+          end
         end
       end
 

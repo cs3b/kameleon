@@ -46,6 +46,8 @@ scenario "opening list of news", :status => 'done' do
     end
 
     @user.see :ordered => 'Z', 'X', 'Y'
+    @user.click :and_confirm => "Cancel"
+    @user.click :and_dismiss => "Cancel"
 end
 
 h2. it depends on
