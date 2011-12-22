@@ -19,7 +19,7 @@ module Kameleon
                     click(locator)
                     session.driver.browser.switch_to.alert.dismiss
                   else
-                    raise("User do not know how to click #{key} - you need to teach him how")
+                    raise("User do not know how to click #{what} - you need to teach him how")
                 end
               end
           end
