@@ -341,9 +341,9 @@ describe "See" do
 
       it "show error when there is no match" do
         lambda {
-        @user.within("#normalSelect") do
-          see 3 => 'option'
-        end
+          @user.within("#normalSelect") do
+            see 3 => 'option'
+          end
         }.should raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end
@@ -354,6 +354,20 @@ describe "See" do
           @user.within(:column => 'Selleo') do
             see "13.00", "2.00", "0.00"
             not_see "19.00", "17.00", "5.00", "7.00", "9.00"
+          end
+        end
+        it "will see scoped by part of header" do
+          @user.within(:column => 'lleo') do
+            see "13.00", "2.00", "0.00"
+            not_see "19.00", "17.00", "5.00", "7.00", "9.00"
+          end
+        end
+      end
+      context "rows" do
+        it "see only elements in row" do
+          @user.within(:row => 'Michał Czyż') do
+            see "13.00"
+            not_see "17.00"
           end
         end
       end

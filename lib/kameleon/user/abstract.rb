@@ -101,7 +101,7 @@ module Kameleon
                   return [:xpath, "//tr[*='#{value}'][1]"]
                 when :column
                   position =
-                      session.all(:xpath, "//table//th").index { |n| n.text == value }
+                      session.all(:xpath, "//table//th").index { |n| n.text =~ /#{value}/ }
                   return [:xpath, "//table//td[#{position + 1}] | //table//td[#{position + 1}]", :select_multiple]
                 else
                   raise "not supported selectors"
