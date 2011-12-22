@@ -9,7 +9,7 @@ module Kameleon
             session.should rspec_world.have_content(options)
           when 'Array'
             options.each do |content_part|
-              session.should rspec_world.have_content(content_part)
+              see(content_part)
             end
           when 'Hash'
             options.each_pair do |value, locator|
