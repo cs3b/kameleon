@@ -15,6 +15,8 @@ describe "See" do
 
       <a href="/what-i/need">What I need</a>
 
+      <img src="/images/logo_diamondmine.png?1324293836" alt="Logo_diamondmine">
+
       <form>
         <fieldset>
           <legend>Example form legend</legend>
@@ -354,6 +356,16 @@ describe "See" do
             not_see "19.00", "17.00", "5.00", "7.00", "9.00"
           end
         end
+      end
+    end
+
+    context "images" do
+      it "see by alt" do
+        @user.see :image => "Logo_diamondmine"
+      end
+
+      it "see by src" do
+        @user.see :image => "/images/logo_diamondmine.png?1324293836"
       end
     end
   end

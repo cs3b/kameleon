@@ -33,6 +33,10 @@ module Kameleon
                       locator.each_pair do |link_text, url|
                         session.should rspec_world.have_link(link_text, :href => url)
                       end
+                    when :image, :images
+                      one_or_all(locator).each do |selector|
+                        session.should rspec_world.have_xpath("//img[@alt=\"#{selector}\"] | //img[@src=\"#{selector}\"]")
+                      end
                     else
                       raise("User can not see #{value} - you need to teach him how")
                   end
