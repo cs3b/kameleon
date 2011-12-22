@@ -36,6 +36,14 @@ scenario "opening list of news", :status => 'done' do
       click "homepage", "community", "news"
       see "new medicine developed last weekend"
     end
+
+    @user.within(:row => 'some cell text') do
+      see 'see all values in row that contains that text'
+    end
+
+    @user.within(:column => 'some header') do
+      see 'see all values in that column'
+    end
 end
 
 h2. it depends on
