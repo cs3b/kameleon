@@ -65,18 +65,27 @@ module Kameleon
       end
 
       def get_selector(selector)
+        if (selector.is_a?(Array) && selector.size == 1)
+          selector = selector.first
+        end
         case selector.class.name
           when 'Hash'
             selector.each_pair do |key, value|
               case key
                 when :row
-                  "//tr[*='#{value}'][1]"
+                  return [:xpath, "//tr[*='#{value}'][1]"]
+                when :column
+                  position =
+                      session.all(:xpath, "//table//th").index { |n| n.text == value }
+                  return [:xpath, "//table//td[#{position + 1}]"]
                 else
                   raise "not supported selectors"
               end
-            end.join('')
+            end
           when 'Symbol'
-            page_areas[selector]
+            page_areas[selector].is_a?(Array) ?
+                page_areas[selector] :
+                [Capybara.default_selector, page_areas[selector]]
           when 'Array'
             selector
           else
@@ -91,6 +100,7 @@ module Kameleon
       def one_or_all(elements)
         elements.is_a?(Array) ? elements : [elements]
       end
+
     end
   end
 end
