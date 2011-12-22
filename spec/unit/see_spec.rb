@@ -362,6 +362,12 @@ describe "See" do
             not_see "19.00", "17.00", "5.00", "7.00", "9.00"
           end
         end
+
+        it "should also see elements in header" do
+          @user.within(:column => 'lleo') do
+            see "Selleo"
+          end
+        end
       end
       context "rows" do
         it "see only elements in row" do
