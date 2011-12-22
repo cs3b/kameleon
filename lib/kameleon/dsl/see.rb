@@ -37,6 +37,9 @@ module Kameleon
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_xpath("//img[@alt=\"#{selector}\"] | //img[@src=\"#{selector}\"]")
                       end
+                    when :ordered
+                      nodes = session.all(:xpath, locator.collect { |n| "//node()[text()= \"#{n}\"]" }.join(' | '))
+                      nodes.map(&:text).should == locator
                     else
                       raise("User can not see #{value} - you need to teach him how")
                   end

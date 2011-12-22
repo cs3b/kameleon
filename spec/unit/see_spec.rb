@@ -388,5 +388,17 @@ describe "See" do
         @user.see :image => "/images/logo_diamondmine.png?1324293836"
       end
     end
+
+    context "elements in order" do
+      it "see them all" do
+        @user.see :ordered => ['Michał Czyż', 'Tomasz Bąk', 'Rafał Bromirski']
+      end
+
+      it "show error if not" do
+        lambda {
+        @user.see :ordered => ['Tomasz Bąk', 'Michał Czyż', 'Rafał Bromirski']
+        }.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
   end
 end

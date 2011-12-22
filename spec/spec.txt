@@ -76,3 +76,10 @@
 
 ## shortcuts to abstract some internal elements
 # long class names, constants etc
+
+
+# see partial elemnts in what scope you are
+print debug.send(:scopes).last.native
+
+# see sorted columns
+ordered => [:asc, :column => 'Title']

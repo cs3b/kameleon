@@ -44,6 +44,8 @@ scenario "opening list of news", :status => 'done' do
     @user.within(:column => 'some header') do
       see 'see all values in that column'
     end
+
+    @user.see :ordered => 'Z', 'X', 'Y'
 end
 
 h2. it depends on
