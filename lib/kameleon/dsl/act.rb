@@ -55,9 +55,8 @@ module Kameleon
                   session.unselect value, :with => locator
                 end
               end
-            when :file
+            when :attach
               selector.each_pair do |file_path, locator|
-                @admin.debug 'Image', Rails.root.join('spec', 'assets', 'mockups', 'category.jpg')
                 session.attach_file locator, get_full_test_asset_path(file_path)
               end
             else
