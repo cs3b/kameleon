@@ -67,6 +67,12 @@ module Kameleon
         session
       end
 
+      def page_element(selector, multiple=true)
+        multiple ?
+            session.all(get_selector(selector)) :
+            session.find(get_selector(selector))
+      end
+
       private
 
       def load_homepage?
