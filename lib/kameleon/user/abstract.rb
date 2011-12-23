@@ -69,8 +69,8 @@ module Kameleon
 
       def page_element(selector, multiple=true)
         multiple ?
-            session.all(get_selector(selector)) :
-            session.find(get_selector(selector))
+            session.all(*get_selector(selector)) :
+            session.find(*get_selector(selector))
       end
 
       private
