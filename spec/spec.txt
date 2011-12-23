@@ -83,3 +83,6 @@ print debug.send(:scopes).last.native
 
 # see sorted columns
 ordered => [:asc, :column => 'Title']
+
+
+within :multiple need to be rewritten - is very ugly so far

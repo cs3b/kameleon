@@ -14,10 +14,12 @@ module Kameleon
                     session.find(:xpath, "//img[@alt=\"#{locator}\"").click
                   when :and_accept
                     click(locator)
-                    session.driver.browser.switch_to.alert.accept
+                    alert = session.driver.browser.switch_to.alert
+                    alert.accept
                   when :and_dismiss
                     click(locator)
-                    session.driver.browser.switch_to.alert.dismiss
+                    alert = page.driver.browser.switch_to
+                    alert.dismiss
                   else
                     raise("User do not know how to click #{what} - you need to teach him how")
                 end
@@ -53,6 +55,11 @@ module Kameleon
                   session.unselect value, :with => locator
                 end
               end
+            when :file
+              selector.each_pair do |file_path, locator|
+                @admin.debug 'Image', Rails.root.join('spec', 'assets', 'mockups', 'category.jpg')
+                session.attach_file locator, get_full_test_asset_path(file_path)
+              end
             else
               one_or_all(selector).each do |locator|
                 session.fill_in locator, :with => value
@@ -74,7 +81,17 @@ module Kameleon
 #  end
 #end
 
+      private
 
+      def get_full_test_asset_path(file_path)
+        if File.file?(file_path)
+          file_path
+        elsif File.file?(default_files_path << file_path)
+          default_files_path << file_path
+        else
+          raise "Sorry but we didn't found that file in: #{file_path}, neither #{default_files_path << file_path}"
+        end
+      end
     end
   end
 end
