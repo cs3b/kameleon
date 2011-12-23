@@ -13,13 +13,21 @@ module Kameleon
                   when :image
                     session.find(:xpath, "//img[@alt=\"#{locator}\"").click
                   when :and_accept
+                    if session.driver.is_a?(Capybara::Selenium::Driver)
+                      #! js hack - problem with selenium native alerts usage
+                      #! it switch to allert but no reaction on accept or dismiss
+                      session.evaluate_script("window.alert = function(msg) { return true; }")
+                      session.evaluate_script("window.confirm = function(msg) { return true; }")
+                    end
                     click(locator)
-                    alert = session.driver.browser.switch_to.alert
-                    alert.accept
+                  # session.driver.browser.switch_to.alert.accept if session.driver.is_a?(Capybara::Selenium::Driver)
                   when :and_dismiss
+                    if session.driver.is_a?(Capybara::Selenium::Driver)
+                      session.evaluate_script("window.alert = function(msg) { return true; }")
+                      session.evaluate_script("window.confirm = function(msg) { return false; }")
+                    end
                     click(locator)
-                    alert = page.driver.browser.switch_to
-                    alert.dismiss
+                  # session.driver.browser.switch_to.alert.dismiss if session.driver.is_a?(Capybara::Selenium::Driver)
                   else
                     raise("User do not know how to click #{what} - you need to teach him how")
                 end
