@@ -85,10 +85,10 @@ module Kameleon
       def get_full_test_asset_path(file_path)
         if File.file?(file_path)
           file_path
-        elsif File.file?(default_files_path << file_path)
-          default_files_path << file_path
+        elsif File.file?(default_files_path.join(file_path))
+          default_files_path.join(file_path)
         else
-          raise "Sorry but we didn't found that file in: #{file_path}, neither #{default_files_path << file_path}"
+          raise "Sorry but we didn't found that file in: #{file_path}, neither #{default_files_path.join(file_path)}"
         end
       end
     end
