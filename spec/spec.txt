@@ -86,3 +86,5 @@ ordered => [:asc, :column => 'Title']
 
 
 within :multiple need to be rewritten - is very ugly so far
+
+implement better keyboard support
