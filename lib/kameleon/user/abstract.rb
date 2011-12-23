@@ -67,10 +67,13 @@ module Kameleon
         session
       end
 
-      def page_element(selector, multiple=true)
-        multiple ?
-            session.all(*get_selector(selector)) :
-            session.find(*get_selector(selector))
+      #! it should be package into raw module
+      def page_element(selector)
+        session.find(*get_selector(selector))
+      end
+
+      def page_elements(selector)
+        session.all(*get_selector(selector))
       end
 
       private
