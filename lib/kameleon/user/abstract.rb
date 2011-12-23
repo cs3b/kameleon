@@ -124,7 +124,7 @@ module Kameleon
 
       #! rails dependency
       def default_files_path
-        Rails.path.join('spec')
+        ::Rails.root.join('spec')
       end
 
       def one_or_all(elements)
