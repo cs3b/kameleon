@@ -1,6 +1,6 @@
 class Hey
-  def initialize(filename_or_body)
-    @body = get_body(filename_or_body)
+  def initialize(filename = 'default')
+    @body = get_body(filename)
   end
 
   def call(env)
@@ -9,9 +9,9 @@ class Hey
 
   private
 
-  def get_body(filename_or_body)
-    File.open(File.dirname(__FILE__) + "/../dummy/#{filename_or_body}").read
+  def get_body(filename)
+    File.open(File.dirname(__FILE__) + "/../dummy/#{filename}").read
   rescue
-    filename_or_body
+    filename
   end
 end

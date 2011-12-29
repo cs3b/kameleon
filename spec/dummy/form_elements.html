@@ -1,12 +1,14 @@
 <html>
 <body>
-  <form>
+  <form >
       <fieldset>
         <legend>Example form legend</legend>
           <label for="xlInput">X-Large input</label>
             <input type="text" size="30" name="xlInput" id="xlInput" value="this is great value" class="xlarge">
             <input type="text" size="30" name="xlInput" id="xlInput_two" value="" class="xlarge">
             <input type="text" size="30" name="xlInput" id="xlInput_three" value="" class="xlarge">
+          <label for="secondInput">Sample Input</label>
+            <input type="text" size="30" name="secondInput" id="secondInput" value="sample default value">
 
           <label for="normalSelect">Select</label>
             <select id="normalSelect" name="normalSelect">
@@ -39,6 +41,12 @@
 
           <label for="disabledInput">Disabled textarea</label>
             <textarea disabled="" rows="3" id="textarea" name="textarea" class="xxlarge"></textarea>
+
+          <label for="readonlyInput">Readonly input</label>
+            <input type="text" readonly="" placeholder="Disabled input here carry on." size="30" name="readonlyInput" id="readonlyInput" class="xlarge disabled">
+
+          <label for="readonlyInput">Readonly textarea</label>
+            <textarea readonly="" rows="3" id="textarea" name="textarea" class="xxlarge"></textarea>
       </fieldset>
 
       <fieldset>
@@ -115,6 +123,5 @@
 
       </fieldset>
     </form>
-    <input type="text" size="30" name="ylInput" id="ylInput" value="this is second great value" class="xlarge">
   </body>
 </html>

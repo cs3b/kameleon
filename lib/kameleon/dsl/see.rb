@@ -19,11 +19,16 @@ module Kameleon
                     when :empty
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_field(selector)
-                        session.find_field(selector).value.should == ""
+                        session.find_field(selector).value.to_s.should == ''
                       end
                     when :checked, :selected
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_checked_field(selector)
+                      end
+                    when :disabled
+                      one_or_all(locator).each do |selector|
+                        session.should rspec_world.have_field(selector)
+                        session.find_field(selector)[:disabled].should == ''
                       end
                     when :unchecked, :unselected
                       one_or_all(locator).each do |selector|
@@ -40,6 +45,11 @@ module Kameleon
                     when :ordered
                       nodes = session.all(:xpath, locator.collect { |n| "//node()[text()= \"#{n}\"]" }.join(' | '))
                       nodes.map(&:text).should == locator
+                    when :readonly
+                      one_or_all(locator).each do |selector|
+                        session.should rspec_world.have_field(selector)
+                        session.find_field(selector)[:readonly].should == ''
+                      end
                     else
                       raise("User can not see #{value} - you need to teach him how")
                   end
@@ -65,8 +75,10 @@ module Kameleon
               session.should_not rspec_world.have_content(content_part)
             end
           when 'Hash'
-            options.each_pair do |value, locator|
-              session.should_not rspec_world.have_field(locator, :with => value)
+            options.each_pair do |value, locators|
+              one_or_all(locators).each do |locator|
+                session.should_not rspec_world.have_field(locator, :with => value)
+              end
             end
           else
             raise "Not Implemented Structure #{options} :: #{options.class}"
