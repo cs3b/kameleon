@@ -39,37 +39,23 @@ module Kameleon
       def fill_in(fields)
         fields.each_pair do |value, selector|
           case value
-            when :check
+            when :check, :choose, :uncheck
               one_or_all(selector).each do |locator|
-                session.check locator
+                session.send(value, locator) if modifiable_locator?(locator)
               end
-            when :choose
-              one_or_all(selector).each do |locator|
-                session.choose(locator)
-              end
-            when :uncheck
-              one_or_all(selector).each do |locator|
-                session.uncheck locator
-              end
-            when :select
-              selector.each_pair do |value, select_locator|
+            when :select, :unselect
+              selector.each_pair do |select_value, select_locator|
                 one_or_all(select_locator).each do |locator|
-                  session.select value, :with => locator
-                end
-              end
-            when :unselect
-              selector.each_pair do |value, select_locator|
-                one_or_all(select_locator).each do |locator|
-                  session.unselect value, :with => locator
+                  session.send(value, select_value, :from => locator) if modifiable_locator?(locator)
                 end
               end
             when :attach
               selector.each_pair do |file_path, locator|
-                session.attach_file locator, get_full_test_asset_path(file_path)
+                session.attach_file(locator, get_full_test_asset_path(file_path)) if modifiable_locator?(locator)
               end
             else
               one_or_all(selector).each do |locator|
-                session.fill_in locator, :with => value
+                session.fill_in(locator, :with => value) if modifiable_locator?(locator)
               end
           end
         end
@@ -98,6 +84,11 @@ module Kameleon
         else
           raise "Sorry but we didn't found that file in: #{file_path}, neither #{default_files_path.join(file_path)}"
         end
+      end
+
+      def modifiable_locator?(locator)
+        field = session.find_field(locator)
+        !(field[:readonly] || field[:disabled])
       end
     end
   end
