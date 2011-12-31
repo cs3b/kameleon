@@ -7,15 +7,15 @@ describe 'see special selectors in tables' do
     @user = Kameleon::User::Guest.new(self)
   end
 
-  context 'in row' do
-    it 'see full text' do
+  context 'when in row' do
+    it 'should see full text' do
       @user.within(:row => 'Michał Czyż') do
         see "13.00"
         not_see "17.00"
       end
     end
 
-    it 'see partial text' do
+    it 'should see partial text' do
       @user.within(:row => 'Michał Czyż') do
         see "13"
         not_see "17"
@@ -23,16 +23,16 @@ describe 'see special selectors in tables' do
     end
   end
 
-  context 'in column scoped by' do
-    context 'full text' do
-      it 'see full text' do
+  context 'when in column' do
+    context 'when scoped by full text' do
+      it 'should see full text' do
         @user.within(:column => 'Selleo') do
           see "13.00", "2.00", "0.00"
           not_see "19.00", "17.00", "5.00"
         end
       end
 
-      it 'see partial text' do
+      it 'should see partial text' do
         @user.within(:column => 'Selleo') do
           see "13", "2", "0"
           not_see "19", "17", "5"
@@ -40,15 +40,15 @@ describe 'see special selectors in tables' do
       end
     end
 
-    context 'partial text' do
-      it 'see full text' do
+    context 'when scoped by partial text' do
+      it 'should see full text' do
         @user.within(:column => 'lleo') do
           see "13.00", "2.00", "0.00"
           not_see "19.00", "17.00", "5.00"
         end
       end
 
-      it 'see partial text' do
+      it 'should see partial text' do
         @user.within(:column => 'lleo') do
           see "13", "2", "0"
           not_see "19", "17", "5"

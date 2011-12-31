@@ -6,39 +6,35 @@ describe 'see texts' do
     @user = Kameleon::User::Guest.new(self)
   end
 
-  context '#not_see' do
-    it 'single param' do
-      @user.not_see 'cool rails app'
-    end
+  it 'should see single text' do
+    @user.see 'This is simple app'
+  end
 
-    it 'multiple params at once' do
-      @user.not_see 'sinatra app', 'padrino app'
-    end
+  it 'should see many text at once' do
+    @user.see 'This is simple app', 'and there is many lines', 'i that app'
+  end
 
-    context 'at least one text is visibile' do
-      it 'will fail' do
-        expect do
-          @user.not_see 'sinatra app', 'This is simple app'
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-      end
+  it 'should not see single text' do
+    @user.not_see 'cool rails app'
+  end
+
+  it 'should not see many texts at once' do
+    @user.not_see 'sinatra app', 'padrino app'
+  end
+
+  context 'when should see and at least one text is not visible' do
+    it 'should raise error' do
+      expect do
+        @user.see 'sinatra app', 'and there is many lines'
+      end.should raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
   end
 
-  context '#see' do
-    it 'single parameter' do
-      @user.see 'This is simple app'
-    end
-
-    it 'multiple params at once' do
-      @user.see 'This is simple app', 'and there is many lines', 'i that app'
-    end
-
-    context 'at least on text is not visible' do
-      it 'will fail' do
-        expect do
-          @user.see 'sinatra app', 'and there is many lines'
-        end.should raise_error(RSpec::Expectations::ExpectationNotMetError)
-      end
+  context 'when should not see and at least one text is visibile' do
+    it 'should raise error' do
+      expect do
+        @user.not_see 'sinatra app', 'This is simple app'
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
   end
 end

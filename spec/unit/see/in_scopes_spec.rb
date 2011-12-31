@@ -21,10 +21,10 @@ describe 'see in scopes' do
   # end
 
   context '#will' do
-    context 'main selector was defined' do
+    context 'when main selector was defined' do
       before { @user.stub!(:page_areas).and_return({:main => '#main'}) }
 
-      it 'scopeing by main selector' do
+      it 'should see in main selector scope' do
         @user.will do
           see 'Sample text in main part of page', 'Left side', 'Right side'
           not_see 'Sample title for page', 'Sample text in footer'
@@ -33,7 +33,7 @@ describe 'see in scopes' do
     end
 
     context 'main selector was not defined' do
-      it 'scoping by main selector' do
+      it 'should see in whole page scope' do
         @user.will do
           see 'Sample title for page', 'Sample text in top of page', 'Left side'
         end
@@ -42,22 +42,22 @@ describe 'see in scopes' do
   end
 
   context '#within' do
-    it 'scope by css' do
+    it 'should see in css scope' do
       @user.within('#top h1') do
         see 'Sample title for page'
         not_see 'Sample text in top of page', 'Left side'
       end
     end
 
-    context 'scope by xpath' do
-      it 'one selector' do
+    context 'when scope by xpath' do
+      it 'should see in one selector scope' do
         @user.within(:xpath, '//div[@id="footer"]/span') do
           see 'Simple text'
           not_see 'Sample text in footer', 'Sample text in main part of page'
         end
       end
 
-      it 'many selctors' do
+      it 'should see in many selctors scope' do
         @user.within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]', :select_multiple) do
           see 'Simple text', 'Left side'
           not_see 'Right side', 'Sample text in top of page', 'Sample text in footer'
@@ -65,20 +65,20 @@ describe 'see in scopes' do
       end
     end
 
-    context 'scope by default selector type' do
+    context 'when scope by default selector type' do
       before do
         @user.stub!(:page_areas).and_return({:top => '#top',
                                              :footer => [:xpath, '//div[@id="footer"]']})
       end
 
-      it 'selector top' do
+      it 'should see in top selector scope' do
         @user.within(:top) do
           see 'Sample title for page', 'Sample text in top of page'
           not_see 'Sample text in main part of page', 'Sample text in footer'
         end
       end
 
-      it 'selector footer' do
+      it 'should see in footer selector scope' do
         @user.within(:footer) do
           see 'Sample text in footer', 'Simple text'
           not_see 'Sample title for page', 'Sample text in main part of page'

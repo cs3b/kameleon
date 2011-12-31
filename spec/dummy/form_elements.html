@@ -14,19 +14,11 @@
             <select id="normalSelect" name="normalSelect">
               <option>1</option>
               <option>2</option>
-              <option>3</option>
+              <option selected="selected">3</option>
               <option>4</option>
               <option>5</option>
             </select>
 
-          <label for="mediumSelect">Select</label>
-            <select id="mediumSelect" name="mediumSelect" class="medium">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
           <label for="multiSelect">Multiple select</label>
             <select id="multiSelect" name="multiSelect" multiple="multiple" size="5" class="medium">
               <option>1</option>
@@ -35,6 +27,15 @@
               <option>4</option>
               <option>5</option>
             </select>
+
+          <label for="defaultSelectedOptions">Here are the default selections</label>
+            <select id="defaultSelectedOptions" name="defaultSelectedOptions" multiple="multiple" size="4">
+              <option>first unselected</option>
+              <option>second unselected</option>
+              <option selected="selected">first selected</option>
+              <option selected="selected">second selected</option>
+            </select>
+
 
           <label for="disabledInput">Disabled input</label>
             <input type="text" disabled="" placeholder="Disabled input here carry on." size="30" name="disabledInput" id="disabledInput" class="xlarge disabled">
@@ -98,8 +99,14 @@
               <span class="help-block">All times are shown as Pacific Standard Time (GMT -08:00).</span>
             </div>
 
-          <label for="textarea">Textarea</label>
+          <label for="textarea2">Textarea 2</label>
             <textarea rows="3" name="textarea2" id="textarea2" class="xxlarge"></textarea>
+
+          <label for="textarea3">Textarea 3</label>
+            <textarea rows="3" name="textarea3" id="textarea3" class="xxlarge">sample text in textarea</textarea>
+
+          <label for="secondTextarea2">Second Textarea 2</label>
+          <textarea rows="3" name="secondTextarea2" id="secondTextarea2" class="xxlarge">sample text in second textarea 2</textarea>
 
           <label id="optionsRadio">List of options</label>
           <div id="some_labels" class="input">

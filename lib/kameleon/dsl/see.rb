@@ -16,12 +16,11 @@ module Kameleon
               case value.class.name
                 when 'Symbol'
                   case value
-                    when :empty
+                    when :button, :buttons
                       one_or_all(locator).each do |selector|
-                        session.should rspec_world.have_field(selector)
-                        session.find_field(selector).value.to_s.should == ''
+                        session.should rspec_world.have_button(selector)
                       end
-                    when :checked, :selected
+                    when :checked
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_checked_field(selector)
                       end
@@ -30,17 +29,34 @@ module Kameleon
                         session.should rspec_world.have_field(selector)
                         session.find_field(selector)[:disabled].should == ''
                       end
-                    when :unchecked, :unselected
+                    when :empty
                       one_or_all(locator).each do |selector|
-                        session.should rspec_world.have_unchecked_field(selector)
+                        session.should rspec_world.have_field(selector)
+                        session.find_field(selector).value.to_s.should == ''
                       end
-                    when :link, :links
-                      locator.each_pair do |link_text, url|
-                        session.should rspec_world.have_link(link_text, :href => url)
+                    when :error_message_for
+                      one_or_all(locator).each do |selector|
+                        session.find(:xpath, '//div[@id="error_explanation"]').should rspec_world.have_content(selector.capitalize)
                       end
                     when :image, :images
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_xpath("//img[@alt=\"#{selector}\"] | //img[@src=\"#{selector}\"]")
+                      end
+                    when :unchecked
+                      one_or_all(locator).each do |selector|
+                        session.should rspec_world.have_unchecked_field(selector)
+                      end
+                    when :selected
+                      locator.each_pair do |selected_value, selected_locator|
+                        session.should rspec_world.have_select(selected_locator, :selected => selected_value)
+                      end
+                    when :unselected
+                      locator.each_pair do |selected_value, selected_locator|
+                        session.should rspec_world.have_no_select(selected_locator, :selected => selected_value)
+                      end
+                    when :link, :links
+                      locator.each_pair do |link_text, url|
+                        session.should rspec_world.have_link(link_text, :href => url)
                       end
                     when :ordered
                       nodes = session.all(:xpath, locator.collect { |n| "//node()[text()= \"#{n}\"]" }.join(' | '))
