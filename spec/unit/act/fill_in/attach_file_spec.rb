@@ -1,6 +1,11 @@
-require_relative 'fill_in_helper'
+require 'spec_helper'
 
 describe 'fill in attach file' do
+  before do
+    Capybara.app = Hey.new('form_elements.html')
+    @user = Kameleon::User::Guest.new(self)
+  end
+
   it 'should attach file' do
     @user.will do
       see :empty => 'File input'

@@ -1,7 +1,12 @@
 #encoding: utf-8
-require_relative 'fill_in_helper'
+require 'spec_helper'
 
 describe 'fill in radio button' do
+  before do
+    Capybara.app = Hey.new('form_elements.html')
+    @user = Kameleon::User::Guest.new(self)
+  end
+
   it 'should select by label' do
     @user.will do
       see :unchecked => "Option one is this and that—be sure to include why it's great"

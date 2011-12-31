@@ -1,7 +1,12 @@
 #ecoding: utf-8
-require_relative 'fill_in_helper'
+require 'spec_helper'
 
 describe 'fill in checkbox' do
+  before do
+    Capybara.app = Hey.new('form_elements.html')
+    @user = Kameleon::User::Guest.new(self)
+  end
+
   it 'should check by id' do
     @user.will do
       see :unchecked => 'first_unchecked_checkbox'

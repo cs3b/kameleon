@@ -1,6 +1,11 @@
-require_relative 'fill_in_helper'
+require 'spec_helper'
 
 describe 'fill in date ranges' do
+  before do
+    Capybara.app = Hey.new('form_elements.html')
+    @user = Kameleon::User::Guest.new(self)
+  end
+
   it 'should fill by label' do
     pending 'does not implemented in kameleon dsl'
     @user.will do

@@ -1,6 +1,11 @@
-require_relative 'fill_in_helper'
+require 'spec_helper'
 
 describe 'fill in select' do
+  before do
+    Capybara.app = Hey.new('form_elements.html')
+    @user = Kameleon::User::Guest.new(self)
+  end
+
   it 'should select by id' do
     @user.will do
       see :unselected => { '2' => 'normalSelect' }
