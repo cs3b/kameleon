@@ -27,7 +27,7 @@ describe '#click' do
   end
 
   it 'should click on button and dismiss pop-up' do
-    @user.click :and_accept => 'Confirm button'
+    @user.click :and_dismiss => 'Confirm button'
   end
 
   it 'should click on link and accept pop-up' do
@@ -35,7 +35,7 @@ describe '#click' do
   end
 
   it 'should click on link and dismis pop-up' do
-    @user.click :and_accept => 'Confirm link'
+    @user.click :and_dismiss => 'Confirm link'
   end
 
   context 'when at least one does not exist' do
