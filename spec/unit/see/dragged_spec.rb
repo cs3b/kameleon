@@ -14,6 +14,10 @@ describe 'dragged element' do
     @user.see :dragged => { [:xpath, '//div[@id="secondDraggable"]'] => ['200px', '200px'] }
   end
 
+  it 'should see dragged by text within' do
+    @user.see :dragged => { 'Drag me around' => ['53px', '97px']}
+  end
+
   it 'should see dragged many elements at once' do
     @user.see :dragged => { '#draggable' => ['53px', '97px'], '#secondDraggable' => ['200px', '200px'] }
   end

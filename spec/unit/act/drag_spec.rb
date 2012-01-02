@@ -1,24 +1,30 @@
 require 'spec_helper'
 
-describe 'drag element' do
+describe 'draging element' do
   before do
     Capybara.app = Hey.new('draggable.html')
     @user = Kameleon::User::Guest.new(self)
   end
 
-  it 'should drag by css' do
+  it 'should dragging by css' do
     @user.see :dragged => { '#draggable' => ['53px', '97px'] }
     @user.drag '#draggable' => ['100px', '50px']
     @user.see :dragged => { '#draggable' => ['100px', '50px'] }
   end
 
-  it 'should drag by xpath' do
+  it 'should dragging by xpath' do
     @user.see :dragged => { '#secondDraggable' => ['200px', '200px'] }
     @user.drag [:xpath, '//div[@id="secondDraggable"]'] => ['300px', '300px']
     @user.see :dragged => { [:xpath, '//div[@id="secondDraggable"]'] => ['300px', '300px'] }
   end
 
-  it 'should drag many elements at once' do
+  it 'should dragging by text inside element' do
+    @user.see :dragged => { '#draggable' => ['53px', '97px'] }
+    @user.drag 'Drag me around' => ['100px', '50px']
+    @user.see :dragged => { '#draggable' => ['100px', '50px'] }
+  end
+
+  it 'should dragging many elements at once' do
     @user.see :dragged => { '#draggable' => ['53px', '97px'],
                             '#secondDraggable' => ['200px', '200px'] }
     @user.drag '#draggable' => ['100px', '100px'],
@@ -28,7 +34,7 @@ describe 'drag element' do
   end
 
   context 'when is disabled' do
-    it 'should not drag to specific position' do
+    it 'should not dragging to specific position' do
       @user.see :dragged => { '#disabledElement' => ['300px', '100px'] }
       @user.drag '#disabledElement' => ['-30px', '30px']
       @user.see :dragged => { '#disabledElement' => ['300px', '100px'] }
