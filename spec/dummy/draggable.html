@@ -2,9 +2,8 @@
 <html>
   <head>
     <style>
-      #draggable { width: 150px; height: 150px; padding: 0.5em; }
-      #secondDraggable { width: 200px; height: 200px; padding: 0.5em; }
-      #disabledDraggable { width: 200px; height: 200px; padding: 0.5em; }
+      .draggable { width: 100px; height: 100px; padding: 0.5em; }
+      #dropHere {width: 250px; height: 250px; background-color: #8F8D7C;}
     </style>
     <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
     <script type="text/javascript" src="jquery-ui/js/jquery-1.6.2.min.js"></script>
@@ -13,6 +12,7 @@
       $(function() {
         $("#draggable").draggable();
         $("#secondDraggable").draggable();
+        $("#thirdDiv").draggable();
         $("#disabledDraggable").dragabble({disabled: true});
       });
     </script>
@@ -21,16 +21,28 @@
   <body>
     <h1> Draggable </h1>
 
-    <div id="draggable" class="ui-widget-content" style="position: relative; left: 53px; top: 97px; ">
+    <div id="draggable" class="ui-widget-content draggable" style="position: relative; left: 53px; top: 97px; ">
       <p>Drag me around</p>
     </div>
 
-    <div id="secondDraggable" class="ui-widget-content" style="position: relative; left: 200px; top: 200px; ">
+    <div id="secondDraggable" class="ui-widget-content draggable" style="position: relative; left: 200px; top: 200px; ">
       <span>Second draggable</span>
     </div>
 
-    <div id="disabledDraggable" class="ui-widget-content" style="position: relative; left: 300px; top: 300px; ">
+    <div id="disabledDraggable" class="ui-widget-content draggable" style="position: relative; left: 300px; top: 300px; ">
       <p>Disabled drag element</p>
+    </div>
+
+    <div id="thirdDiv" class="ui-widget-content draggable" style="position: relative; left: 50px; top: 150px; ">
+      <span>Text inside third div</p>
+    </div>
+
+    <div id="dropHere">
+      <p>Drop here</p>
+    </div>
+
+    <div id="otherDiv">
+      <p>Do not drop here</p>
     </div>
   </body>
 </html>
