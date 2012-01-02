@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #draggable { width: 150px; height: 150px; padding: 0.5em; }
+      #secondDraggable { width: 200px; height: 200px; padding: 0.5em; }
+      #disabledDraggable { width: 200px; height: 200px; padding: 0.5em; }
+    </style>
+    <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script>
+      $(function() {
+        $("#draggable").draggable();
+        $("#secondDraggable").draggable();
+        $("#disabledDraggable").dragabble({disabled: true});
+      });
+    </script>
+  </head>
+
+  <body>
+    <h1> Draggable </h1>
+
+    <div id="draggable" class="ui-widget-content" style="position: relative; left: 53px; top: 97px; ">
+      <p>Drag me around</p>
+    </div>
+
+    <div id="secondDraggable" class="ui-widget-content" style="position: relative; left: 200px; top: 200px; ">
+      <span>Second draggable</span>
+    </div>
+
+    <div id="disabledDraggable" class="ui-widget-content" style="position: relative; left: 300px; top: 300px; ">
+      <p>Disabled drag element</p>
+    </div>
+  </body>
+</html>
