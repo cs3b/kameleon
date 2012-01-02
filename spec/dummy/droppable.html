@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #draggable { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+      #secondDraggable { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
+      #droppable { width: 150px; height: 150px; padding: 0.5em; float: left; margin: 10px; }
+    </style>
+    <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script>
+      $(function() {
+        $( "#draggable" ).draggable();
+        $( "#secondDraggable" ).draggable();
+        $( "#droppable" ).droppable({
+			    drop: function( event, ui ) {
+				    $( this )
+					    .addClass( "ui-state-highlight" )
+					    .find( "p" )
+						  .html( "Dropped!" );
+			    }
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="draggable" class="ui-widget-content">
+      <p>Drag me to my target</p>
+    </div>
+
+    <div id="droppable" class="ui-widget-header">
+      <p>Drop here</p>
+    </div>
+  </body>
+</html>
