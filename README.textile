@@ -12,10 +12,13 @@ Kameleon requires:
 * selenium && racktest drivers
 
 Before you start using kameleon ensure that capybara is properly loaded (in your test helper file)
-bc. require 'capybara/rails'
+
+```require 'capybara/rails'
 
 After that
-bc. gem install kameleon 
+
+```gem install kameleon
+
 will get you going.
 
 
