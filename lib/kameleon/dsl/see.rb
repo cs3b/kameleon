@@ -20,14 +20,14 @@ module Kameleon
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_button(selector)
                       end
-                    when :checked
+                    when :checked, :unchecked
                       one_or_all(locator).each do |selector|
-                        session.should rspec_world.have_checked_field(selector)
+                        session.should rspec_world.send("have_#{value.to_s}_field", selector)
                       end
-                    when :disabled
+                    when :disabled, :readonly
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_field(selector)
-                        session.find_field(selector)[:disabled].should == ''
+                        session.find_field(selector)[value].should == ''
                       end
                     when :empty
                       one_or_all(locator).each do |selector|
@@ -46,10 +46,6 @@ module Kameleon
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_xpath("//img[@alt=\"#{selector}\"] | //img[@src=\"#{selector}\"]")
                       end
-                    when :unchecked
-                      one_or_all(locator).each do |selector|
-                        session.should rspec_world.have_unchecked_field(selector)
-                      end
                     when :selected
                       locator.each_pair do |selected_value, selected_locator|
                         session.should rspec_world.have_select(selected_locator, :selected => selected_value)
@@ -65,11 +61,6 @@ module Kameleon
                     when :ordered
                       nodes = session.all(:xpath, locator.collect { |n| "//node()[text()= \"#{n}\"]" }.join(' | '))
                       nodes.map(&:text).should == locator
-                    when :readonly
-                      one_or_all(locator).each do |selector|
-                        session.should rspec_world.have_field(selector)
-                        session.find_field(selector)[:readonly].should == ''
-                      end
                     else
                       raise("User can not see #{value} - you need to teach him how")
                   end
@@ -101,20 +92,15 @@ module Kameleon
                   one_or_all(locators).each do |locator|
                     session.should_not rspec_world.have_field(locator)
                   end
-                when :disabled
+                when :disabled, :readonly
                   one_or_all(locators).each do |selector|
                     session.should rspec_world.have_field(selector)
-                    session.find_field(selector)[:disabled].should_not == ''
+                    session.find_field(selector)[value].should_not == ''
                   end
                 when :empty
                   one_or_all(locators).each do |locator|
                     session.should rspec_world.have_field(locator)
                     session.find_field(locator).value.to_s.should_not == ''
-                  end
-                when :readonly
-                  one_or_all(locators).each do |locator|
-                    session.should rspec_world.have_field(locator)
-                    session.find_field(locator)[:readonly].should_not == ''
                   end
                 else
                   one_or_all(locators).each do |locator|
