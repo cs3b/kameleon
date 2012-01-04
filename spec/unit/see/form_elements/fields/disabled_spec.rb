@@ -7,24 +7,23 @@ describe 'see disabled fields' do
   end
 
   it 'should verify status for id' do
-    @user.see :field => 'disabledInput',
-              :disabled => 'disabledInput'
+    @user.see :disabled => 'disabledInput'
+    @user.not_see :disabled => 'xlInput'
   end
 
   it 'should verify status for label' do
-    @user.see :field => 'Disabled input',
-              :disabled => 'Disabled input'
+    @user.see :disabled => 'Disabled input'
+    @user.not_see :disabled => 'X-Large input'
   end
 
   context 'when many disabled fields at once' do
     it 'should verify status' do
-      @user.see :fields =>['Disabled input', 'Disabled textarea'],
-                :disabled => ['Disabled input', 'Disabled textarea']
+      @user.see :disabled => ['Disabled input', 'Disabled textarea']
+      @user.not_see :disabled =>['X-Large input', 'multiSelect']
     end
 
     context 'when at least one is enabled' do
       it 'should raise error' do
-        @user.see :fields => ['Disabled input', 'Disabled textarea', 'X-Large input']
         expect do
           @user.see :disabled => ['Disabled input', 'Disabled textarea', 'X-Large input']
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)

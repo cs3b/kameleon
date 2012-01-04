@@ -101,6 +101,11 @@ module Kameleon
                   one_or_all(locators).each do |locator|
                     session.should_not rspec_world.have_field(locator)
                   end
+                when :disabled
+                  one_or_all(locators).each do |selector|
+                    session.should rspec_world.have_field(selector)
+                    session.find_field(selector)[:disabled].should_not == ''
+                  end
                 when :empty
                   one_or_all(locators).each do |locator|
                     session.should rspec_world.have_field(locator)
