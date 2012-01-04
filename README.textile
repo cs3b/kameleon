@@ -1,18 +1,35 @@
-h1. kameleon [chameleon] 
+h1. Kameleon [chameleon] 
 
-high abstraction dsl for acceptance / integration / functional tests from end user perspective
+Kameleon is a high abstraction dsl for better* writting acceptance, integration and functional tests using Capybara.
+And "better" means: from the end user perspective.
 
-h2. example of usage
+h2. Setup:
+
+Kameleon requires:
+* rspec
+* capybara
+* devise ( kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
+* selenium && racktest drivers
+
+Before you start using kameleon ensure that capybara is properly loaded (in your test helper file)
+bc. require 'capybara/rails'
+
+After that
+bc. gem install kameleon 
+will get you going.
 
 
-bc. # definition for particular type of user
-class TestUserAdministrator < Kameleon::User::Base
+h2. Usage:
+
+You start with kameleon by defining your user. Think of a name that describes the best the perspective from which you want to test something in your project. For the example below, we'll choose "administrator":
+
+bc. class TestUserAdministrator < Kameleon::User::Base
   def initialize(rspec_world, options={})
-    factory_name = options.delete(:user_factory)
-    @user = Factory(factory_name || :puffer_user)
+    @user = Factory(:admin_user)
     super
   end
-  # will do ... end giblock by default scope by :main selector - if defined
+
+  # performs do ... end block, by default scope is :main selector - if defined
   def page_areas
     {
         :top => '.header',
@@ -21,40 +38,62 @@ class TestUserAdministrator < Kameleon::User::Base
         :main => '#content'
     }
   end
+
   private
   def user_login_path
     rspec_world.new_admin_session_path
   end
 end
 
-bc. #rspec scenario
-background do
-  @user = TestUserAdministrator.new(self, {:session_name => 'my_account', :driver => :selenium)
+And here is an example of rspec scenario, where our user will shine:
+
+bc. background do
+  @admin = TestUserAdministrator.new(self, {:session_name => 'my_account', :driver => :selenium)
 end
 scenario "opening list of news", :status => 'done' do
-    @user.will do
+    @admin.will do
       click "homepage", "community", "news"
       see "new medicine developed last weekend"
     end
-    @user.within(:row => 'some cell text') do
+    @admin.within(:row => 'some cell text') do
       see 'see all values in row that contains that text'
     end
-    @user.within(:column => 'some header') do
+    @admin.within(:column => 'some header') do
       see 'see all values in that column'
     end
-    @user.see :ordered => 'Z', 'X', 'Y'
-    @user.click :and_confirm => "Cancel"
-    @user.click :and_dismiss => "Cancel"
+    @admin.see :ordered => 'Z', 'X', 'Y'
+    @admin.click :and_confirm => "Cancel"
+    @admin.click :and_dismiss => "Cancel"
 end
 
-h2. it depends on
+Another example:
 
-* rspec
-    # ensure that you loads dsl and rspec matchers into rspec
-    require 'capybara/dsl'
-    require 'capybara/rspec/matchers'
-* capybara
-* devise ( all authentication facilities )
-* selenium && racktest drivers
+feature "Surveys" do
 
+  background do
+    @questioner = TestUserQuestioner.new(self, {:session_name => "questioner"}) do
+      click "My account"
+    end
+  end
 
+  scenario "creating a sophisticated survey", :status => 'done' do
+    @questioner.click "Create Survey"
+    @questioner.fill_in("Programming. Do you speak it?" => :survey_title)
+    @questioner.fill_in(:check => "Required")
+    @questioner.click "Update"
+    @questioner.see({:checked => "Required"})
+    @questioner.click "Next Question"
+    @questioner.fill_in("Do you like the image?" => :survey_title)
+    @questioner.fill_in(:attach => "") #TODO
+    @questioner.click "Create Survey"
+    @questioner.see "Survey was successfully created."
+  end
+
+  scenario "responding to survey", :status => 'done' do
+    _user = @questioner.user
+    survey = Factory.create(:survey, :user => _user)
+    @respondent = TestUserRespondent.new(self, {:session_name => "respondent"})
+    @respondent.click "Category 1", "Show Survey"
+    @respondent.see "Share this poll:"
+  end
+end
