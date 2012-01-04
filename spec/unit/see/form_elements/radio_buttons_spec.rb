@@ -9,12 +9,10 @@ describe 'see form elements - radio buttons' do
 
   it 'should verify checked status' do
     @user.see :checked => "Option one is this and that—be sure to include why it's great"
-    @user.not_see :checked => "Option two can is something else and selecting it will deselect options 1"
   end
 
   it 'should verify unchecked status' do
     @user.see :unchecked => "Option two can is something else and selecting it will deselect options 1"
-    @user.not_see :unchecked => "Option one is this and that—be sure to include why it's great"
   end
 
   context "when verify many radio buttons at once" do

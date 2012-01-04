@@ -10,34 +10,28 @@ describe 'see form elements - checkboxes' do
   context 'when status checked' do
     it 'should verify by label' do
       @user.see :checked => 'Option two can also be checked and included in form results'
-      @user.not_see :checked => "Option one is this and that—be sure to include why it's great"
     end
 
     it 'should verify by name' do
       @user.see :checked => 'optionsCheckboxes_two'
-      @user.not_see :checked => 'optionsCheckboxes_one'
     end
 
     it 'should verify many at once' do
       @user.see :checked => ['Appended checkbox', 'appendedInput', 'optionsCheckboxes_two']
-      @user.not_see :checked => ['optionsCheckboxes_one', 'optionsCheckboxes_three']
     end
   end
 
   context 'when status unchecked' do
     it 'should verify by label' do
       @user.see :unchecked => "Option one is this and that—be sure to include why it's great"
-      @user.not_see :unchecked => 'Option two can also be checked and included in form results'
     end
 
     it 'should verify by name' do
       @user.see :unchecked => 'optionsCheckboxes_one'
-      @user.not_see :unchecked => 'optionsCheckboxes_two'
     end
 
     it 'should verify many at once' do
       @user.see :unchecked => ['Prepended checkbox', 'optionsCheckboxes', 'optionsCheckboxes_one']
-      @user.not_see :unchecked => ['Appended checkbox', 'appendedInput', 'optionsCheckboxes_two']
     end
   end
 
