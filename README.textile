@@ -13,11 +13,15 @@ Kameleon requires:
 
 Before you start using kameleon ensure that capybara is properly loaded (in your test helper file)
 
-```require 'capybara/rails'
+<pre>
+require 'capybara/rails'
+</pre>
 
 After that
 
-```gem install kameleon
+<pre>
+gem install kameleon
+</pre>
 
 will get you going.
 
@@ -66,3 +70,25 @@ bc. background do
         @admin.click :and_confirm => "Cancel"
         @admin.click :and_dismiss => "Cancel"
     end
+
+Another example:
+
+bc.   feature "Products", :driver => :selenium do
+      background do
+        @admin = TestUserAdministrator.new(self) do
+          visit spree.admin_path
+        end
+      end
+
+      context "listing products" do
+        scenario "products sorting" do
+          Factory(:product, :name => 'apache baseball cap', :available_on => '2011-01-06 18:21:13:', :count_on_hand => '0')
+          Factory(:product, :name => 'zomg shirt', :available_on => '2125-01-06 18:21:13', :count_on_hand => '5')
+
+          @admin.click "Products"
+          @admin.see :ordered => ["apache baseball cap", "zomg shirt" ]
+          @admin.click "admin_products_listing_name_title"
+          @admin.see :ordered =>  ["zomg shirt", "apache baseball cap"  ]
+
+        end
+      end
