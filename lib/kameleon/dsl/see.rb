@@ -38,6 +38,10 @@ module Kameleon
                       one_or_all(locator).each do |selector|
                         session.find(:xpath, '//div[@id="error_explanation"]').should rspec_world.have_content(selector.capitalize)
                       end
+                    when :field, :fields
+                      one_or_all(locator).each do |selector|
+                        session.should rspec_world.have_field(selector)
+                      end
                     when :image, :images
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_xpath("//img[@alt=\"#{selector}\"] | //img[@src=\"#{selector}\"]")
@@ -92,8 +96,15 @@ module Kameleon
             end
           when 'Hash'
             options.each_pair do |value, locators|
-              one_or_all(locators).each do |locator|
-                session.should_not rspec_world.have_field(locator, :with => value)
+              case value
+                when :field, :fields
+                  one_or_all(locators).each do |locator|
+                    session.should_not rspec_world.have_field(locator)
+                  end
+                else
+                  one_or_all(locators).each do |locator|
+                    session.should_not rspec_world.have_field(locator, :with => value)
+                  end
               end
             end
           else
