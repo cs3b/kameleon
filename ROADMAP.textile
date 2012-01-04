@@ -1,5 +1,5 @@
-h2. scope selectors
-goal is to provide abstraction for xpath / css selectors for common areas of application
+h3. scope selectors
+#goal is to provide abstraction for xpath / css selectors for common areas of application
 * parts of page
 ** on (top|left|bottom|right)
 ** in main menu, footer
@@ -8,8 +8,8 @@ goal is to provide abstraction for xpath / css selectors for common areas of app
 **default area (i.e without menus, columns and footer)
 
 
-h2. verification that action complete with desirable state in app
-goals is to distinct what user see from what browser see in the source
+h3. verification that action complete with desirable state in app
+#goal is to distinct what user see from what browser see in the source
 
 * see sth that is visible for user
 ** as text ( regex, string )
@@ -19,7 +19,7 @@ goals is to distinct what user see from what browser see in the source
 * see in the source code (in debug mode)
 
 
-h2. Interactions with applications
+h3. Interactions with applications
  * clicking
  * visiting
  * drag and drop
@@ -46,7 +46,7 @@ h2. Interactions with applications
  * testing visibility of element (debug mode)
 
 
-h2. user object
+h3. user object
  * is ruby object with info about
    ** session
    ** user in system that he is (including not encrypted password)
@@ -57,30 +57,30 @@ h2. user object
    ** methods for setuping certain state of account (must to work well with factories and support bulk update to speed up things)
 
 
-h2. handle somehow guest type of account
+h3. handle somehow guest type of account
 
-h2.  sessions (from browsers perspective)
+h3.  sessions (from browsers perspective)
    * be default share the same sessions
    * is possible that they have exclusive session ( when testing multiuser interactions)
 
 
-h2. shared examples that are skeleton for testing
+h3. shared examples that are skeleton for testing
  * pagination
  * sorting
  * ...
 
 
-h2. i18n support
+h3. i18n support
 using keys other that labels
 
-h2. shortcuts to abstract some internal elements
+h3. shortcuts to abstract some internal elements
 long class names, constants etc
 
 
-h2. see partial elemnts in what scope you are
+h3. see partial elemnts in what scope you are
 print debug.send(:scopes).last.native
 
-h2. see sorted columns
+h3. see sorted columns
 * ordered => [:asc, :column => 'Title']
 * within :multiple need to be rewritten - is very ugly so far
 * implement better keyboard support
