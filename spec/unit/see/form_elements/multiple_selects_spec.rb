@@ -6,40 +6,42 @@ describe 'see form elements - multiple selects' do
     @user = Kameleon::User::Guest.new(self)
   end
 
-  it 'should verify status "selected" by id' do
-    @user.see :selected => { 'first selected' => 'defaultSelectedOptions' }
-  end
+  context 'when status "selected"' do
+    it 'should verify by id' do
+      @user.see :selected => { 'first selected' => 'defaultSelectedOptions' }
+    end
 
-  it 'should verify status "selected" by label' do
-    @user.see :selected => { 'second selected' => 'Here are the default selections' }
-  end
+    it 'should verify by label' do
+      @user.see :selected => { 'second selected' => 'Here are the default selections' }
+    end
 
-  it 'should verify status "unselected" by id' do
-    @user.see :unselected => { 'first unselected' => 'defaultSelectedOptions' }
-  end
-
-  it 'should verify status "unselected" by label' do
-    @user.see :unselected => { 'second unselected' => 'Here are the default selections' }
-  end
-
-  context 'when verify many options at once' do
-    it 'should verify status "selected"' do
+    it 'should verify many at once' do
       @user.see :selected => { 'first selected' => 'defaultSelectedOptions',
                                'second selected' => 'defaultSelectedOptions' }
     end
+  end
 
-    it 'should verify status "unselected"' do
+  context 'when status "unselected"' do
+    it 'should verify by id' do
+      @user.see :unselected => { 'first unselected' => 'defaultSelectedOptions' }
+    end
+
+    it 'should verify by label' do
+      @user.see :unselected => { 'second unselected' => 'Here are the default selections' }
+    end
+
+    it 'should verify many status at once' do
       @user.see :unselected => { 'first unselected' => 'defaultSelectedOptions',
                                  'second unselected' => 'defaultSelectedOptions' }
     end
+  end
 
-    context 'at least one has other status' do
-      it 'should raise error' do
-        expect do
-          @user.see :selected => { 'first selected' => 'defaultSelectedOptions',
-                                   'first unselected' => 'defaultSelectedOptions' }
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-      end
+  context 'at least one has other status' do
+    it 'should raise error' do
+      expect do
+        @user.see :selected => { 'first selected' => 'defaultSelectedOptions',
+                                 'first unselected' => 'defaultSelectedOptions' }
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
   end
 end
