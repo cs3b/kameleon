@@ -106,6 +106,11 @@ module Kameleon
                     session.should rspec_world.have_field(locator)
                     session.find_field(locator).value.to_s.should_not == ''
                   end
+                when :readonly
+                  one_or_all(locators).each do |locator|
+                    session.should rspec_world.have_field(locator)
+                    session.find_field(locator)[:readonly].should_not == ''
+                  end
                 else
                   one_or_all(locators).each do |locator|
                     session.should_not rspec_world.have_field(locator, :with => value)
