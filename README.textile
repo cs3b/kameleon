@@ -83,7 +83,6 @@ bc.   feature "Products", :driver => :selenium do
         scenario "products sorting" do
           Factory(:product, :name => 'apache baseball cap', :available_on => '2011-01-06 18:21:13:', :count_on_hand => '0')
           Factory(:product, :name => 'zomg shirt', :available_on => '2125-01-06 18:21:13', :count_on_hand => '5')
-
           @admin.click "Products"
           @admin.see :ordered => ["apache baseball cap", "zomg shirt" ]
           @admin.click "admin_products_listing_name_title"
