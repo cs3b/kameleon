@@ -6,33 +6,35 @@ describe 'see form elements - selects' do
     @user = Kameleon::User::Guest.new(self)
   end
 
-  it 'should verify status "selected" by id' do
-    @user.see :selected => { '3' => 'normalSelect' }
-  end
-
-  it 'should verify status "selected" by label' do
-    @user.see :selected => { '3' => 'Select' }
-  end
-
-  it 'should verify status "unselected" by id' do
-    @user.see :unselected => { '2' => 'normalSelect' }
-  end
-
-  it 'should verify status "unselected" by label' do
-    @user.see :unselected => { '4' => 'Select' }
-  end
-
-  context 'when verify many options at once' do
-    it 'should verify status "unselected"' do
-      @user.see :unselected => { '1' => 'Select', '2' => 'Select' }
+  context 'status "selected"' do
+    it 'should verify by id' do
+      @user.see :selected => { '3' => 'normalSelect' }
     end
 
-    context 'at least one has other status' do
-      it 'should raise error' do
-        expect do
-          @user.see :selected => { '1' => 'Select', '3' => 'Select', '2' => 'Select' }
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-      end
+    it 'should verify by label' do
+      @user.see :selected => { '3' => 'Select' }
+    end
+  end
+
+  context 'status "unselected"' do
+    it 'should verify by id' do
+      @user.see :unselected => { '2' => 'normalSelect' }
+    end
+
+    it 'should verify by label' do
+      @user.see :unselected => { '4' => 'Select' }
+    end
+
+    it 'should verify many options at once' do
+      @user.see :unselected => { '1' => 'Select', '2' => 'Select' }
+    end
+  end
+
+  context 'at least one has other status' do
+    it 'should raise error' do
+      expect do
+        @user.see :selected => { '1' => 'Select', '3' => 'Select', '2' => 'Select' }
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
   end
 end
