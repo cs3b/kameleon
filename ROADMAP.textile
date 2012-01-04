@@ -1,5 +1,6 @@
 h3. scope selectors
-#goal is to provide abstraction for xpath / css selectors for common areas of application
+
+goal is to provide abstraction for xpath / css selectors for common areas of application
 * parts of page
 ** on (top|left|bottom|right)
 ** in main menu, footer
@@ -9,7 +10,8 @@ h3. scope selectors
 
 
 h3. verification that action complete with desirable state in app
-#goal is to distinct what user see from what browser see in the source
+
+goal is to distinct what user see from what browser see in the source
 
 * see sth that is visible for user
 ** as text ( regex, string )
@@ -71,16 +73,32 @@ h3. shared examples that are skeleton for testing
 
 
 h3. i18n support
+
 using keys other that labels
 
 h3. shortcuts to abstract some internal elements
+
 long class names, constants etc
 
 
 h3. see partial elemnts in what scope you are
+
 print debug.send(:scopes).last.native
 
 h3. see sorted columns
 * ordered => [:asc, :column => 'Title']
 * within :multiple need to be rewritten - is very ugly so far
 * implement better keyboard support
+
+h3. Other
+* Make kameleon agnostic from devise, easier integrating other authentication solutions
+* Add support for nice frame/window switching
+* Support for interaction with mobile websites - sometimes you have to 'touch' an element, pull a slider, etc. To do so, you have to click around the specified text. And example:
+
+bc.
+  I18n.locale = :en
+  translation = I18n.t(arg1)
+  element = page.find(:xpath, "//span[contains(.,'#{arg1}') or contains(.,'#{translation}')]").find(:xpath, ".//..").find(:xpath, ".//..")
+  element.click
+
+* Support for "NOT see an image".
