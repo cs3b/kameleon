@@ -99,7 +99,7 @@ module Kameleon
                   one_or_all(locators).each do |locator|
                     session.should_not rspec_world.have_field(locator)
                   end
-                when :disabled, :readonly
+                when :readonly
                   one_or_all(locators).each do |selector|
                     if selector.respond_to?(:each_pair)
                       selector.each_pair do |text, locator|

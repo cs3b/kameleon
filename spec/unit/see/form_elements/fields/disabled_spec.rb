@@ -8,18 +8,15 @@ describe 'see disabled fields' do
 
   it 'should verify status for id' do
     @user.see :disabled => 'disabledInput'
-    @user.not_see :disabled => 'xlInput'
   end
 
   it 'should verify status for label' do
     @user.see :disabled => 'Disabled input'
-    @user.not_see :disabled => 'X-Large input'
   end
 
   context 'when many disabled fields at once' do
     it 'should verify status' do
       @user.see :disabled => ['Disabled input', 'Disabled textarea']
-      @user.not_see :disabled =>['X-Large input', 'multiSelect']
     end
 
     context 'when at least one is enabled' do
