@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <style>
+      .tooltip { position: relative; }
+      .tooltip span { display: none; color: #FFFFFF; }
+      .tooltip a:hover span { display: block; position: absolute; width: 250px; background-color: #aaa; }
+    </style>
+  </head>
+
+  <body>
+    <p class="tooltip" id="first">
+      <a href="introduction.php">
+        First option
+        <span><img src="littleegret.jpg" alt="Little Egret"></span>
+      </a>
+    </p>
+    <p class="tooltip" id="second">
+      <a href="dropdownmenus.php">
+        Second option
+        <span>
+          Further information:-<br>
+          Only one link can be opened (the one on the menu button), no links are possible in this panel.<br>
+          Use dropdown menus for several dropdown links.
+        </span>
+      </a>
+    </p>
+    <p class="tooltip" id="third">
+      <a href="links.php">
+        Third option
+        <span>
+          Icon instead of text menu button which could be an image button with text on it.<br>
+          The code isn't intended to work with an icon but it does work.<br>
+          Only one link can be opened (the one on the icon button), no links are possible in this panel.<br>
+          Use dropdown menus for several dropdown links.
+        </span>
+      </a>
+    </p>
+  </body>
+</html>
