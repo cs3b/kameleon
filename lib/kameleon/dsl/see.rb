@@ -62,8 +62,12 @@ module Kameleon
                         session.should rspec_world.have_no_select(selected_locator, :selected => selected_value)
                       end
                     when :link, :links
-                      locator.each_pair do |link_text, url|
-                        session.should rspec_world.have_link(link_text, :href => url)
+                      if locator.respond_to?(:each_pair)
+                        locator.each_pair do |link_text, url|
+                          session.should rspec_world.have_link(link_text, :href => url)
+                        end
+                      else
+                        one_or_all(locator).each { |text| session.should rspec_world.have_link(text) }
                       end
                     when :ordered
                       nodes = session.all(:xpath, locator.collect { |n| "//node()[text()= \"#{n}\"]" }.join(' | '))
