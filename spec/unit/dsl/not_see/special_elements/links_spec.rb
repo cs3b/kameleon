@@ -16,19 +16,10 @@ describe '#not_see special elements - links' do
                                 'Maybe other div' => '/i/do/not/know/too' }
     end
 
-    context 'when link text exists' do
+    context 'when at least one exists' do
       it 'should raise error' do
         expect do
           @user.not_see :link => { 'What you want' => '/i-want/to',
-                                   'Maybe div' => '/i/do/not/know' }
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-      end
-    end
-
-    context 'when src path exists' do
-      it 'should raise error' do
-        expect do
-          @user.not_see :link => { 'Maybe other div' => '/i-want/to',
                                    'Maybe div' => '/i/do/not/know' }
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
