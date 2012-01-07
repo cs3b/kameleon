@@ -28,17 +28,17 @@ module Kameleon
                       one_or_all(locator).each do |selector|
                         if selector.respond_to?(:each_pair)
                           selector.each_pair do |text, locator|
-                            session.should rspec_world.have_field(locator, :with => text)
+                            see text => locator
                             session.find_field(locator)[value].should == ''
                           end
                         else
-                          session.should rspec_world.have_field(selector)
+                          see :field => selector
                           session.find_field(selector)[value].should == ''
                         end
                       end
                     when :empty
                       one_or_all(locator).each do |selector|
-                        session.should rspec_world.have_field(selector)
+                        see :field => selector
                         session.find_field(selector).value.to_s.should == ''
                       end
                     when :error_message_for, :error_messages_for
@@ -107,17 +107,17 @@ module Kameleon
                   one_or_all(locators).each do |selector|
                     if selector.respond_to?(:each_pair)
                       selector.each_pair do |text, locator|
-                        session.should rspec_world.have_field(locator, :with => text)
+                        see text => locator
                         session.find_field(locator)[value].should_not == ''
                       end
                     else
-                      session.should rspec_world.have_field(selector)
+                      see :field => selector
                       session.find_field(selector)[value].should_not == ''
                     end
                   end
                 when :empty
                   one_or_all(locators).each do |locator|
-                    session.should rspec_world.have_field(locator)
+                    see :field => locator
                     session.find_field(locator).value.to_s.should_not == ''
                   end
                 else
