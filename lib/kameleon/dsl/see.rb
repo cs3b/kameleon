@@ -41,7 +41,7 @@ module Kameleon
                         session.should rspec_world.have_field(selector)
                         session.find_field(selector).value.to_s.should == ''
                       end
-                    when :error_message_for
+                    when :error_message_for, :error_messages_for
                       one_or_all(locator).each do |selector|
                         session.find(:xpath, '//div[@id="error_explanation"]').should rspec_world.have_content(selector.capitalize)
                       end
