@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'see special elements - error message for' do
+describe '#see special elements - error message for' do
   before do
     Capybara.app = Hey.new('error_message_for.html')
     @user = Kameleon::User::Guest.new(self)

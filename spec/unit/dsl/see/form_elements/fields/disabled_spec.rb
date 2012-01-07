@@ -1,30 +1,28 @@
 require 'spec_helper'
 
-describe 'see empty fields' do
+describe '#see disabled fields' do
   before do
     Capybara.app = Hey.new('form_elements.html')
     @user = Kameleon::User::Guest.new(self)
   end
 
   it 'should verify status for id' do
-    @user.see :empty => 'prependedInput'
-    @user.not_see :empty => 'xlInput'
+    @user.see :disabled => 'disabledInput'
   end
 
   it 'should verify status for label' do
-    @user.see :empty => 'Prepended text'
-    @user.not_see :empty => 'X-Large input'
+    @user.see :disabled => 'Disabled input'
   end
 
-  context 'when many empty fields at once' do
+  context 'when many disabled fields at once' do
     it 'should verify status' do
-      @user.see :empty => ['Prepended text', 'Textarea']
+      @user.see :disabled => ['Disabled input', 'Disabled textarea']
     end
 
-    context 'when at least one is not empty' do
+    context 'when at least one is enabled' do
       it 'should raise error' do
         expect do
-          @user.see :empty => ['Prepended text', 'Sample Input']
+          @user.see :disabled => ['Disabled input', 'Disabled textarea', 'X-Large input']
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end

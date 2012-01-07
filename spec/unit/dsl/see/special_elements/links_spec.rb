@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'see special elements - links' do
+describe '#see special elements - links' do
   before do
     Capybara.app = Hey.new('special_elements.html')
     @user = Kameleon::User::Guest.new(self)

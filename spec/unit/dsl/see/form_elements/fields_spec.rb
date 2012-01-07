@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'see form elements - fields' do
+describe '#see form elements - fields' do
   before do
     Capybara.app = Hey.new('form_elements.html')
     @user = Kameleon::User::Guest.new(self)
@@ -19,10 +19,6 @@ describe 'see form elements - fields' do
   end
 
   context 'when at least one does not exist' do
-    it 'should not see field' do
-      @user.not_see :field => 'fieldDoestNotExist'
-    end
-
     it 'should raise error' do
       expect do
         @user.see :field => 'doestNotExist'

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'see form elements - multiple selects' do
+describe '#see form elements - multiple selects' do
   before do
     Capybara.app = Hey.new('form_elements.html')
     @user = Kameleon::User::Guest.new(self)

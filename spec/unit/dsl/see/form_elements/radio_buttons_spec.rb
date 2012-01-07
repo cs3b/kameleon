@@ -1,7 +1,7 @@
 #encoding: utf-8
 require 'spec_helper'
 
-describe 'see form elements - radio buttons' do
+describe '#see form elements - radio buttons' do
   before do
     Capybara.app = Hey.new('form_elements.html')
     @user = Kameleon::User::Guest.new(self)

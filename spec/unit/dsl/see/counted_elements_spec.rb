@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'see counted elements' do
+describe '#see counted elements' do
   before do
     Capybara.app = Hey.new('elements_counter.html')
     @user = Kameleon::User::Guest.new(self)

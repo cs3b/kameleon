@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'see readonly fields' do
+describe '#see readonly fields' do
   before do
     Capybara.app = Hey.new('form_elements.html')
     @user = Kameleon::User::Guest.new(self)
@@ -9,12 +9,10 @@ describe 'see readonly fields' do
   context 'when text inside fields is not provied' do
     it 'should verify status for id' do
       @user.see :readonly => 'readonlyInput'
-      @user.not_see :readonly => 'xlInput'
     end
 
     it 'should verify status for label' do
       @user.see :readonly => 'Readonly input'
-      @user.not_see :readonly => 'X-Large input'
     end
 
     it 'should verify many fields at once' do
@@ -41,19 +39,15 @@ describe 'see readonly fields' do
   context 'when text inside fields is provied' do
     it 'should verify status for id' do
       @user.see :readonly => { 'sample readonly value' => 'readonlyInput' }
-      @user.not_see :readonly => { 'this is great value' => 'xlInput' }
     end
 
     it 'should verify status for label' do
       @user.see :readonly => { 'sample readonly value' => 'Readonly input' }
-      @user.not_see :readonly => { 'this is great value' => 'X-Large input' }
     end
 
     it 'should verify many fields at once' do
       @user.see :readonly => { 'sample readonly value' => 'Readonly input',
                                'Readonly Textarea' => 'second readonly textarea' }
-      @user.not_see :readonly => { 'this is great value' => 'X-Large input',
-                                   'sample text in second textarea 2' => 'secondTextarea2' }
     end
 
     context 'when field does not exist' do
