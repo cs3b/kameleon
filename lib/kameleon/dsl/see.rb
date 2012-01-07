@@ -99,10 +99,33 @@ module Kameleon
           when 'Hash'
             options.each_pair do |value, locators|
               case value
+                when :button, :buttons
+                  one_or_all(locators).each do |selector|
+                    session.should_not rspec_world.have_button(selector)
+                  end
+                when :error_message_for, :error_messages_for
+                  one_or_all(locators).each do |selector|
+                    session.find(:xpath, '//div[@id="error_explanation"]').should_not rspec_world.have_content(selector.capitalize)
+                  end
+                when :image, :images
+                  one_or_all(locators).each do |selector|
+                    session.should_not rspec_world.have_xpath("//img[@alt=\"#{selector}\"] | //img[@src=\"#{selector}\"]")
+                  end
                 when :field, :fields
                   one_or_all(locators).each do |locator|
                     session.should_not rspec_world.have_field(locator)
                   end
+                when :link, :links
+                  if locators.respond_to?(:each_pair)
+                    locators.each_pair do |link_text, url|
+                      session.should_not rspec_world.have_link(link_text, :href => url)
+                    end
+                  else
+                    one_or_all(locators).each { |text| session.should_not rspec_world.have_link(text) }
+                  end
+                when :ordered
+                  nodes = session.all(:xpath, locators.collect { |n| "//node()[text()= \"#{n}\"]" }.join(' | '))
+                  nodes.map(&:text).should_not == locators
                 when :readonly
                   one_or_all(locators).each do |selector|
                     if selector.respond_to?(:each_pair)
