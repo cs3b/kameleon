@@ -19,15 +19,23 @@ module Kameleon
                     when :empty
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_field(selector)
-                        session.find_field(selector).value.should == ""
+                        session.find_field(selector).value.to_s.should == ""
                       end
-                    when :checked, :selected
+                    when :checked
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_checked_field(selector)
                       end
-                    when :unchecked, :unselected
+                    when :unchecked
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.have_unchecked_field(selector)
+                      end
+                    when :selected
+                      locator.each_pair do |selected_value, selected_locator|
+                        session.should rspec_world.have_select(selected_locator, :selected => selected_value)
+                      end
+                    when :unselected
+                      locator.each_pair do |selected_value, selected_locator|
+                        session.should rspec_world.have_no_select(selected_locator, :selected => selected_value)
                       end
                     when :link, :links
                       locator.each_pair do |link_text, url|
