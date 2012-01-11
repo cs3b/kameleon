@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <style>
+      .selectable .ui-selecting { background: #FECA40; }
+      .selectable .ui-selected { background: #F39814; color: white; }
+      .selectable { list-style-type: none; margin: 0; padding: 0; width: 10%; }
+      .selectable li { margin: 3px; padding: 0.4em; font-size: 12px; height: 18px; }
+    </style>
+
+    <script>
+      $(function() {
+        $( "#selectable" ).selectable();
+        $( "#secondSelectable" ).selectable();
+        $( "#disabledSelectable" ).selectable({
+          disabled: true
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <h2> First selectable </h2>
+    <ol id="selectable" class="selectable">
+      <li class="ui-widget-content">Item 1</li>
+      <li class="ui-widget-content ui-selected">Item 2</li>
+      <li class="ui-widget-content">Item 3</li>
+      <li class="ui-widget-content ui-selected">Item 4</li>
+      <li class="ui-widget-content">Item 5</li>
+      <li class="ui-widget-content ui-selected">Item 6</li>
+      <li class="ui-widget-content">Item 7</li>
+    </ol>
+
+    <h2> Second selectable </h2>
+    <ol id="secondSelectable" class="selectable">
+      <li class="ui-widget-content" id="item-1">Unselected first item</li>
+      <li class="ui-widget-content ui-selected" id="item-2">Selected first item</li>
+      <li class="ui-widget-content" id="item-3">Unselected second item</li>
+      <li class="ui-widget-content ui-selected" id="item-4">Selected second item</li>
+    </ol>
+
+    <h2> Third selectable - disabled </h2>
+    <ol id="disabledSelectable" class="selectable">
+      <li class="ui-widget-content" id="disabled-item-1">Item 1</li>
+      <li class="ui-widget-content ui-selected" id="disabled-item-2">Item 2</li>
+      <li class="ui-widget-content" id="disabled-item-3">Item 3</li>
+      <li class="ui-widget-content ui-selected" id="disabled-item-4">Item 4</li>
+    </ol>
+
+    <div id="otherDiv"><p>Sample text<p></div>
+    <div id="secondOtherDiv"><p>Second sample text<p></div>
+  </body>
+</html>
