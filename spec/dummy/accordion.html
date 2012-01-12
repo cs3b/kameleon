@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script>
+      $(function() {
+        $( "#accordion" ).accordion();
+        $( "#secondAccordion" ).accordion();
+        $( "#disabledAccordion" ).accordion({
+          disabled: true
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <h2> First accordion </h2>
+    <div id="accordion">
+      <h3><a href="#">Section 1</a></h3>
+      <div><p>First section</p></div>
+
+      <h3><a href="#">Section 2</a></h3>
+      <div><p>Second section</p></div>
+
+      <h3><a href="#">Section 3</a></h3>
+      <div><p>Third section</p></div>
+    </div>
+
+    <h2> Second accordion </h2>
+    <div id="secondAccordion">
+      <h3><a href="#">First element</a></h3>
+      <div><p>Element 1</p></div>
+
+      <h3><a href="#">Second element</a></h3>
+      <div><p>Element 2</p></div>
+
+      <h3><a href="#">Third element</a></h3>
+      <div><p>Element 3</p></div>
+    </div>
+
+    <h2> Disabled accordion </h2>
+    <div id="disabledAccordion">
+      <h3><a href="#">Disabled section first</a></h3>
+      <div><p>Disabled first 1 section</p></div>
+
+      <h3><a href="#">Disabled section second</a></h3>
+      <div><p>Disabled second 2 section</p></div>
+
+      <h3><a href="#">Disabled section third</a></h3>
+      <div><p>Disabled third 3 section</p></div>
+    </div>
+  
+    <div id="otherDiv"><p>Other div</p></div>
+    <div id="secondSampleDiv"><p>Sample text</p></div>
+  </body>
+</html>
