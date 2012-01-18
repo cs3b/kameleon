@@ -89,3 +89,8 @@ bc.   feature "Products", :driver => :selenium do
           @admin.see :ordered =>  ["zomg shirt", "apache baseball cap"  ]
         end
       end
+
+h2. Credits:
+* <a href="http://selleo.com/people/michal-czyz">Michał Czyż</a>
+* <a href="http://selleo.com/people/radoslaw-jedryszczak">Radosław Jędryszczak</a>
+* <a href="http://selleo.com/people">Szymon Kieloch</a>
