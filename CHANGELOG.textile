@@ -1,0 +1,9 @@
+h2. 0.0.6
+
+* test refactoring
+* updating readme
+* adding examples from spree
+
+h2. 0.0.5
+
+* basic testing approaches and matchers  implemented
