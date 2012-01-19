@@ -69,7 +69,7 @@ module Kameleon
                       raise("User can not see #{value} - you need to teach him how")
                   end
                 when 'Fixnum'
-                  session.should ::Capybara::RSpecMatchers::HaveMatcher.new(*get_selector(locator), :count => value)
+                  session.should ::Capybara::RSpecMatchers::HaveMatcher.new(*(get_selector(locator) << { :count => value }))
                 else
                   session.should rspec_world.have_field(locator, :with => value)
               end
