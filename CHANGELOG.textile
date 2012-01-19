@@ -1,3 +1,9 @@
+h2. 0.0.7
+
+* Travis-CI integrated
+* fix issues on 1.8.7
+* added Gemfile
+
 h2. 0.0.6
 
 * test refactoring
