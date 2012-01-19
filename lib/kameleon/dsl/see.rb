@@ -21,7 +21,7 @@ module Kameleon
                         session.should rspec_world.have_field(selector)
                         session.find_field(selector).value.to_s.should == ""
                       end
-                    when :checked
+                    when :checked, :unchecked
                       one_or_all(locator).each do |selector|
                         session.should rspec_world.send("have_#{value.to_s}_field", selector)
                       end
