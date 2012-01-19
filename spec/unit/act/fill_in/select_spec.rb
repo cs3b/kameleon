@@ -23,11 +23,12 @@ describe 'fill in select' do
   end
 
   context 'when is disabled' do
+    #! it should raise excpetions that you are not allowed to modify disabled field
     it 'should not select value' do
       @user.will do
-        see :unselected => { 'second option' => 'Disabled select one option' }
-        fill_in :select => { 'second option' => 'Disabled select one option' }
-        see :unselected => { 'second option' => 'Disabled select one option' }
+        see :unselected => { 'first option' => 'Disabled select one option' }
+        fill_in :select => { 'first option' => 'Disabled select one option' }
+        see :unselected => { 'first option' => 'Disabled select one option' }
       end
     end
   end

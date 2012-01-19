@@ -18,8 +18,7 @@ module Kameleon
                   case value
                     when :button, :buttons
                       one_or_all(locator).each do |selector|
-                        session.should rspec_world.have_field(selector)
-                        session.find_field(selector).value.to_s.should == ""
+                        session.should rspec_world.have_button(selector)
                       end
                     when :checked, :unchecked
                       one_or_all(locator).each do |selector|
