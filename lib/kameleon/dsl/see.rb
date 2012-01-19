@@ -27,15 +27,8 @@ module Kameleon
                       end
                     when :disabled, :readonly
                       one_or_all(locator).each do |selector|
-                        if selector.respond_to?(:each_pair)
-                          selector.each_pair do |text, locator|
-                            see text => locator
-                            session.find_field(locator)[value].should == ''
-                          end
-                        else
-                          see :field => selector
-                          session.find_field(selector)[value].should == ''
-                        end
+                        see :field => selector
+                        session.find_field(selector)[value].should ==(value.to_s)
                       end
                     when :empty
                       one_or_all(locator).each do |selector|
@@ -129,15 +122,8 @@ module Kameleon
                   nodes.map(&:text).should_not == locators
                 when :readonly
                   one_or_all(locators).each do |selector|
-                    if selector.respond_to?(:each_pair)
-                      selector.each_pair do |text, locator|
-                        see text => locator
-                        session.find_field(locator)[value].should_not == ''
-                      end
-                    else
-                      see :field => selector
-                      session.find_field(selector)[value].should_not == ''
-                    end
+                    see :field => selector
+                    session.find_field(selector)[value].should rspec_world.be_nil
                   end
                 when :empty
                   one_or_all(locators).each do |locator|
