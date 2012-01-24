@@ -1,3 +1,7 @@
+h2. 0.0.8
+
+* fixing problem with selenium (quick-fix) by turning off field testing
+
 h2. 0.0.7
 
 * Travis-CI integrated

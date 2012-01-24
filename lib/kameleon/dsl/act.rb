@@ -37,7 +37,7 @@ module Kameleon
       end
 
       def fill_in(locators)
-        fill(locators) if can_fill?(locators)
+        fill(locators) # if can_fill?(locators)
       end
 
       private
