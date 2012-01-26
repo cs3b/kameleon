@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .draggable { width: 100px; height: 100px; padding: 0.5em; }
+      #dropHere {width: 250px; height: 250px; background-color: #8F8D7C;}
+    </style>
+    <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script>
+      $(function() {
+        var availableTags = [
+          "ActionScript",
+          "AppleScript",
+          "Asp",
+          "BASIC",
+          "C",
+          "C++",
+          "Clojure",
+          "COBOL",
+          "ColdFusion",
+          "Erlang",
+          "Fortran",
+          "Groovy",
+          "Haskell",
+          "Java",
+          "JavaScript",
+          "Lisp",
+          "Perl",
+          "PHP",
+          "Python",
+          "Ruby",
+          "Scala",
+          "Scheme"
+        ];
+
+        $( "#tags" ).autocomplete({ source: availableTags });
+        $( "#tags" ).autocomplete({ source: availableTags });
+        $( "#disabledTags" ).autocomplete({
+          source: availableTags,
+          disabled: true
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <label for="tags">Tags:</label>
+    <input id="tags">
+
+    <label for="tagsInDisabledInput">Tags in disabled input:</label>
+    <input id="tagsInDisabledInput" disabled="disabled">
+
+    <label for="disabledTags">Disabled tags:</label>
+    <input id="disabledTags">
+
+    <label for="sampleOther">Other input:</label>
+    <input id="sampleOther">
+  </body>
+</html>
