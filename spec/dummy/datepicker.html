@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script>
+      $(function() {
+        $( "#datepicker" ).datepicker();
+        $( "#secondDatepicker" ).datepicker();
+        $( "#disabledDatepicker" ).datepicker({ disabled: true });
+        $( "#datepickerInDisabledInput" ).datepicker();
+      });
+    </script>
+  </head>
+
+  <body>
+    <label for="datepicker">Select date</label>
+    <input type="text" id="datepicker"><br/>
+
+    <label for="secondDatepicker">Second element for select date</label>
+    <input type="text" id="secondDatepicker"><br/>
+
+    <label for="disabledDatepicker">Disabled datepicker</label>
+    <input type="text" id="disabledDatepicker"><br/>
+
+    <label for="datepickerInDisabledInput">Datepicker in disabled input</label>
+    <input type="text" id="datepickerInDisabledInput" disabled="disabled"><br/>
+
+    <label for="sampleOther">Other input:</label>
+    <input id="sampleOther">
+  </body>
+</html>
