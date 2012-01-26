@@ -1,26 +1,26 @@
 require 'spec_helper'
 
-describe '#fill autocomplete inputs' do
+describe '#fill_in autocomplete inputs' do
   before do
     Capybara.app = Hey.new('autocomplete.html')
     @user = Kameleon::User::Guest.new(self)
   end
 
-  context 'when filled name is unambiguous' do
+  context 'when selected name is unambiguous' do
     it 'should automatically fill input with selected name by id' do
       @user.see :empty => 'tags'
-      @user.fill 'JavaSc' => 'tags', :type => :autocomplete
+      @user.fill_in 'JavaSc' => 'tags', :type => :autocomplete
       @user.see 'JavaScript' => 'tags'
     end
 
     it 'should automatically fill input with selected name by label' do
       @user.see :empty => 'tags'
-      @user.select 'JavaSc' => 'Tags:', :type => :autocomplete
+      @user.fill_in 'JavaSc' => 'Tags:', :type => :autocomplete
       @user.see 'JavaScript' => 'tags'
     end
   end
 
-  context 'when selecting name is ambiguous' do
+  context 'when selected name is ambiguous' do
     it 'should not fill input with selected name by id' do
       @user.see :empty => 'tags'
       @user.fill_in 'Java' => 'tags', :type => :autocomplete
@@ -34,7 +34,7 @@ describe '#fill autocomplete inputs' do
     end
   end
 
-  context 'when selecting name does not exist in list' do
+  context 'when selected name does not exist in list' do
     it 'should not fill input with selected name by id' do
       @user.see :empty => 'tags'
       @user.fill_in 'Other' => 'tags', :type => :autocomplete
