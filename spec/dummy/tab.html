@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script>
+      $(function() {
+        $( "#tabs" ).tabs();
+        $( "#otherTabs" ).tabs();
+      });
+    </script>
+  </head>
+
+  <body>
+    <h2> Page with tabs </h2>
+
+    <div id="tabs">
+      <ul>
+        <li><a href="#first">First tab</a></li>
+        <li><a href="#second">Second tab</a></li>
+        <li><a href="#third">Third tab</a></li>
+      </ul>
+      <div id="first">
+        <p>Good text in first tab</p>
+      </div>
+      <div id="second">
+        <p>Better text in second tab</p>
+      </div>
+      <div id="third">
+        <p>The best text in third tab</p>
+      </div>
+    </div>
+
+    <div id="otherTabs">
+      <ul>
+        <li><a href="#first-tab">First position</a></li>
+        <li><a href="#second-tab">Second position</a></li>
+        <li><a href="#third-tab">Third position</a></li>
+      </ul>
+      <div id="first-tab">
+        <p>Good text is here</p>
+      </div>
+      <div id="second-tab">
+        <p>Better text is here</p>
+      </div>
+      <div id="third-tab">
+        <p>The best text is here</p>
+      </div>
+    </div>
+
+    <div id="footer">
+      <span>Sample text in footer</span>
+    </div>
+  </body>
+</html>
