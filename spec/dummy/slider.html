@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery-ui/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script>
+      $(function() {
+        $( "#firstSlider" ).slider({ value: 20, min: 10, max: 30, step: 1 });
+        $( "#secondSlider" ).slider({ value: 50 });
+        $( "#disabledSlider" ).slider({ value: 30, disabled: true });
+      });
+    </script>
+  </head>
+
+  <body>
+    <h2> Page with sliders </h2>
+
+    <h3>First slider</h3>
+    <div id="firstSlider"></div>
+
+    <h3>Second slider</h3>
+    <div id="secondSlider"></div>
+
+    <h3>Third slider which is disabled</h3>
+    <div id="disabledSlider"></div>
+
+    <div id="otherElement">
+      <span>Sample text is here</span>
+    </div>
+  </body>
+</html>
