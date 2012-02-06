@@ -9,7 +9,7 @@ describe '#not_see special selectors in tables' do
 
   context 'when in row' do
     it 'should not see text' do
-      @user.within(:row => 'Michał Czyż') do
+      @user.within(:row => 'Michal Czyz') do
         not_see "17"
       end
     end

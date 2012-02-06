@@ -22,7 +22,12 @@ module Kameleon
                           if args.last == :select_multiple
                             node = find(*args)
                             native = Nokogiri::HTML.parse(all(*args[0..-2]).map(&:native).map(&:to_s).join)
-                            base = Capybara::RackTest::Node.new(driver, native)
+                            base = case driver
+                                     when Capybara::Selenium::Driver
+                                       Capybara::Selenium::Node.new(driver, native)
+                                     when Capybara::RackTest::Driver
+                                       Capybara::RackTest::Node.new(driver, native)
+                                   end
                             ::Capybara::Node::Element.new(self,
                                                           base,
                                                           node.parent,
