@@ -21,10 +21,10 @@ module Kameleon
                         else
                           if args.last == :select_multiple
                             node = find(*args)
-                            native = Nokogiri::HTML.parse(all(*args[0..-2]).map(&:native).map(&:to_s).join)
+                            native = Nokogiri::HTML.parse(html).xpath(args[1])
                             base = case driver
                                      when Capybara::Selenium::Driver
-                                       Capybara::Selenium::Node.new(driver, native)
+                                       Capybara::Selenium::Node.new(driver, native.inner_html)
                                      when Capybara::RackTest::Driver
                                        Capybara::RackTest::Node.new(driver, native)
                                    end
