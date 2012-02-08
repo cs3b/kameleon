@@ -1,6 +1,7 @@
 module Kameleon
   module Dsl
     module Act
+      include Kameleon::Utils
 
       def click(*links)
         links.each do |link|
@@ -95,8 +96,8 @@ module Kameleon
       def get_full_test_asset_path(file_path)
         if File.file?(file_path)
           file_path
-        elsif File.file?(Kameleon.default_path_for_file(file_path))
-          Kameleon.default_path_for_file(file_path)
+        elsif File.file?(Helpers.default_path_for_file(file_path))
+          Helpers.default_path_for_file(file_path)
         else
           raise "Sorry but we didn't found that file in: #{file_path}, neither #{Kameleon.default_path_for_file(file_path)}"
         end

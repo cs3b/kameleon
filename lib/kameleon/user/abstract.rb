@@ -4,7 +4,6 @@ module Kameleon
       attr_accessor :options
       attr_accessor :rspec_world
 
-      extend Kameleon
       include Kameleon::Session::Capybara
       include Kameleon::Dsl::See
       include Kameleon::Dsl::Act
@@ -69,10 +68,6 @@ module Kameleon
 
       def debug
         session
-      end
-
-      def full_path_for_file(file_name)
-        File.join(Kameleon.default_file_path, file_name)
       end
 
       #! it should be package into raw module

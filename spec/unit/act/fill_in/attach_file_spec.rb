@@ -10,7 +10,7 @@ describe 'fill in attach file' do
     @user.will do
       see :empty => 'File input'
       fill_in :attach => { 'click.html' => 'Active File input' }
-      see Kameleon.default_path_for_file('click.html') => 'File input'
+      see Kameleon::Utils::Helpers.default_path_for_file('click.html') => 'File input'
     end
   end
 
