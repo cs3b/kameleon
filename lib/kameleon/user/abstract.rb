@@ -4,6 +4,7 @@ module Kameleon
       attr_accessor :options
       attr_accessor :rspec_world
 
+      extend Kameleon
       include Kameleon::Session::Capybara
       include Kameleon::Dsl::See
       include Kameleon::Dsl::Act
@@ -70,6 +71,10 @@ module Kameleon
         session
       end
 
+      def full_path_for_file(file_name)
+        File.join(Kameleon.default_file_path, file_name)
+      end
+
       #! it should be package into raw module
       def page_element(selector)
         session.find(*get_selector(selector))
@@ -131,11 +136,6 @@ module Kameleon
 
       def default_selector
         page_areas[:main]
-      end
-
-      #! rails dependency
-      def default_files_path
-        ::Rails.root.join('spec')
       end
 
       def one_or_all(elements)
