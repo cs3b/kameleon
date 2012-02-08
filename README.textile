@@ -12,6 +12,7 @@ Kameleon requires:
 * capybara
 * devise ( kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
 * selenium && racktest drivers
+* thin (if you want run your specs faster - add gem 'thin' to Gemfile in your app)
 
 Before you start using kameleon ensure that capybara is properly loaded (in your test helper file)
 
