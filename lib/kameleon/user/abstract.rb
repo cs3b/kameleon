@@ -133,11 +133,6 @@ module Kameleon
         page_areas[:main]
       end
 
-      #! rails dependency
-      def default_files_path
-        ::Rails.root.join('spec')
-      end
-
       def one_or_all(elements)
         elements.is_a?(Array) ? elements : [elements]
       end
