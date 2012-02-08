@@ -8,13 +8,13 @@ describe '#not_see special elements - ordered texts' do
   end
 
   it 'should not see text in proper order' do
-    @user.not_see :ordered => ['Tomasz Bąk', 'Michał Czyż', 'Rafał Bromirski']
+    @user.not_see :ordered => ['Tomasz Bak', 'Michal Czyz', 'Rafal Bromirski']
   end
 
   context 'when texts is in proper order' do
     it 'should raise error' do
       expect do
-        @user.not_see :ordered => ['Michał Czyż', 'Tomasz Bąk', 'Rafał Bromirski']
+        @user.not_see :ordered => ['Michal Czyz', 'Tomasz Bak', 'Rafal Bromirski']
       end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
   end
