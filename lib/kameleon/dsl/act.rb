@@ -99,7 +99,7 @@ module Kameleon
         elsif File.file?(Helpers.default_path_for_file(file_path))
           Helpers.default_path_for_file(file_path)
         else
-          raise "Sorry but we didn't found that file in: #{file_path}, neither #{Kameleon.default_path_for_file(file_path)}"
+          raise "Sorry but we didn't found that file in: #{file_path}, neither #{Helpers.default_path_for_file(file_path)}"
         end
       end
     end
