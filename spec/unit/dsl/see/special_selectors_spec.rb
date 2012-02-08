@@ -9,13 +9,13 @@ describe '#see special selectors in tables' do
 
   context 'when in row' do
     it 'should see full text' do
-      @user.within(:row => 'Michał Czyż') do
+      @user.within(:row => 'Michal Czyz') do
         see "13.00"
       end
     end
 
     it 'should see partial text' do
-      @user.within(:row => 'Michał Czyż') do
+      @user.within(:row => 'Michal Czyz') do
         see "13"
       end
     end

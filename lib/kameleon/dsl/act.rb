@@ -37,7 +37,7 @@ module Kameleon
       end
 
       def fill_in(locators)
-        fill(locators) # if can_fill?(locators)
+        fill(locators) if can_fill?(locators)
       end
 
       private
@@ -69,10 +69,26 @@ module Kameleon
 
       def can_fill?(locators)
         locators.values.each do |loc|
-          locators = loc.respond_to?(:values) ? loc.values : loc
-          one_or_all(locators).each do |locator|
-            return false if unmodifiable?(locator)
+          selectors = loc.respond_to?(:values) ? loc.values : loc
+          one_or_all(selectors).each do |selector|
+            return false if unmodifiable?(selector)
           end
+        end
+      end
+
+      def unmodifiable?(locator)
+        field = session.find_field(locator)
+        case session.driver
+          when Capybara::Selenium::Driver
+            # In driver field attributes - disabled and readonly may be:
+            # 1) string - false or true
+            # 2) nil value
+            return eval(field[:disabled].to_s) || eval(field[:readonly].to_s)
+          when Capybara::RackTest::Driver
+            # In rack field attributes - disabled and readonly may be:
+            # 1) nil value
+            # 2) string - disabled or readonly
+            return field[:disabled] || field[:readonly]
         end
       end
 
@@ -84,11 +100,6 @@ module Kameleon
         else
           raise "Sorry but we didn't found that file in: #{file_path}, neither #{default_files_path.join(file_path)}"
         end
-      end
-
-      def unmodifiable?(locator)
-        field = session.find_field(locator)
-        field[:readonly] || field[:disabled]
       end
     end
   end

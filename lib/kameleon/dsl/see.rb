@@ -27,7 +27,12 @@ module Kameleon
                     when :disabled, :readonly
                       one_or_all(locator).each do |selector|
                         see :field => selector
-                        session.find_field(selector)[value].should ==(value.to_s)
+                        case session.driver
+                          when Capybara::Selenium::Driver
+                            session.find_field(selector)[value].should == 'true'
+                          when Capybara::RackTest::Driver
+                            session.find_field(selector)[value].should ==(value.to_s)
+                        end
                       end
                     when :empty
                       one_or_all(locator).each do |selector|
@@ -122,7 +127,12 @@ module Kameleon
                 when :readonly
                   one_or_all(locators).each do |selector|
                     see :field => selector
-                    session.find_field(selector)[value].should rspec_world.be_nil
+                    case session.driver
+                      when Capybara::Selenium::Driver
+                        session.find_field(selector)[value].should == 'false'
+                      when Capybara::RackTest::Driver
+                        session.find_field(selector)[value].should rspec_world.be_nil
+                    end
                   end
                 when :empty
                   one_or_all(locators).each do |locator|

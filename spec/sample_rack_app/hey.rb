@@ -4,7 +4,7 @@ class Hey
   end
 
   def call(env)
-    [200, {"Content-Type" => "text/plain"}, [@body]]
+    [200, {"Content-Type" => "text/html"}, [@body]]
   end
 
   private

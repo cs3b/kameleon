@@ -4,10 +4,13 @@ describe "Kameleon::User::Guest" do
   include ::Capybara::DSL
 
   before(:all) do
+    Capybara.current_driver = :rack_test
     Capybara.app = Hey.new
     @guest = Kameleon::User::Guest.new(self, {:session_name => :see_world})
     @another_guest = Kameleon::User::Guest.new(self)
   end
+
+  after(:all) { Capybara.use_default_driver }
 
   context "sessions" do
     it "by default user should get current session" do
@@ -29,9 +32,11 @@ describe "Kameleon::User::Guest" do
       before(:all) do
         @selenium = Kameleon::User::Guest.new(self, {:session_name => :new_world, :driver => :selenium, :skip_page_autoload => true})
       end
+
       it "should set Selenium if params :driver => :selenium" do
         @selenium.debug.driver.should be_a Capybara::Selenium::Driver
       end
+
       it "shouldn't change drivers for other users'" do
         [@guest, @another_guest].each do |user|
           user.debug.driver.should be_a Capybara::RackTest::Driver
