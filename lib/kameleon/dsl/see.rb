@@ -68,13 +68,14 @@ module Kameleon
                         one_or_all(locator).each { |text| session.should rspec_world.have_link(text) }
                       end
                     when :ordered
+                      #! we should extend this beyond simply text match (allow to pass full xpath)
                       nodes = session.all(:xpath, locator.collect { |n| "//node()[text()= \"#{n}\"]" }.join(' | '))
                       nodes.map(&:text).should == locator
                     else
                       raise("User can not see #{value} - you need to teach him how")
                   end
                 when 'Fixnum'
-                  session.should ::Capybara::RSpecMatchers::HaveMatcher.new(*(get_selector(locator) << { :count => value }))
+                  session.should ::Capybara::RSpecMatchers::HaveMatcher.new(*(get_selector(locator) << {:count => value}))
                 else
                   session.should rspec_world.have_field(locator, :with => value)
               end
