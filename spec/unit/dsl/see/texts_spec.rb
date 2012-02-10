@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe '#see texts' do
   before do
-    Capybara.app = Hey.new('texts.html')
     @user = Kameleon::User::Guest.new(self)
+    @user.debug.visit('/texts.html')
   end
 
   it 'should see single text' do

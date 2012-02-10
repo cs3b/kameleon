@@ -2,6 +2,8 @@ require 'kameleon/utils/configuration'
 require 'kameleon/utils/helpers'
 
 require 'kameleon/session/capybara'
+require 'kameleon/session/server'
+require 'kameleon/session/session_pool'
 require 'kameleon/dsl/see'
 require 'kameleon/dsl/act'
 

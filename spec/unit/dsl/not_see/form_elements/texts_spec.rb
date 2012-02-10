@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe '#not_see form elements - text inputs' do
   before do
-    Capybara.app = Hey.new('form_elements.html')
     @user = Kameleon::User::Guest.new(self)
+    @user.debug.visit('/form_elements.html')
   end
 
   it 'should not see one' do

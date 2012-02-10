@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe '#see counted elements' do
   before do
-    Capybara.app = Hey.new('elements_counter.html')
     @user = Kameleon::User::Guest.new(self)
+    @user.debug.visit('/elements_counter.html')
   end
 
   context 'when page areas has attribute' do

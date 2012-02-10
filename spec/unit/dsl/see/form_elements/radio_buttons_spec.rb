@@ -3,8 +3,8 @@ require 'spec_helper'
 
 describe '#see form elements - radio buttons' do
   before do
-    Capybara.app = Hey.new('form_elements.html')
     @user = Kameleon::User::Guest.new(self)
+    @user.debug.visit('/form_elements.html')
   end
 
   context 'status "checked"' do

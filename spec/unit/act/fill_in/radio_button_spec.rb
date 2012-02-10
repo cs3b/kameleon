@@ -3,8 +3,8 @@ require 'spec_helper'
 
 describe 'fill in radio button' do
   before do
-    Capybara.app = Hey.new('form_elements.html')
     @user = Kameleon::User::Guest.new(self)
+        @user.debug.visit('/form_elements.html')
   end
 
   it 'should select by label' do

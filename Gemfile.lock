@@ -17,6 +17,7 @@ GEM
       thor (~> 0.14.6)
     guard-rspec (0.6.0)
       guard (>= 0.10.0)
+    headless (0.2.2)
     mime-types (1.17.2)
     multi_json (1.0.4)
     nokogiri (1.5.0)
@@ -47,5 +48,6 @@ PLATFORMS
 DEPENDENCIES
   capybara
   guard-rspec
+  headless
   rspec
   selenium-webdriver

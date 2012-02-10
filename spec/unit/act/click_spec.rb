@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe '#click' do
   before do
-    Capybara.app = Hey.new('click.html')
     @user = Kameleon::User::Guest.new(self)
+    @user.debug.visit('/click.html')
   end
 
   it 'should clicks on links and buttons at once' do

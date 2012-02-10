@@ -5,7 +5,6 @@ describe "Kameleon::User::Guest" do
 
   before(:all) do
     Capybara.current_driver = :rack_test
-    Capybara.app = Hey.new
     @guest = Kameleon::User::Guest.new(self, {:session_name => :see_world})
     @another_guest = Kameleon::User::Guest.new(self)
   end
@@ -13,9 +12,9 @@ describe "Kameleon::User::Guest" do
   after(:all) { Capybara.use_default_driver }
 
   context "sessions" do
-    it "by default user should get current session" do
-      @another_guest.send(:session).should == Capybara.current_session
-      @another_guest.debug.should == Capybara.current_session
+    it "by default user should get some session" do
+      @another_guest.send(:session).should be_kind_of(Capybara::Session)
+      @another_guest.debug.should be_kind_of(Capybara::Session)
     end
 
     it "guests should have separate session if param :session_name defined" do

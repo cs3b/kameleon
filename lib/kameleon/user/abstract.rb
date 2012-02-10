@@ -20,16 +20,16 @@ module Kameleon
                           args.first
                         elsif args.last == :select_multiple
                           case driver
-                             when Capybara::Selenium::Driver
-                               all(*args[0..-2])
-                             when Capybara::RackTest::Driver
-                               node = find(*args)
-                               native = Nokogiri::HTML.parse(html).xpath(args[1])
-                               base = Capybara::RackTest::Node.new(driver, native)
-                               ::Capybara::Node::Element.new(self,
-                                                             base,
-                                                             node.parent,
-                                                             node.instance_variable_get(:@selector))
+                            when Capybara::Selenium::Driver
+                              raise "So far Unsupported in this driver"
+                            when Capybara::RackTest::Driver
+                              node = find(*args)
+                              native = Nokogiri::HTML.parse(html).xpath(args[1])
+                              base = Capybara::RackTest::Node.new(driver, native)
+                              ::Capybara::Node::Element.new(self,
+                                                            base,
+                                                            node.parent,
+                                                            node.instance_variable_get(:@selector))
                           end
                         else
                           find(*args)

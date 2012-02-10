@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe '#not_see in scopes' do
   before do
-    Capybara.app = Hey.new('scopes.html')
     @user = Kameleon::User::Guest.new(self)
+    @user.debug.visit('/scopes.html')
   end
 
   context '#will' do
@@ -33,6 +33,8 @@ describe '#not_see in scopes' do
       end
 
       it 'should not see in many selctors scope' do
+        @user = Kameleon::User::Guest.new(self, :driver => :rack_test)
+        @user.debug.visit('/scopes.html')
         @user.within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]', :select_multiple) do
           not_see 'Right side', 'Sample text in top of page', 'Sample text in footer'
         end

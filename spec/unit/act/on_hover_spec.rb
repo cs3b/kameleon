@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe '#on_hover' do
   before do
-    Capybara.app = Hey.new('on_hover.html')
     @user = Kameleon::User::Guest.new(self)
+    @user.debug.visit('/on_hover.html')
   end
 
   pending do

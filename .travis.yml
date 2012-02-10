@@ -1,5 +1,9 @@
 language: ruby
+install: sudo apt-get install xfvb firefox
 rvm:
   - 1.9.3
   - 1.8.7
 script: 'bundle exec rspec'
+env:
+  - CAPYBARA_DEFAULT_DRIVER=rack_test
+  - CAPYBARA_DEFAULT_DRIVER=selenium

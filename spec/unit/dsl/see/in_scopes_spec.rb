@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe '#see in scopes' do
   before do
-    Capybara.app = Hey.new('scopes.html')
     @user = Kameleon::User::Guest.new(self)
+    @user.debug.visit('/scopes.html')
   end
 
   # TODO
@@ -55,7 +55,9 @@ describe '#see in scopes' do
       end
 
       it 'should see in many selctors scope' do
-        @user.within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]', :select_multiple) do
+        user = Kameleon::User::Guest.new(self, :driver => :rack_test)
+        user.debug.visit('/scopes.html')
+        user.within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]', :select_multiple) do
           see 'Simple text', 'Left side'
         end
       end

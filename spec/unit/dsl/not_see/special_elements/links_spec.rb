@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe '#not_see special elements - links' do
   before do
-    Capybara.app = Hey.new('special_elements.html')
     @user = Kameleon::User::Guest.new(self)
+        @user.debug.visit('/special_elements.html')
   end
 
   context 'when src is provided' do
