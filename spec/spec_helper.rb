@@ -2,6 +2,7 @@ require 'capybara/dsl'
 require 'capybara/rspec/matchers'
 
 # require 'kameleon/ext/rspec/all'
+require 'kameleon/ext/active_record/shared_single_connection'
 require 'kameleon/ext/rspec/headless'
 require 'kameleon/ext/rspec/defered_garbage_collector'
 require 'kameleon/ext/rspec/session_pool'
