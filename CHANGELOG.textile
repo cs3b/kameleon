@@ -1,3 +1,9 @@
+h2. 0.0.9
+
+* test suite running against selenium (except multiple selectors scope)
+* headles testing
+* session reuse (performance)
+
 h2. 0.0.8
 
 * fixing problem with selenium (quick-fix) by turning off field testing
