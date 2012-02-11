@@ -49,5 +49,6 @@ DEPENDENCIES
   capybara
   guard-rspec
   headless
+  mime-types
   rspec
   selenium-webdriver
