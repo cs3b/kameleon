@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = 'kameleon'
-  s.version = '0.0.9'
-  s.files = Dir['lib/**/*.rb'] + Dir['spec/**/*.rb'] + ['LICENCE']
+  s.version = '0.2.0.alpha'
+  s.files = Dir['lib/**/*.rb'] + %w(LICENCE README.textile)
   s.add_runtime_dependency 'rspec'
   s.add_runtime_dependency 'capybara'
   s.add_runtime_dependency 'selenium-webdriver'

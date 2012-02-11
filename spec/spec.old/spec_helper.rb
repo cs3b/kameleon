@@ -1,16 +1,15 @@
+require 'kameleon'
 require 'capybara/dsl'
 require 'capybara/rspec/matchers'
 
-# require 'kameleon/ext/rspec/all'
-require 'kameleon/ext/rspec/headless'
-require 'kameleon/ext/rspec/defered_garbage_collector'
-require 'kameleon/ext/rspec/session_pool'
-require 'kameleon/ext/rspec/dsl'
+require 'capybara/selenium/driver'
+# one server on all sessions for selenium
+# require 'patch/capybara_selenium_driver'
+require 'headless'
 
 Dir["#{File.expand_path("../", __FILE__)}/support/**/*.rb"].each { |f| require f }
 
 require 'sample_rack_app/hey'
-Capybara.app = Hey.new
 
 RSpec.configure do |config|
   config.before(:suite) do
@@ -34,6 +33,8 @@ RSpec.configure do |config|
     @headless.stop if defined?(@headless)
   end
 end
+
+Capybara.app = Hey.new
 
 Capybara.configure do |c|
   c.default_driver= (ENV['CAPYBARA_DEFAULT_DRIVER']||:rack_test).to_sym
