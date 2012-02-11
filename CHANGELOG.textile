@@ -1,7 +1,7 @@
 h2. 0.0.9
 
 * test suite running against selenium (except multiple selectors scope)
-* headles testing
+* headless testing
 * session reuse (performance)
 
 h2. 0.0.8
