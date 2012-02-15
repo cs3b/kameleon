@@ -100,9 +100,9 @@ h3. Session pooling
 Kameleon has useful technique of session pooling implemented, that can speed up test suite greatly.
 In order to enable it, you need to pass this to the RSpec.configure block, in spec_helper.rb:
 
-bc.   config.after(:each) do
-        ::SessionPool.release_all
-      end
+bc. config.after(:each) do
+  ::SessionPool.release_all
+end
 
 h2. Credits:
 * <a href="http://selleo.com/people/michal-czyz">Michał Czyż</a>
