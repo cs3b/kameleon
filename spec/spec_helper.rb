@@ -10,7 +10,9 @@ require 'kameleon/ext/rspec/dsl'
 
 Dir["#{File.expand_path("../", __FILE__)}/support/**/*.rb"].each { |f| require f }
 
-require 'sample_rack_app/hey'
+
+dummy_app_path = File.join(File.expand_path("../../", __FILE__), 'dummy_app', 'app', 'dummy_app.rb')
+require dummy_app_path
 Capybara.app = Hey.new
 
 RSpec.configure do |config|
