@@ -2,7 +2,7 @@ require 'singleton'
 class SessionPool
   include Singleton
   class << self
-    attr_writer :nice
+
     def session(driver)
       take_idle(driver) || create(driver)
     end
