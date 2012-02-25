@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'kameleon'
-  s.version = '0.0.9'
+  s.version = '0.0.10'
   s.files = Dir['lib/**/*.rb'] + Dir['spec/**/*.rb'] + ['LICENCE']
   s.add_runtime_dependency 'rspec'
   s.add_runtime_dependency 'capybara'
