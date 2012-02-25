@@ -8,6 +8,7 @@ env:
 branches:
   only:
     - master
+    - 0_2_0
 install: sudo apt-get install xvfb firefox
 before_script:
   - 'bundle'
