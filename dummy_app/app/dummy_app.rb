@@ -3,7 +3,7 @@ class DummyApp
 
   def call(env)
     if  env["PATH_INFO"] == "/"
-      [200, {"Content-Type" => "text"}, ['welcome on homepage']]
+      [200, {"Content-Type" => "text"}, [get_body('homepage')]]
     else
       [200, {"Content-Type" => "text/html"}, [get_body(env['PATH_INFO'])]]
     end
@@ -21,6 +21,7 @@ class DummyApp
   end
 
   def file_path(filename)
+    filename << '.html' unless filename =~ /\.html$/
     File.join(@@public_path, filename)
   end
 end
