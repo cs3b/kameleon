@@ -4,6 +4,8 @@ require 'kameleon/dsl/verify/absence'
 require 'kameleon/ext/capybara/session_pool'
 require 'kameleon/session'
 
+require 'kameleon/dsl/context/scope'
+
 module Kameleon
   module DSL
     def load_page(url = '/')
@@ -47,12 +49,22 @@ module Kameleon
       else
         Capybara.session_name = name
       end
+      self
+    end
+
+    def within(*scope, &block)
+      if block_given?
+        super(*parse_selector(scope).selector)
+      else
+        #! we need proxy object to make it working
+        throw 'not impelemented'
+      end
     end
 
     private
 
-    def ensure_page_is_loaded
-
+    def parse_selector(scope)
+      Kameleon::DSL::Context::Scope.new(scope)
     end
   end
 end

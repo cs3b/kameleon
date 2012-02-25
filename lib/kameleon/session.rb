@@ -8,6 +8,12 @@ module Kameleon
       take_free_session
     end
 
+    class << self
+      def defined_areas
+        @@defined_areas ||= {}
+      end
+    end
+
     private
 
     def take_free_session

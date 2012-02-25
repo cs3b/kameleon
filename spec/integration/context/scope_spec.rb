@@ -1,83 +1,130 @@
 require 'spec_helper'
 
-describe '#see in scopes' do
+describe 'Scope' do
+
   before do
-    @user = Kameleon::User::Guest.new(self)
-    @user.debug.visit('/scopes.html')
+    load_page('/scopes.html')
   end
 
-  # TODO
-  # would be nice to be possible in future
-  # it's hard because of block closing
-  it "should see within specific selector" do
-    @user.within("#some_div").see "This is It"
-    @user.within("#some_div").not_see "Hello"
-  end
+  describe "using css and xpath selectors" do
+    it "allow to pass block that will be evaluated " do
+      within("#main") do
+        see "Left side", "Right side"
+      end
 
-  it "should see within default selector" do
-    @user.stub!(:page_areas).and_return({:main => '#some_div'})
-    @user.will.see "This is It"
-    @user.will.not_see "Hello"
-  end
-
-  context '#will' do
-    context 'when main selector was defined' do
-      before { @user.stub!(:page_areas).and_return({:main => '#main'}) }
-
-      it 'should see in main selector scope' do
-        @user.will do
-          see 'Sample text in main part of page', 'Left side', 'Right side'
-        end
+      within("#left") do
+        see "Left side"
+        unseeing "Right side"
       end
     end
 
-    context 'main selector was not defined' do
-      it 'should see in whole page scope' do
-        @user.will do
-          see 'Sample title for page', 'Sample text in top of page', 'Left side'
-        end
+    it "handle xpath selector as well" do
+      within(:xpath, "//*[@id='left']") do
+        see "Left side"
+        unseeing "Right side"
+      end
+    end
+
+    pending do
+      it "allow to method chain with i.e. verification dsl" do
+        within("#left").see "Left side"
+        within("#right").unseeing "Left side"
       end
     end
   end
 
-  context '#within' do
-    it 'should see in css scope' do
-      @user.within('#top h1') do
-        see 'Sample title for page'
+  describe "defined areas" do
+    before do
+      Kameleon::Session.stub!(:defined_areas).and_return({
+                                                             :default => [:xpath, "//*[@id='main']"],
+                                                             :left => '#left',
+                                                             :right => '#right',
+                                                             :footer => '#footer'
+                                                         })
+    end
+
+    it "when not defined will use default" do
+      within do
+        see 'Left', 'Right', 'Sample text in main part of page'
+        unseeing 'Sample text in footer', 'Sample title for page'
       end
     end
 
-    context 'when scope by xpath' do
-      it 'should see in one selector scope' do
-        @user.within(:xpath, '//div[@id="footer"]/span') do
-          see 'Simple text'
-        end
-      end
+    it "allow to method chain with default selector" do
+      pending "Need Context::Proxy object"
+      within.see 'Left', 'Right', 'Sample text in main part of page'
+      within.unseeing 'Sample text in footer', 'Sample title for page'
+    end
 
-      it 'should see in many selctors scope' do
-        user = Kameleon::User::Guest.new(self, :driver => :rack_test)
-        user.debug.visit('/scopes.html')
-        user.within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]', :select_multiple) do
-          see 'Simple text', 'Left side'
+    it "can use on of defined area" do
+      within(:footer) do
+        see 'Sample text in footer', 'Simple text'
+        unseeing 'Left', 'Right'
+      end
+    end
+  end
+
+  describe "special selectors" do
+    before do
+      load_page('/special_elements')
+    end
+    pending do
+      context "multi-select" do
+        it 'should see in many selctors scope' do
+          within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]') do
+            see 'Left side', 'Simple'
+          end
         end
       end
     end
 
-    context 'when scope by default selector type' do
-      before do
-        @user.stub!(:page_areas).and_return({:top => '#top',
-                                             :footer => [:xpath, '//div[@id="footer"]']})
-      end
+    describe "table" do
+      context "row" do
+        it "find row by text" do
+          within(:row => 'Michal Czyz') do
+            see "13.00", "13"
+            unseeing "17.00", "2"
+          end
+        end
 
-      it 'should see in top selector scope' do
-        @user.within(:top) do
-          see 'Sample title for page', 'Sample text in top of page'
+        it "find position" do
+          within(:row => 2) do
+            see "13.00", "13"
+            unseeing "17.00", "2"
+          end
         end
       end
 
-      it 'should see in footer selector scope' do
-        @user.within(:footer) do
-          see 'Sample text in footer', 'Simple text'
+      pending do
+        context "column" do
+          it "find by text" do
+            within(:column => 'Selleo') do
+              see "13.00", "2.00", "0.00"
+              unseeing "17.00", "5.00"
+            end
+          end
+          it "find by position" do
+            within(:column => 3) do
+              see "13.00", "2.00", "0.00"
+              unseeing "17.00", "5.00"
+            end
+          end
+        end
+      end
+
+      context "row and column" do
+        it "find by text" do
+          within(:row_and_column => ['Michal Czyz', 'NotHotel']) do
+            see "7.00"
+            unseeing "13.00", "19.61"
+          end
+        end
+
+        it "find by position" do
+          within(:row_and_column => [2, 5]) do
+            see "7.00"
+            unseeing "13.00", "19.61"
+          end
         end
       end
     end
@@ -117,121 +164,3 @@ end
 #    end
 #  end
 #end
-
-#describe '#see special selectors in tables' do
-#
-#  context 'when in row' do
-#    before do
-#      @user = Kameleon::User::Guest.new(self)
-#      @user.debug.visit('/special_elements.html')
-#    end
-#    it 'should see full text' do
-#      @user.within(:row => 'Michal Czyz') do
-#        see "13.00"
-#      end
-#    end
-#
-#    it 'should see partial text' do
-#      @user.within(:row => 'Michal Czyz') do
-#        see "13"
-#      end
-#    end
-#  end
-#
-#  context 'when in column' do
-#    before do
-#      @user = Kameleon::User::Guest.new(self, :driver => :rack_test)
-#      @user.debug.visit('/special_elements.html')
-#    end
-#    context 'when scoped by full text' do
-#      it 'should see full text' do
-#        @user.within(:column => 'Selleo') do
-#          see "13.00", "2.00", "0.00"
-#        end
-#      end
-#
-#      it 'should see partial text' do
-#        @user.within(:column => 'Selleo') do
-#          see "13", "2", "0"
-#        end
-#      end
-#    end
-#
-#    context 'when scoped by partial text' do
-#      it 'should see full text' do
-#        @user.within(:column => 'lleo') do
-#          see "13.00", "2.00", "0.00"
-#        end
-#      end
-#
-#      it 'should see partial text' do
-#        @user.within(:column => 'lleo') do
-#          see "13", "2", "0"
-#        end
-#      end
-#    end
-#  end
-#end
-
-#describe '#not_see in scopes' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/scopes.html')
-#  end
-#
-#  context '#will' do
-#    context 'when main selector was defined' do
-#      before { @user.stub!(:page_areas).and_return({:main => '#main'}) }
-#
-#      it 'should not see in main selector scope' do
-#        @user.will do
-#          not_see 'Sample title for page', 'Sample text in footer'
-#        end
-#      end
-#    end
-#  end
-#
-#  context '#within' do
-#    it 'should not see in css scope' do
-#      @user.within('#top h1') do
-#        not_see 'Sample text in top of page', 'Left side'
-#      end
-#    end
-#
-#    context 'when scope by xpath' do
-#      it 'should not see in one selector scope' do
-#        @user.within(:xpath, '//div[@id="footer"]/span') do
-#          not_see 'Sample text in footer', 'Sample text in main part of page'
-#        end
-#      end
-#
-#      it 'should not see in many selctors scope' do
-#        @user = Kameleon::User::Guest.new(self, :driver => :rack_test)
-#        @user.debug.visit('/scopes.html')
-#        @user.within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]', :select_multiple) do
-#          not_see 'Right side', 'Sample text in top of page', 'Sample text in footer'
-#        end
-#      end
-#    end
-#
-#    context 'when scope by default selector type' do
-#      before do
-#        @user.stub!(:page_areas).and_return({:top => '#top',
-#                                             :footer => [:xpath, '//div[@id="footer"]']})
-#      end
-#
-#      it 'should not see in top selector scope' do
-#        @user.within(:top) do
-#          not_see 'Sample text in main part of page', 'Sample text in footer'
-#        end
-#      end
-#
-#      it 'should not see in footer selector scope' do
-#        @user.within(:footer) do
-#          not_see 'Sample title for page', 'Sample text in main part of page'
-#        end
-#      end
-#    end
-#  end
-#end
-

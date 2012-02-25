@@ -1,69 +1,95 @@
-#session.instance_eval do
-#  def within(*args)
-#    new_scope = if args.size == 1 && Capybara::Node::Base === args.first
-#                  args.first
-#                elsif args.last == :select_multiple
-#                  case driver
-#                    when Capybara::Selenium::Driver
-#                      raise "So far Unsupported in this driver"
-#                    when Capybara::RackTest::Driver
-#                      node = find(*args)
-#                      native = Nokogiri::HTML.parse(html).xpath(args[1])
-#                      base = Capybara::RackTest::Node.new(driver, native)
-#                      ::Capybara::Node::Element.new(self,
-#                                                    base,
-#                                                    node.parent,
-#                                                    node.instance_variable_get(:@selector))
-#                  end
-#                else
-#                  find(*args)
-#                end
-#    begin
-#      scopes.push(*new_scope)
-#      yield
-#    ensure
-#      scopes.pop
-#    end
-#  end
-#end
+module Kameleon
+  module DSL
+    module Context
+      class Scope
 
-#def within(*selector, &block)
-#  session.within(*get_selector(selector)) do
-#    instance_eval(&block)
-#  end
-#end
+        attr_accessor :params
 
-#def get_selector(selector)
-#  if (selector.is_a?(Array) && selector.size == 1)
-#    selector = selector.first
-#  end
-#  case selector
-#    when Hash
-#      selector.each_pair do |key, value|
-#        case key
-#          when :row
-#            return [:xpath, "//tr[*='#{value}'][1]"]
-#          when :column
-#            position = session.all(:xpath, "//table//th").index { |n| n.text =~ /#{value}/ }
-#            return [:xpath, ".//table//th[#{position + 1}] | .//table//td[#{position + 1}]", :select_multiple]
-#          else
-#            raise "not supported selectors"
-#        end
-#      end
-#    when Symbol
-#      page_areas[selector].is_a?(Array) ?
-#          page_areas[selector] :
-#          [Capybara.default_selector, page_areas[selector]]
-#    when Array
-#      selector
-#    else
-#      [Capybara.default_selector, selector]
-#  end
-#end
+        def initialize(params)
+          @params = params
+        end
 
-#def default_selector
-#  page_areas[:main]
-#end
-#def page_areas
-#  {}
-#end
+        def selector
+          detect_selector(params)
+        end
+
+        private
+
+        def detect_selector(param)
+          case param
+            when Hash
+              #! add warning when there is more then one element in hash
+              Kameleon::DSL::Context::SpecialSelectors.send(*param.first)
+            when Symbol
+              normalize(defined_areas[param])
+            when String
+              normalize(param)
+            when Array
+              param.size == 1 ?
+                  detect_selector(param.first) :
+                  normalize(param)
+            when nil
+              normalize(default_selector)
+            else
+              raise "type <#{param.class.name}> not implemented"
+          end
+        end
+
+        def normalize(params)
+          case params
+            when String
+              [::Capybara.default_selector, params]
+            when Array
+              if params.empty?
+                normalize(default_selector)
+              elsif params.size == 1
+                [::Capybara.default_selector] + params
+              else
+                params
+              end
+          end
+        end
+
+        def default_selector
+          defined_areas[:default] || [:xpath, "//body"]
+        end
+
+        def defined_areas
+          ::Kameleon::Session.defined_areas
+        end
+      end
+
+      #! extending selectors in capybara way https://github.com/jnicklas/capybara/blob/master/lib/capybara.rb#L76
+      module SpecialSelectors
+        def self.row(param)
+          case param
+            when String
+              [:xpath, "//tr[*='#{param}'][1]"]
+            when Fixnum
+              [:xpath, "//tbody/tr[#{param}]"]
+            else
+              raise "not implemented"
+          end
+        end
+
+        def self.row_and_column(param)
+          value_in_row, value_in_column = *param
+          if value_in_row.is_a?(Fixnum) and value_in_column.is_a?(Fixnum)
+            [:xpath, "//tbody/tr[#{value_in_row}]/td[#{value_in_column}]"]
+          else
+            #! on page there might be more then one table
+            position = Capybara.current_session.all(:xpath, "//table//th").index { |n| n.text =~ /#{value_in_column}/ }
+            [:xpath, "//tr[*='#{value_in_row}'][1]/td[#{position+1}]"]
+          end
+        end
+
+        def self.column(param)
+          raise "not implemented"
+          #            position = session.all(:xpath, "//table//th").index { |n| n.text =~ /#{value}/ }
+          #            return [:xpath, ".//table//th[#{position + 1}] | .//table//td[#{position + 1}]", :select_multiple]
+        end
+      end
+    end
+  end
+end
+

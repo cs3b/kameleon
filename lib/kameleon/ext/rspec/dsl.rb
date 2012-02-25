@@ -11,11 +11,11 @@ RSpec.configure do |config|
   end
   escaped_group_file_path = config.escaped_path(%w[spec (requests|integration)])
 
-  config.include Capybara::DSL, :type => :request
+  config.include Capybara::DSL, :type => :request, :example_group => {:file_path => escaped_group_file_path}
   config.include Kameleon::DSL, :type => :request, :example_group => {:file_path => escaped_group_file_path}
 
-  config.include Kameleon::DSL, :type => :acceptance, :example_group => {:file_path => escaped_group_file_path}
   config.include Capybara::DSL, :type => :acceptance, :example_group => {:file_path => escaped_group_file_path}
+  config.include Kameleon::DSL, :type => :acceptance, :example_group => {:file_path => escaped_group_file_path}
 
   config.include Capybara::RSpecMatchers, :type => :request, :example_group => {:file_path => escaped_group_file_path}
   config.include Capybara::RSpecMatchers, :type => :acceptance, :example_group => {:file_path => escaped_group_file_path}
