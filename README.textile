@@ -3,97 +3,59 @@ h1. Kameleon [chameleon]
 "!https://secure.travis-ci.org/cs3b/kameleon.png?branch=0_2_0!":http://travis-ci.org/cs3b/kameleon
 
 Kameleon is a high abstraction dsl for better* writting acceptance, integration and functional tests using Capybara.
-And "better" means: from the end user perspective.
+
+It's not dependend on any ruby framework (can be used with Ruby On Rails, Sinatra, Padrino, etc). So far binding are only done for one test framework: Rspec.
 
 h2. Setup:
 
-Kameleon requires:
+Kameleon depends on:
+
 * rspec
 * capybara
-* devise ( kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
 * selenium && racktest drivers
+* devise ( kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
 * thin (if you want run your specs faster - add gem 'thin' to Gemfile in your app)
 
-Before you start using kameleon ensure that capybara is properly loaded (in your test helper file)
+
+h3. Gemfile
+
+gem 'kameleon'
+gem 'capybara'
+gem 'selenium-webdriver'
+gem 'headles' # to run firefox on virtual frame buffer
+
+h3. System
+
+xvfb and firefox should be installed
+
+h3. Rspec Configure
+In your spec file add (do not load capybara - kameleon will do it in a slightly different way, for more info look into lib/kameleon/ext/rspec/dsl.rb)
 
 <pre>
-require 'capybara/rails'
+require 'kameleon/ext/rspec/all'
 </pre>
-
-After that
-
-<pre>
-gem install kameleon
-</pre>
-
-will get you going.
 
 
 h2. Usage:
 
-You start with kameleon by defining your user. Think of a name that describes the best the perspective from which you want to test something in your project. For the example below, we'll choose "administrator":
+h3. Defined Areas
 
-bc. class TestUserAdministrator < Kameleon::User::Base
-  def initialize(rspec_world, options={})
-    @user = Factory(:admin_user)
-    super
-  end
-  # performs do ... end block, by default scope is :main selector - if defined
-  def page_areas
-    {
-        :top => '.header',
-        :left => '.column sidebar',
-        :second_level_menu_items => [:xpath, '//ul[@class="level_two"]/li'],
-        :main => '#content'
-    }
-  end
-  private
-  def user_login_path
-    rspec_world.new_admin_session_path
-  end
-end
+bc. Kameleon::Session.merge!({
+                               :default => [:xpath, ".//*[@id='main']"],
+                               :menu => [:xpath, ".//*[@id='top']/nav"],
+                               :right => '#right',
+                               :footer => [:css, '#footer']
+                           })
 
-And here is an example of rspec scenario, where our user will shine:
+h3. Example
 
-bc. background do
-     @admin = TestUserAdministrator.new(self, {:session_name => 'my_account', :driver => :selenium)
-    end
-    scenario "opening list of news", :status => 'done' do
-        @admin.will do
-          click "homepage", "community", "news"
-          see "new medicine developed last weekend"
-        end
-        @admin.within(:row => 'some cell text') do
-          see 'see all values in row that contains that text'
-        end
-        @admin.within(:column => 'some header') do
-          see 'see all values in that column'
-        end
-        @admin.see :ordered => 'Z', 'X', 'Y'
-        @admin.click :and_confirm => "Cancel"
-        @admin.click :and_dismiss => "Cancel"
-    end
+bc. tba ...
 
-Another example:
+h2. Another Example
 
-bc.   feature "Products", :driver => :selenium do
-      background do
-        @admin = TestUserAdministrator.new(self) do
-          visit spree.admin_path
-        end
-      end
-      context "listing products" do
-        scenario "products sorting" do
-          Factory(:product, :name => 'apache baseball cap', :available_on => '2011-01-06 18:21:13:', :count_on_hand => '0')
-          Factory(:product, :name => 'zomg shirt', :available_on => '2125-01-06 18:21:13', :count_on_hand => '5')
-          @admin.click "Products"
-          @admin.see :ordered => ["apache baseball cap", "zomg shirt" ]
-          @admin.click "admin_products_listing_name_title"
-          @admin.see :ordered =>  ["zomg shirt", "apache baseball cap"  ]
-        end
-      end
+bc. tba ...
 
 h2. Credits:
 * <a href="http://selleo.com/people/michal-czyz">Michał Czyż</a>
 * <a href="http://selleo.com/people/radoslaw-jedryszczak">Radosław Jędryszczak</a>
-* <a href="http://selleo.com/people">Szymon Kieloch</a>
+* <a href="http://selleo.com/people/szymon-kieloch">Szymon Kieloch</a>
