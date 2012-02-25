@@ -1,6 +1,6 @@
 h1. Kameleon [chameleon]
 
-"!https://secure.travis-ci.org/cs3b/kameleon.png!":http://travis-ci.org/cs3b/kameleon
+"!https://secure.travis-ci.org/cs3b/kameleon.png?branch=master!":http://travis-ci.org/cs3b/kameleon
 
 Kameleon is a high abstraction dsl for better* writting acceptance, integration and functional tests using Capybara.
 And "better" means: from the end user perspective.
