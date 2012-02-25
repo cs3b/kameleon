@@ -1,9 +1,9 @@
 class DummyApp
-  @@public_path = File.join(File.expand_path("../../", __FILE__), 'public')
+  @@public_path = File.join(File.expand_path("../../", __FILE__), 'public', 'pages')
 
   def call(env)
     if  env["PATH_INFO"] == "/"
-      [200, {"Content-Type" => "text"}, [get_body('homepage')]]
+      [200, {"Content-Type" => "text/html"}, [get_body('homepage')]]
     else
       [200, {"Content-Type" => "text/html"}, [get_body(env['PATH_INFO'])]]
     end
@@ -12,12 +12,14 @@ class DummyApp
   private
 
   def get_body(filename)
-    file = File.open(file_path(filename))
-    body = file.read
-    file.close
-    body
-  rescue
-    filename
+    begin
+      file = File.open(file_path(filename))
+      body = file.read
+      file.close
+      body
+    rescue
+      "page not found"
+    end
   end
 
   def file_path(filename)
