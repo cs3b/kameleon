@@ -1,3 +1,47 @@
+module Kameleon
+  module DSL
+    module Verify
+      class Absence
+
+        attr_accessor :conditions, :params
+
+        def initialize(*params)
+          @params = params
+          @conditions = []
+
+          parse_conditions
+        end
+
+        private
+
+        def parse_conditions
+          prepare_conditions(params)
+        end
+
+        def prepare_conditions(param)
+          case param
+            when String
+              conditions << Condition.new(:have_no_content, param)
+            when Array
+              params.each { |parameter| prepare_conditions(parameter) }
+          end
+        end
+
+        class Condition
+          attr_accessor :method, :params, :block
+
+          def initialize(method, *params, &block)
+            @method = method
+            @params = params
+            @block = block
+          end
+        end
+      end
+    end
+  end
+end
+
+
 #def not_see(*content)
 #  options = extract_options(content)
 #
