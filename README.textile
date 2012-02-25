@@ -40,7 +40,7 @@ h2. Usage:
 
 h3. Defined Areas
 
-bc. Kameleon::Session.merge!({
+bc. Kameleon::Session.defined_areas.merge!({
                                :default => [:xpath, ".//*[@id='main']"],
                                :menu => [:xpath, ".//*[@id='top']/nav"],
                                :right => '#right',
