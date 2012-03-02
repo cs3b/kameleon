@@ -34,3 +34,6 @@ RSpec.configure do |config|
     end
   end
 end
+
+require 'kameleon/ext/rspec/pool'
+
