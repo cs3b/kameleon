@@ -18,12 +18,24 @@ module Kameleon
           prepare_conditions(params)
         end
 
+
         def prepare_conditions(param)
           case param
             when String
               conditions << Condition.new(:have_content, param)
+            when Hash
+              param.each_pair do |type, values|
+                case type
+                  when :link, :links
+                    conditions.concat Link.new(values).conditions
+                  else
+                    raise "not implemented"
+                end
+              end
             when Array
               params.each { |parameter| prepare_conditions(parameter) }
+            else
+              raise "not implemented"
           end
         end
 
@@ -34,6 +46,32 @@ module Kameleon
             @method = method
             @params = params
             @block = block
+          end
+        end
+
+        class Link
+          attr_reader :conditions
+
+          def initialize(params)
+            @conditions = []
+            parse_params(params)
+          end
+
+          private
+
+          def parse_params(params)
+            case params
+              when Hash
+                params.each_pair do |text, url|
+                  conditions << Condition.new(:have_link, text, :href => url)
+                end
+              when String
+                conditions << Condition.new(:have_link, params)
+              when Array
+                params.each { |param| parse_params(param) }
+              else
+                raise 'not implemented'
+            end
           end
         end
       end
