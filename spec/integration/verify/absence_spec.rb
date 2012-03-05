@@ -81,7 +81,7 @@ describe "absence of" do
     end
   end
 
-  describe "fields", :status => :pending, :focus => true do
+  describe "fields" do
     before(:each) { load_page('/form_elements') }
 
     it "one" do
