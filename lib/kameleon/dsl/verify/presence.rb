@@ -29,6 +29,8 @@ module Kameleon
                     conditions.concat Link.new(values).conditions
                   when :image, :images
                     conditions.concat Image.new(values).conditions
+                  when :ordered
+                    conditions.concat Sequence.new(values).conditions
                   when Fixnum
                     conditions.concat Quantity.new(type, values).conditions
                   else
@@ -136,6 +138,32 @@ module Kameleon
           query.first == :xpath ?
               :have_xpath :
               :have_css
+        end
+      end
+
+      class Sequence
+        attr_reader :params
+
+        def initialize(params)
+          @params = params
+        end
+
+
+        def conditions
+          [condition]
+        end
+
+        private
+
+        def condition
+          Condition.new(nil, params, prepare_xpath) do |elements, xpath_query|
+            texts = page.all(:xpath, xpath_query).map(&:text)
+            texts.should == elements
+          end
+        end
+
+        def prepare_xpath
+          params.collect { |n| "//node()[text()= \"#{n}\"]" }.join(' | ')
         end
       end
     end

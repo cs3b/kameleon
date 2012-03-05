@@ -15,8 +15,8 @@ module Kameleon
     def see(*args)
       Kameleon::DSL::Verify::Presence.new(*args).tap do |presence|
         presence.conditions.each do |condition|
-          if condition.block
-            instance_eval(condition.block)
+          if block = condition.block
+            instance_exec(*condition.params, &block)
           else
             page.should send(condition.method, *condition.params)
           end
