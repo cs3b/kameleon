@@ -50,7 +50,7 @@ describe "absence of" do
 
       it "at least one link together with src present" do
         expect do
-          unseeing :links => [{'What I need' => '/neighter/this'}, "No link with text", 'What you want' => '/i-want/to']
+          unseeing :links => [{'What I need' => '/neighter/this'}, "No link with text", {'What you want' => '/i-want/to'}]
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end

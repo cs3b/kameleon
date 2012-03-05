@@ -34,7 +34,7 @@ describe "presence of" do
     end
 
     it "many at once" do
-      see :links => ['What you want', "What I need" => '/what-i/need', "What I have" => '/what-i/have']
+      see :links => ['What you want', { "What I need" => '/what-i/need', "What I have" => '/what-i/have' }]
     end
 
     context "raise errors when" do
