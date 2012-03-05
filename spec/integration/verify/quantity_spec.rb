@@ -1,26 +1,49 @@
-#require 'spec_helper'
-#
-#describe '#see counted elements' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/elements_counter.html')
-#  end
-#
-#  context 'when page areas has attribute' do
-#    before do
-#      @user.stub!(:page_areas).and_return(:menu_link => [:xpath, '//ul[@id="menu"]/li/a'])
-#    end
-#
-#    it 'should counted elements from page areas attribute' do
-#      @user.see 7 => :menu_link
-#    end
-#  end
-#
-#  it "should see counted elements from css" do
-#    @user.see 5 => '#fiveElements'
-#  end
-#
-#  it 'should see counted elements from xpath' do
-#    @user.see 5 => [:xpath, '//div[@id="fiveElements"]']
-#  end
-#end
+require 'spec_helper'
+
+describe 'quantity' do
+  before(:each) { load_page('/elements_counter') }
+
+
+  context "by selector" do
+    it "using default type" do
+      see 5 => '#fiveElements'
+    end
+
+    it "explicit defined" do
+      see 5 => [:xpath, '//div[@id="fiveElements"]']
+    end
+  end
+
+  it "by defined page areas" do
+    Kameleon::Session.stub!(:defined_areas).and_return({
+                                                           :menu_link => [:xpath, '//ul[@id="menu"]/li/a']
+                                                       })
+    see 7 => :menu_link
+  end
+
+  context "raise errors when" do
+    it "there is less elements" do
+       expect do
+        see 6 => '#fiveElements'
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+    end
+
+    it "there is more elements" do
+      expect do
+        see 4 => '#fiveElements'
+      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+    end
+  end
+
+  #! not sure if we need this
+  #describe "ranges" do
+  #
+  #  it "elements within" do
+  #    see 6..8 => '#fiveElements'
+  #  end
+  #
+  #  it "exactly number of element (not more)" do
+  #    see 5..5  => '#fiveElements'
+  #  end
+  #end
+end

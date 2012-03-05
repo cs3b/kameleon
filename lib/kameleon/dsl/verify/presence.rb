@@ -29,6 +29,8 @@ module Kameleon
                     conditions.concat Link.new(values).conditions
                   when :image, :images
                     conditions.concat Image.new(values).conditions
+                  when Fixnum
+                    conditions.concat Quantity.new(type, values).conditions
                   else
                     raise "not implemented"
                 end
@@ -39,70 +41,105 @@ module Kameleon
               raise "not implemented"
           end
         end
+      end
 
-        class Condition
-          attr_accessor :method, :params, :block
+      class Condition
+        attr_accessor :method, :params, :block
 
-          def initialize(method, *params, &block)
-            @method = method
-            @params = params
-            @block = block
-          end
+        def initialize(method, *params, &block)
+          @method = method
+          @params = params
+          @block = block
+        end
+      end
+
+      class Link
+        attr_reader :conditions
+
+        def initialize(params)
+          @conditions = []
+          parse_params(params)
         end
 
-        class Link
-          attr_reader :conditions
+        private
 
-          def initialize(params)
-            @conditions = []
-            parse_params(params)
-          end
-
-          private
-
-          def parse_params(params)
-            case params
-              when Hash
-                params.each_pair do |text, url|
-                  conditions << Condition.new(:have_link, text, :href => url)
-                end
-              when String
-                conditions << Condition.new(:have_link, params)
-              when Array
-                params.each { |param| parse_params(param) }
-              else
-                raise 'not implemented'
-            end
-          end
-        end
-
-        class Image
-          attr_reader :conditions
-
-          def initialize(params)
-            @conditions = []
-            parse_params(params)
-          end
-
-          private
-
-          def parse_params(params)
-            case params
-              when String
-                conditions << Condition.new(:have_xpath, prepare_xpath(params))
-              when Array
-                params.each { |param| parse_params(param) }
-              else
-                raise 'not implemented'
-            end
-          end
-
-          def prepare_xpath(alt_or_src)
-            "//img[@alt=\"#{alt_or_src}\"] | //img[@src=\"#{alt_or_src}\"]"
+        def parse_params(params)
+          case params
+            when Hash
+              params.each_pair do |text, url|
+                conditions << Condition.new(:have_link, text, :href => url)
+              end
+            when String
+              conditions << Condition.new(:have_link, params)
+            when Array
+              params.each { |param| parse_params(param) }
+            else
+              raise 'not implemented'
           end
         end
       end
+
+      class Image
+        attr_reader :conditions
+
+        def initialize(params)
+          @conditions = []
+          parse_params(params)
+        end
+
+        private
+
+        def parse_params(params)
+          case params
+            when String
+              conditions << Condition.new(:have_xpath, prepare_xpath(params))
+            when Array
+              params.each { |param| parse_params(param) }
+            else
+              raise 'not implemented'
+          end
+        end
+
+        def prepare_xpath(alt_or_src)
+          "//img[@alt=\"#{alt_or_src}\"] | //img[@src=\"#{alt_or_src}\"]"
+        end
+      end
+
+      class Quantity
+        attr_reader :conditions
+        attr_reader :quantity
+
+        def initialize(quantity, params)
+          @conditions = []
+          @quantity = quantity
+          parse_params(params)
+        end
+
+        private
+
+        def parse_params(params)
+          if params === Array && params.first == Array
+            params.each { |param| parse_params(param) }
+          else
+            #! refactor
+            selector = prepare_query(params).selector
+            conditions << Condition.new(prepare_method(selector), selector.last, :count => quantity)
+          end
+        end
+
+        def prepare_query(selector)
+          Context::Scope.new(selector)
+        end
+
+        #! refactor - delagate to Context::Scope class
+        def prepare_method(query)
+          query.first == :xpath ?
+              :have_xpath :
+              :have_css
+        end
+      end
     end
+
   end
 end
 
