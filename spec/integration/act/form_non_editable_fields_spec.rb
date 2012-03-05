@@ -1,22 +1,51 @@
 require 'spec_helper'
 
-#describe 'fill in attach file' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  context 'when disabled' do
-#    it 'should not attach file' do
-#      @user.will do
-#        see :empty => 'Disable File input'
-#        fill_in :attach => { 'click.html' => 'Disable File input' }
-#        see :empty => 'Disable File input'
-#      end
-#    end
-#  end
-#
-#end
+describe "fill in", :status => :pending do
+  before(:each) { load_page('/form_elements') }
+
+  context "single value in field" do
+    it "text" do
+      fill_in "value" => 'Readonly input'
+    end
+
+    it "checkbox - check" do
+       fill_in :check => 'Option Some'
+    end
+
+    it "checkbox - uncheck" do
+      fill_in :uncheck => 'Option Checked'
+    end
+
+    it "radio button" do
+      fill_in :check => 'Option four - disabled'
+    end
+
+    it "select" do
+      fill_in :select => { 'first option' => 'Disabled select one option' }
+    end
+
+    it "attach file" do
+      fill_in :attach => {'click.html' => 'Disable File input'}
+    end
+  end
+
+  context "single value in many fields" do
+    it "text"
+    it "checkbox"
+    it "radio button"
+  end
+
+  it "multiple values from one select" do
+
+  end
+
+  it "multiple fields at once" do
+
+  end
+
+
+end
+
 
 #describe 'fill in checkbox' do
 #  before do
@@ -65,7 +94,7 @@ require 'spec_helper'
 #    it 'should not select' do
 #      @user.will do
 #        see :unchecked => 'Option four - disabled'
-#        fill_in :check => 'Option four - disabled'
+#
 #        see :unchecked => 'Option four - disabled'
 #      end
 #    end
