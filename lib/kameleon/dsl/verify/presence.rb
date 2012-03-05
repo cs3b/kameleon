@@ -18,7 +18,6 @@ module Kameleon
           prepare_conditions(params)
         end
 
-
         def prepare_conditions(param)
           case param
             when String
@@ -28,6 +27,8 @@ module Kameleon
                 case type
                   when :link, :links
                     conditions.concat Link.new(values).conditions
+                  when :image, :images
+                    conditions.concat Image.new(values).conditions
                   else
                     raise "not implemented"
                 end
@@ -72,6 +73,32 @@ module Kameleon
               else
                 raise 'not implemented'
             end
+          end
+        end
+
+        class Image
+          attr_reader :conditions
+
+          def initialize(params)
+            @conditions = []
+            parse_params(params)
+          end
+
+          private
+
+          def parse_params(params)
+            case params
+              when String
+                conditions << Condition.new(:have_xpath, prepare_xpath(params))
+              when Array
+                params.each { |param| parse_params(param) }
+              else
+                raise 'not implemented'
+            end
+          end
+
+          def prepare_xpath(alt_or_src)
+            "//img[@alt=\"#{alt_or_src}\"] | //img[@src=\"#{alt_or_src}\"]"
           end
         end
       end
@@ -125,9 +152,7 @@ end
 #                one_or_all(locator).each do |selector|
 #                  session.should rspec_world.have_field(selector)
 #                end
-#              when :image, :images
-#                one_or_all(locator).each do |selector|
-#                  session.should rspec_world.have_xpath("//img[@alt=\"#{selector}\"] | //img[@src=\"#{selector}\"]")
+
 #                end
 #              when :selected
 #                locator.each_pair do |selected_value, selected_locator|
