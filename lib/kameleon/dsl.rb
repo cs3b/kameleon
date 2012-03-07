@@ -69,7 +69,7 @@ module Kameleon
           if block = action.block
             instance_exec(*action.params, &block)
           else
-            page.should send(action.method, *action.params)
+            send(action.method, *action.params)
           end
         end
       end
