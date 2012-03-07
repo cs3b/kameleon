@@ -28,7 +28,7 @@ feature "Products", :driver => :selenium do
 
       click "Products"
       see "zomg shirt"
-      unseeing "apache baseball cap"
+      not_see "apache baseball cap"
 
       fill_in(:check => "Show Deleted")
       click "Search"
@@ -38,7 +38,7 @@ feature "Products", :driver => :selenium do
       click "Search"
 
       see "zomg shirt"
-      unseeing "apache baseball cap"
+      not_see "apache baseball cap"
     end
 
     it "should be able to search products by their properties" do

@@ -14,21 +14,21 @@ describe 'Scope' do
 
       within("#left") do
         see "Left side"
-        unseeing "Right side"
+        not_see "Right side"
       end
     end
 
     it "handle xpath selector as well" do
       within(:xpath, "//*[@id='left']") do
         see "Left side"
-        unseeing "Right side"
+        not_see "Right side"
       end
     end
 
     pending do
       it "allow to method chain with i.e. verification dsl" do
         within("#left").see "Left side"
-        within("#right").unseeing "Left side"
+        within("#right").not_see "Left side"
       end
     end
   end
@@ -46,20 +46,20 @@ describe 'Scope' do
     it "when not defined will use default" do
       within do
         see 'Left', 'Right', 'Sample text in main part of page'
-        unseeing 'Sample text in footer', 'Sample title for page'
+        not_see 'Sample text in footer', 'Sample title for page'
       end
     end
 
     it "allow to method chain with default selector" do
       pending "Need Context::Proxy object"
       within.see 'Left', 'Right', 'Sample text in main part of page'
-      within.unseeing 'Sample text in footer', 'Sample title for page'
+      within.not_see 'Sample text in footer', 'Sample title for page'
     end
 
     it "can use on of defined area" do
       within(:footer) do
         see 'Sample text in footer', 'Simple text'
-        unseeing 'Left', 'Right'
+        not_see 'Left', 'Right'
       end
     end
   end
@@ -83,14 +83,14 @@ describe 'Scope' do
         it "find row by text" do
           within(:row => 'Michal Czyz') do
             see "13.00", "13"
-            unseeing "17.00", "2"
+            not_see "17.00", "2"
           end
         end
 
         it "find position" do
           within(:row => 2) do
             see "13.00", "13"
-            unseeing "17.00", "2"
+            not_see "17.00", "2"
           end
         end
       end
@@ -100,13 +100,13 @@ describe 'Scope' do
           it "find by text" do
             within(:column => 'Selleo') do
               see "13.00", "2.00", "0.00"
-              unseeing "17.00", "5.00"
+              not_see "17.00", "5.00"
             end
           end
           it "find by position" do
             within(:column => 3) do
               see "13.00", "2.00", "0.00"
-              unseeing "17.00", "5.00"
+              not_see "17.00", "5.00"
             end
           end
         end
@@ -116,14 +116,14 @@ describe 'Scope' do
         it "find by text" do
           within(:row_and_column => ['Michal Czyz', 'NotHotel']) do
             see "7.00"
-            unseeing "13.00", "19.61"
+            not_see "13.00", "19.61"
           end
         end
 
         it "find by position" do
           within(:row_and_column => [2, 5]) do
             see "7.00"
-            unseeing "13.00", "19.61"
+            not_see "13.00", "19.61"
           end
         end
       end

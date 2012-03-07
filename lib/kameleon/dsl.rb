@@ -28,7 +28,7 @@ module Kameleon
     end
 
     #! hmn - very similar to see
-    def unseeing(*args)
+    def not_see(*args)
       Kameleon::DSL::Verify::Absence.new(*args).tap do |absence|
         absence.conditions.each do |condition|
           if condition.block

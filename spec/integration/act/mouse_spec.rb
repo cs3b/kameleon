@@ -5,7 +5,7 @@ describe "mouse" do
     before(:each) { load_page('/click') }
 
     it "allow to chain clicks" do
-      unseeing "and there is many lines"
+      not_see "and there is many lines"
       click "Load Next Page", "Texts"
       see "and there is many lines"
     end

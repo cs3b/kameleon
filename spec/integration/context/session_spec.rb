@@ -15,24 +15,24 @@ describe "Session" do
       # switch session
       act_as(:default)
       see 'This is simple app', 'in that app'
-      unseeing 'Home'
+      not_see 'Home'
 
       # swith session temporary (inside block)
       act_as(:user) do
-        unseeing 'This is simple app', 'in that app'
+        not_see 'This is simple app', 'in that app'
         see 'Home'
       end
 
       # block should not change session globally
       see 'This is simple app', 'in that app'
-      unseeing 'Home'
+      not_see 'Home'
     end
 
     it "temporary switch session for single method call" do
       act_as(:user).see 'Home'
       act_as(:default).see 'in that app'
-      act_as(:user).unseeing 'in that app'
-      act_as(:default).unseeing 'Home'
+      act_as(:user).not_see 'in that app'
+      act_as(:default).not_see 'Home'
     end
   end
 

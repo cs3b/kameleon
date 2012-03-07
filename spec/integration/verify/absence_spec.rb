@@ -6,20 +6,20 @@ describe "absence of" do
     before(:each) { load_page('/texts') }
 
     it "can be tested by single or multiple arguments" do
-      unseeing 'cool rails app'
-      unseeing 'sinatra app', 'padrino app'
+      not_see 'cool rails app'
+      not_see 'sinatra app', 'padrino app'
     end
 
     context "raise errors when" do
       it "text present" do
         expect do
-          unseeing 'This is simple app'
+          not_see 'This is simple app'
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
 
       it "one of texts is present" do
         expect do
-          unseeing 'this text is not present', 'This is simple app'
+          not_see 'this text is not present', 'This is simple app'
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end
@@ -29,28 +29,28 @@ describe "absence of" do
     before(:each) { load_page('/texts') }
 
     it "defined by text" do
-      unseeing :link => 'Maybe Div'
+      not_see :link => 'Maybe Div'
     end
 
     it "defined by text & url" do
-      unseeing :link => {'There is link with that text' => '/but/not/with/that/link'}
+      not_see :link => {'There is link with that text' => '/but/not/with/that/link'}
     end
 
     it "check multiple by once" do
-      unseeing :links => {'Maybe div' => '/i/do/not/know',
+      not_see :links => {'Maybe div' => '/i/do/not/know',
                           'Maybe other div' => '/i/do/not/know/too'}
     end
 
     context "raise errors when" do
       it "link with text present" do
         expect do
-          unseeing :link => 'What you want'
+          not_see :link => 'What you want'
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
 
       it "at least one link together with src present" do
         expect do
-          unseeing :links => [{'What I need' => '/neighter/this'}, "No link with text", {'What you want' => '/i-want/to'}]
+          not_see :links => [{'What I need' => '/neighter/this'}, "No link with text", {'What you want' => '/i-want/to'}]
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end
@@ -60,22 +60,22 @@ describe "absence of" do
     before(:each) { load_page('/special_elements') }
 
     it "single check" do
-      unseeing :image => 'sample_first'
+      not_see :image => 'sample_first'
     end
     it "multiple" do
-      unseeing :images => %w(sample_first sample_second)
+      not_see :images => %w(sample_first sample_second)
     end
 
     context "raise errors when" do
       it "image is present" do
         expect do
-          unseeing :image => 'Logo_diamondmine'
+          not_see :image => 'Logo_diamondmine'
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
 
       it "one of the image is present" do
         expect do
-          unseeing :images => %w(sample_first Logo_diamondmine)
+          not_see :images => %w(sample_first Logo_diamondmine)
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end
@@ -85,30 +85,30 @@ describe "absence of" do
     before(:each) { load_page('/form_elements') }
 
     it "one" do
-      unseeing :field => 'maybeDiv'
+      not_see :field => 'maybeDiv'
     end
 
     it "many" do
-      unseeing :fields => ['maybeDiv', 'Some Label']
+      not_see :fields => ['maybeDiv', 'Some Label']
     end
 
     context "raise errors when" do
       it "field present" do
         expect do
-          unseeing :field => 'xlInput'
+          not_see :field => 'xlInput'
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
 
       it "one of field present" do
         expect do
-          unseeing :fields => ['maybeDiv', 'X-Large input']
+          not_see :fields => ['maybeDiv', 'X-Large input']
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end
   end
 
 
-  #! unseeing :ordered
+  #! not_see :ordered
   # the only value that it comes with this is when you want to check if all elements are present but they are
   # ordered different ... hmn
 end
