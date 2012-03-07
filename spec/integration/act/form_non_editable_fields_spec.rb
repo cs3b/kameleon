@@ -1,49 +1,49 @@
 require 'spec_helper'
 
 describe "fill in", :status => :pending do
-  before(:each) { load_page('/form_elements') }
+  pending do
+    before(:each) { load_page('/form_elements') }
 
-  context "single value in field" do
-    it "text" do
-      fill_in "value" => 'Readonly input'
+    context "single value in field" do
+      it "text" do
+        fill_in "value" => 'Readonly input'
+      end
+
+      it "checkbox - check" do
+        fill_in :check => 'Option Some'
+      end
+
+      it "checkbox - uncheck" do
+        fill_in :uncheck => 'Option Checked'
+      end
+
+      it "radio button" do
+        fill_in :check => 'Option four - disabled'
+      end
+
+      it "select" do
+        fill_in :select => {'first option' => 'Disabled select one option'}
+      end
+
+      it "attach file" do
+        fill_in :attach => {'click.html' => 'Disable File input'}
+      end
     end
 
-    it "checkbox - check" do
-       fill_in :check => 'Option Some'
+    context "single value in many fields" do
+      it "text"
+      it "checkbox"
+      it "radio button"
     end
 
-    it "checkbox - uncheck" do
-      fill_in :uncheck => 'Option Checked'
+    it "multiple values from one select" do
+
     end
 
-    it "radio button" do
-      fill_in :check => 'Option four - disabled'
-    end
+    it "multiple fields at once" do
 
-    it "select" do
-      fill_in :select => { 'first option' => 'Disabled select one option' }
-    end
-
-    it "attach file" do
-      fill_in :attach => {'click.html' => 'Disable File input'}
     end
   end
-
-  context "single value in many fields" do
-    it "text"
-    it "checkbox"
-    it "radio button"
-  end
-
-  it "multiple values from one select" do
-
-  end
-
-  it "multiple fields at once" do
-
-  end
-
-
 end
 
 
