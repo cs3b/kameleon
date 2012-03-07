@@ -1,5 +1,6 @@
 require 'kameleon'
 require 'kameleon/ext/rspec/all'
+require 'capybara/webkit'
 
 Dir["#{File.expand_path("../", __FILE__)}/support/**/*.rb"].each { |f| require f }
 
