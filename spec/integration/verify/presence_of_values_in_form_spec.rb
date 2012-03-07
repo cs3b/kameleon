@@ -154,9 +154,9 @@ describe "form inputs" do
 
     it "multiple at once" do
       see :checked => ['Option two can is checked',
-                       'Option four - disabled'],
+                       'Option six is checked'],
           :unchecked => ["Option three not checked",
-                         "Option one is not checked"]
+                         "Option seven not checked"]
     end
 
     context "raise errors when" do
@@ -169,7 +169,7 @@ describe "form inputs" do
       it "checked" do
         expect do
           see :unchecked => ["Option three not checked",
-                             'Option four - disabled']
+                             'Option six is checked']
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end
