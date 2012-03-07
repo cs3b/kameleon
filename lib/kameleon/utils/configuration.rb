@@ -1,9 +1,13 @@
 module Kameleon
   module Utils
     module Configuration
-      #! configuration
-      def configure
-        yield self
+
+      def self.assets_dir=(assets_dir)
+        @assets_dir = assets_dir
+      end
+
+      def self.assets_dir
+        @assets_dir
       end
     end
   end

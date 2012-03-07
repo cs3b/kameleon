@@ -37,8 +37,10 @@ describe "fill in" do
       see :unselected => {'2' => 'multiSelect'}
     end
 
-    it "attach file", :focus => true do
-      fill_in :attach => {'click.html' => 'Disable File input'}
+    it "attach file" do
+      fill_in :attach => {'sample.txt' => 'Disable File input'}
+      click "Save Changes"
+      #! we need to verify it file have been enclosed
     end
   end
 
@@ -78,32 +80,6 @@ describe "fill in" do
     pending
   end
 end
-
-
-#describe 'fill in attach file' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  it 'should attach file' do
-#    @user.will do
-#      see :empty => 'File input'
-#      fill_in :attach => { 'click.html' => 'Active File input' }
-#      see Kameleon::Utils::Helpers.default_path_for_file('click.html') => 'File input'
-#    end
-#  end
-#
-#  context 'when file does not exist' do
-#    it 'should raise error' do
-#      expect do
-#        @user.will do
-#          fill_in :attach => { 'path' => 'Active File input' }
-#        end
-#      end.to_not raise_error(RuntimeError, %w{Sorry but we didn't found that file in: path'})
-#    end
-#  end
-#end
 
 
 

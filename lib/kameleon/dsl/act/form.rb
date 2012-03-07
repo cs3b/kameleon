@@ -31,6 +31,8 @@ module Kameleon
                     actions << Action.new(value, identifier)
                   when :select, :unselect
                     actions.concat SelectTag.new(value, identifier).actions
+                  when :attach
+                    actions.concat AttachFileTag.new(identifier).actions
                   else
                     raise "not implemented"
                 end
@@ -61,23 +63,46 @@ module Kameleon
           end
         end
       end
+
+      class AttachFileTag
+        attr_reader :actions
+
+        def initialize(params)
+          raise "not implemented" unless params.kind_of?(Hash)
+          @actions = []
+          parse_params(params)
+        end
+
+        private
+
+        def parse_params(params)
+          params.each_pair do |filename, identifier|
+            if identifier.kind_of?(Array)
+              identifier.each do |id|
+                parse_params(filename => id)
+              end
+            else
+              actions << Action.new(:attach_file, identifier, full_path(filename))
+            end
+          end
+        end
+
+        def full_path(filename)
+          if File.file?(filename)
+            filename
+          else
+            prepare_full_path(filename)
+          end
+        end
+
+        def prepare_full_path(filename)
+          File.join(Kameleon::Utils::Configuration.assets_dir, filename)
+        end
+      end
     end
   end
 end
 
-
-#def default_path_for_file(file_name)
-#  File.join(Kameleon.default_file_path, file_name)
-#end
-
-
-#      when :attach
-#        selector.each_pair do |file_path, locator|
-#          session.attach_file(locator, get_full_test_asset_path(file_path))
-#        end
-#  end
-#end
-#
 #def can_fill?(locators)
 #  locators.values.each do |loc|
 #    selectors = loc.respond_to?(:values) ? loc.values : loc
