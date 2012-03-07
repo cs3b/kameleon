@@ -1,5 +1,54 @@
 require 'spec_helper'
 
+describe "form inputs" do
+  before(:each) { load_page('/form_elements') }
+
+  describe "fields", :focus => true do
+    it "field by label" do
+      see :field => 'X-Large input'
+    end
+
+    it "multiple fields by once" do
+      see :fields => ['X-Large input', 'xlInput']
+    end
+
+    context 'raise errors when' do
+      it 'does not exist' do
+        expect do
+          see :field => 'doestNotExist'
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
+  describe "text fields" do
+    it "textinput" do
+      see 'this is great value' => 'xlInput'
+      see 'this is great value' => 'X-Large input'
+    end
+
+    it "textarea" do
+      see 'sample text in textarea' => 'textarea3'
+      see 'sample text in textarea' => 'Textarea 3'
+    end
+
+    context "raise errors when", :focus => true do
+      it "field not present" do
+        expect do
+          see 'this is great value' => 'textareaDoesNotExist'
+        end.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+
+      it "one of the field have different value" do
+        expect do
+          see 'this is great value' => 'xlInput', 'one other non existent text' => 'Textarea 3'
+        end.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
+end
+
 #describe '#see form elements - checkboxes' do
 #  before do
 #    @user = Kameleon::User::Guest.new(self)
@@ -43,32 +92,7 @@ require 'spec_helper'
 #  end
 #end
 #
-#describe '#see form elements - fields' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  it 'should see by label' do
-#    @user.see :field => 'X-Large input'
-#  end
-#
-#  it 'should see by id' do
-#    @user.see :field => 'xlInput'
-#  end
-#
-#  it 'should see many at once' do
-#    @user.see :fields => ['xlInput', 'multiSelect']
-#  end
-#
-#  context 'when at least one does not exist' do
-#    it 'should raise error' do
-#      expect do
-#        @user.see :field => 'doestNotExist'
-#      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-#    end
-#  end
-#end
+
 #
 #
 #describe '#see form elements - multiple selects' do
@@ -191,62 +215,10 @@ require 'spec_helper'
 #end
 #
 #
-#describe '#see form elements - textareas' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  it 'should see by id' do
-#    @user.see 'sample text in textarea' => 'textarea3'
-#  end
-#
-#  it 'should see by label' do
-#    @user.see 'sample text in textarea' => 'Textarea 3'
-#  end
-#
-#  it 'should see many at once' do
-#    @user.see 'sample text in second textarea 2' => 'secondTextarea2',
-#              'sample text in textarea' => 'textarea3'
-#  end
-#
-#  context 'when it does not exist' do
-#    it 'should raise error' do
-#      expect do
-#        @user.see 'this is great value' => 'textareaDoesNotExist'
-#      end.should raise_error(RSpec::Expectations::ExpectationNotMetError)
-#    end
-#  end
-#end
+
 #
 #
-#describe '#see form elements - text inputs' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  it 'should see by id' do
-#    @user.see 'this is great value' => 'xlInput'
-#  end
-#
-#  it 'should see by label' do
-#    @user.see 'this is great value' => 'X-Large input'
-#  end
-#
-#  it 'should see many at once' do
-#    @user.see 'this is great value' => 'xlInput',
-#              'sample default value' => 'secondInput'
-#  end
-#
-#  context 'when it does not exist' do
-#    it 'should raise error' do
-#      expect do
-#        @user.see 'this is gread value' => 'fieldDoesNotExist'
-#      end.should raise_error(RSpec::Expectations::ExpectationNotMetError)
-#    end
-#  end
-#end
+
 #
 #
 #describe '#see disabled fields' do

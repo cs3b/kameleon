@@ -33,6 +33,10 @@ module Kameleon
                     conditions.concat Sequence.new(values).conditions
                   when Fixnum
                     conditions.concat Quantity.new(type, values).conditions
+                  when String
+                    conditions.concat TextInput.new(type, values).conditions
+                  when :field, :fields
+                    conditions.concat TextInput.new(nil, values).conditions
                   else
                     raise "not implemented"
                 end
@@ -164,6 +168,29 @@ module Kameleon
 
         def prepare_xpath
           params.collect { |n| "//node()[text()= \"#{n}\"]" }.join(' | ')
+        end
+      end
+
+      class TextInput
+        attr_reader :conditions, :value
+
+        def initialize(value, *params)
+          @value = value
+          @conditions = []
+          parse_params(params)
+        end
+
+        private
+
+        def parse_params(params)
+          case params
+            when String
+              conditions << Condition.new(:have_field, params, :with => value)
+            when Array
+              params.each { |param| parse_params(param) }
+            else
+              raise "not supported"
+          end
         end
       end
     end
