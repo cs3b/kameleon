@@ -20,6 +20,7 @@
               <option selected>3</option>
               <option>4</option>
               <option>5</option>
+              <option selected>6</option>
             </select>
 
           <label for="disabledSelect">Disabled select one option</label>
@@ -132,22 +133,22 @@
           <label id="optionsRadio">List of options</label>
           <div id="some_labels" class="input">
                 <label>
-                  <input type="radio" value="option1" name="optionsRadios" checked="">
-                  <span>Option one is this and that&mdash;be sure to include why it's great</span>
+                  <input type="radio" value="option1" name="optionsRadios">
+                  <span>Option one is not checked</span>
                 </label>
 
                 <label>
-                  <input type="radio" value="option2" name="optionsRadios">
-                  <span>Option two can is something else and selecting it will deselect options 1</span>
+                  <input type="radio" value="option2" checked="checked" name="optionsRadios">
+                  <span>Option two can is checked</span>
                 </label>
 
                 <label>
                   <input type="radio" value="option3" name="optionsRadios">
-                  <span>Option three can is something else and selecting it will deselect options 1</span>
+                  <span>Option three not checked</span>
                 </label>
 
                 <label>
-                  <input type="radio" value="option4" name="optionsRadios" disabled="disabled">
+                  <input type="radio" value="option4" checked="checked" name="optionsRadios" disabled="disabled">
                   <span>Option four - disabled</span>
                 </label>
           </div>

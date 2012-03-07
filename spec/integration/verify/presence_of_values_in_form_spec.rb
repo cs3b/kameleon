@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "form inputs" do
   before(:each) { load_page('/form_elements') }
 
-  describe "fields", :focus => true do
+  describe "fields" do
     it "field by label" do
       see :field => 'X-Large input'
     end
@@ -13,9 +13,74 @@ describe "form inputs" do
     end
 
     context 'raise errors when' do
-      it 'does not exist' do
+      it 'not exist' do
         expect do
           see :field => 'doestNotExist'
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
+  describe "empty" do
+    it "single" do
+      see :empty => 'prependedInput'
+    end
+
+    it "multiple" do
+      see :empty => ['Prepended text',
+                     'Textarea']
+    end
+
+    context "raise errors when" do
+      it "when at least one field is not empty" do
+        expect do
+          see :empty => ['Prepended text', 'Sample Input']
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
+  describe "readonly" do
+    it "single" do
+      pending
+      see :readonly => 'readonlyInput'
+    end
+
+    it "multiple" do
+      pending
+      see :readonly => ['Readonly input',
+                        'Readonly textarea']
+    end
+
+    context "raise errors when" do
+      it "when at least one field is editable" do
+        pending
+        expect do
+          see :readonly => ['Readonly input', 'X-Large input']
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
+  describe "disabled" do
+    it "single" do
+      pending
+      see :disabled => 'disabledInput'
+    end
+
+    it "multiple" do
+      pending
+      see :disabled => ['Disabled input',
+                        'Disabled textarea']
+    end
+
+    context "raise errors when" do
+      it "when at least one field is not disabled" do
+        pending
+        expect do
+          see :disabled => ['Disabled input',
+                            'Disabled textarea',
+                            'X-Large input']
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
       end
     end
@@ -32,7 +97,7 @@ describe "form inputs" do
       see 'sample text in textarea' => 'Textarea 3'
     end
 
-    context "raise errors when", :focus => true do
+    context "raise errors when" do
       it "field not present" do
         expect do
           see 'this is great value' => 'textareaDoesNotExist'
@@ -47,271 +112,102 @@ describe "form inputs" do
     end
   end
 
+  describe "checkboxes" do
+    it "checked" do
+      see :checked => 'Option two can also be checked and included in form results'
+    end
+
+    it "unchecked" do
+      see :unchecked => "Sample unchecked checkbox"
+    end
+
+    it "multiple at once" do
+      see :checked => ['Option two can also be checked and included in form results',
+                       'Option two can also be checked and included in form results'],
+          :unchecked => ["Sample unchecked checkbox",
+                         "Option four cannot be checked as it is disabled."]
+    end
+
+    context "raise errors when" do
+      it "non checked" do
+        expect do
+          see :checked => "Sample unchecked checkbox"
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+
+      it "checked" do
+        expect do
+          see :unchecked => 'Option two can also be checked and included in form results'
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
+  describe "radio buttons" do
+    it "checked" do
+      see :checked => 'Option two can is checked'
+    end
+
+    it "unchecked" do
+      see :unchecked => "Option three not checked"
+    end
+
+    it "multiple at once" do
+      see :checked => ['Option two can is checked',
+                       'Option four - disabled'],
+          :unchecked => ["Option three not checked",
+                         "Option one is not checked"]
+    end
+
+    context "raise errors when" do
+      it "non checked" do
+        expect do
+          see :checked => "Option three not checked"
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+
+      it "checked" do
+        expect do
+          see :unchecked => ["Option three not checked",
+                             'Option four - disabled']
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
+  describe "select" do
+    it "selected" do
+      see :selected => {'3' => 'normalSelect'}
+    end
+
+    it "unselected" do
+      see :unselected => {'1' => 'Select one option'}
+    end
+
+    it "multiple value within on select" do
+      see :selected => {['3',
+                         '6'] => 'Select one option'}
+    end
+
+    it "multiple selects at once" do
+      see :selected => {'3' => 'Select one option',
+                        'second option' => 'Disabled select one option'},
+          :unselected => {'1' => 'Select one option'}
+    end
+
+    context "raise errors when" do
+      it "when is selected" do
+        expect do
+          see :unselected => {'3' => 'normalSelect'}
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+
+      it "when one is unselected" do
+        expect do
+          see :selected => {'5' => 'Select one option',
+                            '3' => 'Select one option'}
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
 end
-
-#describe '#see form elements - checkboxes' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  context 'when status checked' do
-#    it 'should verify by label' do
-#      @user.see :checked => 'Option two can also be checked and included in form results'
-#    end
-#
-#    it 'should verify by name' do
-#      @user.see :checked => 'optionsCheckboxes_two'
-#    end
-#
-#    it 'should verify many at once' do
-#      @user.see :checked => ['Appended checkbox', 'appendedInput', 'optionsCheckboxes_two']
-#    end
-#  end
-#
-#  context 'when status unchecked' do
-#    it 'should verify by label' do
-#      @user.see :unchecked => "Option one is this and that—be sure to include why it's great"
-#    end
-#
-#    it 'should verify by name' do
-#      @user.see :unchecked => 'optionsCheckboxes_one'
-#    end
-#
-#    it 'should verify many at once' do
-#      @user.see :unchecked => ['Prepended checkbox', 'optionsCheckboxes', 'optionsCheckboxes_one']
-#    end
-#  end
-#
-#  context 'when at least one has other status than other checkboxes' do
-#    it 'should raise error' do
-#      expect do
-#        @user.see :checked =>['Appended checkbox', 'appendedInput', 'optionsCheckboxes_one']
-#      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-#    end
-#  end
-#end
-#
-
-#
-#
-#describe '#see form elements - multiple selects' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  context 'when status "selected"' do
-#    it 'should verify by id' do
-#      @user.see :selected => {'3' => 'normalSelect'}
-#    end
-#
-#    it 'should verify by label' do
-#      @user.see :selected => {'3' => 'Select one option'}
-#    end
-#
-#    it 'should verify many at once' do
-#      @user.see :selected => {'3' => 'Select one option',
-#                              'second option' => 'Disabled select one option'}
-#    end
-#  end
-#
-#  context 'when status "unselected"' do
-#    it 'should verify by id' do
-#      @user.see :unselected => {'1' => 'Select one option'}
-#    end
-#
-#    it 'should verify by label' do
-#      @user.see :unselected => {'5' => 'normalSelect'}
-#    end
-#
-#    it 'should verify many status at once' do
-#      @user.see :unselected => {'5' => 'Select one option',
-#                                '2' => 'Select one option'}
-#    end
-#  end
-#
-#  context 'at least one has other status' do
-#    it 'should raise error' do
-#      expect do
-#        @user.see :selected => {'5' => 'Select one option',
-#                                '3' => 'Select one option'}
-#      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-#    end
-#  end
-#end
-#
-#describe '#see form elements - radio buttons' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  context 'status "checked"' do
-#    it 'should verify checked status' do
-#      @user.see :checked => "Option one is this and that—be sure to include why it's great"
-#    end
-#  end
-#
-#  context 'status "unchecked"' do
-#    it 'should verify unchecked status' do
-#      @user.see :unchecked => "Option two can is something else and selecting it will deselect options 1"
-#    end
-#
-#    it 'should verify many radio buttons at once' do
-#      @user.see :unchecked => ["Option two can is something else and selecting it will deselect options 1",
-#                               "Option three can is something else and selecting it will deselect options 1"]
-#    end
-#  end
-#
-#  context 'at least one has other status' do
-#    it 'should raise error' do
-#      expect do
-#        @user.see :checked => ["Option one is this and that—be sure to include why it's great",
-#                               "Option two can is something else and selecting it will deselect options 1"]
-#      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-#    end
-#  end
-#end
-#
-#
-#describe '#see form elements - selects' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  context 'status "selected"' do
-#    it 'should verify by id' do
-#      @user.see :selected => { '3' => 'normalSelect' }
-#    end
-#
-#    it 'should verify by label' do
-#      @user.see :selected => { '3' => 'Select' }
-#    end
-#  end
-#
-#  context 'status "unselected"' do
-#    it 'should verify by id' do
-#      @user.see :unselected => { '2' => 'normalSelect' }
-#    end
-#
-#    it 'should verify by label' do
-#      @user.see :unselected => { '4' => 'Select' }
-#    end
-#
-#    it 'should verify many options at once' do
-#      @user.see :unselected => { '1' => 'Select', '2' => 'Select' }
-#    end
-#  end
-#
-#  context 'at least one has other status' do
-#    it 'should raise error' do
-#      expect do
-#        @user.see :selected => { '1' => 'Select', '3' => 'Select', '2' => 'Select' }
-#      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-#    end
-#  end
-#end
-#
-#
-
-#
-#
-
-#
-#
-#describe '#see disabled fields' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  it 'should verify status for id' do
-#    @user.see :disabled => 'disabledInput'
-#  end
-#
-#  it 'should verify status for label' do
-#    @user.see :disabled => 'Disabled input'
-#  end
-#
-#  context 'when many disabled fields at once' do
-#    it 'should verify status' do
-#      @user.see :disabled => ['Disabled input', 'Disabled textarea']
-#    end
-#
-#    context 'when at least one is enabled' do
-#      it 'should raise error' do
-#        expect do
-#          @user.see :disabled => ['Disabled input', 'Disabled textarea', 'X-Large input']
-#        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-#      end
-#    end
-#  end
-#end
-#
-#
-#describe '#see empty fields' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  it 'should verify status for id' do
-#    @user.see :empty => 'prependedInput'
-#  end
-#
-#  it 'should verify status for label' do
-#    @user.see :empty => 'Prepended text'
-#  end
-#
-#  it 'should verify status for many fields' do
-#    @user.see :empty => ['Prepended text', 'Textarea']
-#  end
-#
-#  context 'when at least one is not empty' do
-#    it 'should raise error' do
-#      expect do
-#        @user.see :empty => ['Prepended text', 'Sample Input']
-#      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-#    end
-#  end
-#end
-#
-#
-#describe '#see readonly fields' do
-#  before do
-#    @user = Kameleon::User::Guest.new(self)
-#    @user.debug.visit('/form_elements.html')
-#  end
-#
-#  context 'when text inside fields is not provied' do
-#    it 'should verify status for id' do
-#      @user.see :readonly => 'readonlyInput'
-#    end
-#
-#    it 'should verify status for label' do
-#      @user.see :readonly => 'Readonly input'
-#    end
-#
-#    it 'should verify many fields at once' do
-#      @user.see :readonly => ['Readonly input', 'Readonly textarea']
-#    end
-#
-#    context 'when field does not exist' do
-#      it 'should raise error' do
-#        expect do
-#          @user.see :readonly => 'DoesNotExist'
-#        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-#      end
-#    end
-#
-#    context 'when at least one is not readonly' do
-#      it 'should raise error' do
-#        expect do
-#          @user.see :readonly => ['Readonly input', 'X-Large input']
-#        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-#      end
-#    end
-#  end
-#end
