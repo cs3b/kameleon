@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'order', :focus => true do
+describe 'order' do
   before(:each) { load_page('/special_elements') }
 
   it 'should see text in proper order' do
