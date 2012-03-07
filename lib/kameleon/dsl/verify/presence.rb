@@ -34,7 +34,11 @@ module Kameleon
                   when Fixnum
                     conditions.concat Quantity.new(type, values).conditions
                   when String
-                    conditions.concat TextInput.new(type, values).conditions
+                    if type == ""
+                      prepare_conditions(:empty => values)
+                    else
+                      conditions.concat TextInput.new(type, values).conditions
+                    end
                   when :checked, :unchecked, :check, :uncheck
                     conditions.concat CheckBoxInput.new(type, values).conditions
                   when :selected, :unselected, :select, :unselect

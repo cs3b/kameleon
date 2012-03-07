@@ -2,6 +2,7 @@ require 'kameleon/dsl/verify/presence'
 require 'kameleon/dsl/verify/absence'
 
 require 'kameleon/dsl/act/mouse'
+require 'kameleon/dsl/act/form'
 
 require 'kameleon/ext/capybara/session_pool'
 require 'kameleon/session'
@@ -69,7 +70,19 @@ module Kameleon
           if block = action.block
             instance_exec(*action.params, &block)
           else
-            page.should send(action.method, *action.params)
+            page.send(action.method, *action.params)
+          end
+        end
+      end
+    end
+
+    def fill_in(args)
+      Kameleon::DSL::Act::Form.new(args).tap do |form|
+        form.actions.each do |action|
+          if block = action.block
+            instance_exec(*action.params, &block)
+          else
+            page.send(action.method, *action.params)
           end
         end
       end
