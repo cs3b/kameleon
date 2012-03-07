@@ -186,7 +186,7 @@ describe "form inputs" do
 
     it "multiple value within on select" do
       see :selected => {['3',
-                         '6'] => 'Select one option'}
+                         '6'] => 'Select many options'}
     end
 
     it "multiple selects at once" do

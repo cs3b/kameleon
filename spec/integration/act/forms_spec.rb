@@ -38,7 +38,7 @@ describe "fill in" do
     end
 
     it "attach file" do
-      fill_in :attach => {'sample.txt' => 'Disable File input'}
+      fill_in :attach => {'sample.txt' => 'Active File input'}
       click "Save Changes"
       #! we need to verify it file have been enclosed
     end
