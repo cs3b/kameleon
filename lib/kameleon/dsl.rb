@@ -1,6 +1,8 @@
 require 'kameleon/dsl/verify/presence'
 require 'kameleon/dsl/verify/absence'
 
+require 'kameleon/dsl/act/mouse'
+
 require 'kameleon/ext/capybara/session_pool'
 require 'kameleon/session'
 
@@ -58,6 +60,18 @@ module Kameleon
       else
         #! we need proxy object to make it working
         throw 'not impelemented'
+      end
+    end
+
+    def click(*args)
+      Kameleon::DSL::Act::Mouse::Click.new(*args).tap do |click|
+        click.actions.each do |action|
+          if block = action.block
+            instance_exec(*action.params, &block)
+          else
+            page.should send(action.method, *action.params)
+          end
+        end
       end
     end
 
