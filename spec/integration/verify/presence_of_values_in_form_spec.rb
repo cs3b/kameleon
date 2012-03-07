@@ -145,7 +145,7 @@ describe "form inputs" do
 
   describe "radio buttons" do
     it "checked" do
-      see :checked => 'Option two can is checked'
+      see :checked => 'Another option which is checked'
     end
 
     it "unchecked" do
@@ -153,7 +153,7 @@ describe "form inputs" do
     end
 
     it "multiple at once" do
-      see :checked => ['Option two can is checked',
+      see :checked => ['Another option which is checked',
                        'Option four - disabled'],
           :unchecked => ["Option three not checked",
                          "Option one is not checked"]
@@ -186,7 +186,7 @@ describe "form inputs" do
 
     it "multiple value within on select" do
       see :selected => {['3',
-                         '6'] => 'Select one option'}
+                         '6'] => 'Select many options'}
     end
 
     it "multiple selects at once" do
