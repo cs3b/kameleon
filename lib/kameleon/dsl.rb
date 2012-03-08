@@ -57,7 +57,7 @@ module Kameleon
         super(*parse_selector(scope).selector)
       else
         #! we need proxy object to make it working
-        throw 'not impelemented'
+        raise 'not impelemented'
       end
     end
 
