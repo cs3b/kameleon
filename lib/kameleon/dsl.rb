@@ -85,6 +85,10 @@ module Kameleon
       end
     end
 
+    def refresh_page
+      visit current_url
+    end
+
     private
 
     def parse_selector(scope)
