@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'order' do
-  before(:each) { load_page('/special_elements') }
+  before(:each) { visit('/special_elements') }
 
   it 'should see text in proper order' do
     see :ordered => ['Michal Czyz', 'Tomasz Bak', 'Rafal Bromirski']

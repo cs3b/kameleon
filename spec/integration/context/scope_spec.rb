@@ -2,9 +2,7 @@ require 'spec_helper'
 
 describe 'Scope' do
 
-  before do
-    load_page('/scopes.html')
-  end
+  before(:each) { visit('/scopes.html') }
 
   describe "using css and xpath selectors" do
     it "allow to pass block that will be evaluated " do
@@ -65,9 +63,8 @@ describe 'Scope' do
   end
 
   describe "special selectors" do
-    before do
-      load_page('/special_elements')
-    end
+    before(:each) { visit('/special_elements') }
+
     pending do
       context "multi-select" do
         it 'should see in many selctors scope' do

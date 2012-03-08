@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'quantity' do
-  before(:each) { load_page('/elements_counter') }
+  before(:each) { visit('/elements_counter') }
 
 
   context "by selector" do

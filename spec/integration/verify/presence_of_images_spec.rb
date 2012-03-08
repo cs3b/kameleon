@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "presence of image" do
-  before(:each) { load_page('/special_elements') }
+  before(:each) { visit('/special_elements') }
 
   it "by alt attribute" do
     see :image => "Logo_diamondmine"

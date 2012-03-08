@@ -11,9 +11,6 @@ require 'kameleon/dsl/context/scope'
 
 module Kameleon
   module DSL
-    def load_page(url = '/')
-      visit(url)
-    end
 
     def see(*args)
       Kameleon::DSL::Verify::Presence.new(*args).tap do |presence|

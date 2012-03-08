@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "presence of specific elements" do
-  # before(:each) { load_page('/special_elements') }
+  # before(:each) { visit('/special_elements') }
 
   #! it is very rails specific (not sure if this should be here)
   # describe "error messages" do

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "mouse" do
   describe "left click" do
-    before(:each) { load_page('/click') }
+    before(:each) { visit('/click') }
 
     it "allow to chain clicks" do
       not_see "and there is many lines"

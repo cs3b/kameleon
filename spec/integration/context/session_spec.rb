@@ -4,11 +4,11 @@ describe "Session" do
   describe "switch" do
     before do
       # we use :default session
-      load_page('/texts')
+      visit('/texts')
 
       # create new session with identifier ':user'
       create_session(:user)
-      load_page
+      visit('/')
     end
 
     it "always available - possible to switch between sessions if you know id" do

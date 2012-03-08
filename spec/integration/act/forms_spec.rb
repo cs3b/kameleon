@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "fill in" do
-  before(:each) { load_page('/form_elements') }
+  before(:each) { visit('/form_elements') }
   context "single value in field" do
     it "text" do
       see :empty => ['sampleEmptyInput',

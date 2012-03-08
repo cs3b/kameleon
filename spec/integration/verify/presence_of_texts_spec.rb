@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "presence of" do
-  before(:each) { load_page('/texts.html') }
+  before(:each) { visit('/texts.html') }
 
   describe "texts" do
 

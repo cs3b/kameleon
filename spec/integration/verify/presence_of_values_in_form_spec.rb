@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "form inputs" do
-  before(:each) { load_page('/form_elements') }
+  before(:each) { visit('/form_elements') }
 
   describe "fields" do
     it "field by label" do

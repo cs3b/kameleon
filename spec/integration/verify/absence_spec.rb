@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "absence of" do
 
   describe "texts" do
-    before(:each) { load_page('/texts') }
+    before(:each) { visit('/texts') }
 
     it "can be tested by single or multiple arguments" do
       not_see 'cool rails app'
@@ -26,7 +26,7 @@ describe "absence of" do
   end
 
   describe "links" do
-    before(:each) { load_page('/texts') }
+    before(:each) { visit('/texts') }
 
     it "defined by text" do
       not_see :link => 'Maybe Div'
@@ -57,7 +57,7 @@ describe "absence of" do
   end
 
   describe "images", :status => :pending do
-    before(:each) { load_page('/special_elements') }
+    before(:each) { visit('/special_elements') }
 
     it "single check" do
       not_see :image => 'sample_first'
@@ -82,7 +82,7 @@ describe "absence of" do
   end
 
   describe "fields" do
-    before(:each) { load_page('/form_elements') }
+    before(:each) { visit('/form_elements') }
 
     it "one" do
       not_see :field => 'maybeDiv'
