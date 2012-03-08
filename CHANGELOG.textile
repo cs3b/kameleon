@@ -1,3 +1,15 @@
+h2. 0.2.0
+
+rewrite of kemeleon from scratch
+
+* with support for
+** rack test
+** selenium -> firefox
+** capybara-webkit -> webkit based browsers
+
+* and new dsl
+ checkout spec/integration tests for examples
+
 h2. 0.0.9
 
 * test suite running against selenium (except multiple selectors scope)

@@ -1,15 +1,15 @@
 module Kameleon
   module Utils
     module Configuration
-      attr_accessor :default_file_path
 
-      def configure
-        yield self
+      def self.assets_dir=(assets_dir)
+        @assets_dir = assets_dir
       end
 
-      def default_file_path=(path)
-        @default_file_path = File.expand_path(path)
+      def self.assets_dir
+        @assets_dir
       end
     end
   end
 end
+

@@ -2,96 +2,143 @@ h1. Kameleon [chameleon]
 
 "!https://secure.travis-ci.org/cs3b/kameleon.png?branch=master!":http://travis-ci.org/cs3b/kameleon
 
-Kameleon is a high abstraction dsl for better* writting acceptance, integration and functional tests using Capybara.
-And "better" means: from the end user perspective.
+Kameleon is a high abstraction dsl for better writing acceptance and integrationtests using Capybara.
+And "better" means: more easily to mimic how user interact with browser.
 
 h2. Setup:
 
 Kameleon requires:
 * rspec
 * capybara
-* devise ( kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
-* selenium && racktest drivers
+
+Optional is nice to use
+* devise ( Kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
+* selenium-wedriver && capybara-webkit for testing full site
 * thin (if you want run your specs faster - add gem 'thin' to Gemfile in your app)
 
-Before you start using kameleon ensure that capybara is properly loaded (in your test helper file)
+Gemfile
 
 <pre>
-require 'capybara/rails'
+gem 'kameleon', '>= 0.2.0'
 </pre>
 
-After that
+Before you start using Kameleon ensure that capybara is properly loaded (in your test helper file)
 
 <pre>
-gem install kameleon
+require 'kameleon/ext/rspec/all'
 </pre>
 
-will get you going.
+or just components you want, kemeleon/ext/rspec/all by default loads:
 
+<pre>
+require 'kameleon/ext/rspec/dsl'
+require 'kameleon/ext/rspec/garbage_collector'
+require 'kameleon/ext/rspec/headless'
+</pre>
 
 h2. Usage:
 
-You start with kameleon by defining your user. Think of a name that describes the best the perspective from which you want to test something in your project. For the example below, we'll choose "administrator":
-
-bc. class TestUserAdministrator < Kameleon::User::Base
-  def initialize(rspec_world, options={})
-    @user = Factory(:admin_user)
-    super
-  end
-  # performs do ... end block, by default scope is :main selector - if defined
-  def page_areas
-    {
-        :top => '.header',
-        :left => '.column sidebar',
-        :second_level_menu_items => [:xpath, '//ul[@class="level_two"]/li'],
-        :main => '#content'
-    }
-  end
-  private
-  def user_login_path
-    rspec_world.new_admin_session_path
-  end
-end
-
-And here is an example of rspec scenario, where our user will shine:
+below few examples for more please check spec/integration tests suite
 
 bc. background do
-     @admin = TestUserAdministrator.new(self, {:session_name => 'my_account', :driver => :selenium)
-    end
-    scenario "opening list of news", :status => 'done' do
-        @admin.will do
-          click "homepage", "community", "news"
-          see "new medicine developed last weekend"
-        end
-        @admin.within(:row => 'some cell text') do
-          see 'see all values in row that contains that text'
-        end
-        @admin.within(:column => 'some header') do
-          see 'see all values in that column'
-        end
-        @admin.see :ordered => 'Z', 'X', 'Y'
-        @admin.click :and_confirm => "Cancel"
-        @admin.click :and_dismiss => "Cancel"
+      @admin = Factory.create(:user)
     end
 
-Another example:
+    scenario "opening list of news", :status => 'done' do
+      click "homepage",
+            "community",
+            "news"
+
+      see "new medicine developed last weekend"
+      within(:row => 'some cell text') do
+        see 'see all values in row that contains that text'
+      end
+      see :ordered => 'Z', 'X', 'Y'
+      click :and_confirm => "Cancel", :and_dismiss => "Cancel"
+    end
+
+Another example
 
 bc.   feature "Products", :driver => :selenium do
-      background do
-        @admin = TestUserAdministrator.new(self) do
-          visit spree.admin_path
+          background do
+            @admin = Factory.create(:user)
+            create_session(:admin)
+            visit spree.admin_path
+          end
+
+          context "listing products" do
+            scenario "products sorting" do
+              Factory(:product, :name => 'apache baseball cap',
+                                :available_on => '2011-01-06 18:21:13:',
+                                :count_on_hand => '0')
+              Factory(:product, :name => 'zomg shirt',
+                                :available_on => '2125-01-06 18:21:13',
+                                :count_on_hand => '5')
+
+              act_as(:admin) do
+                click "Products"
+                see :ordered => ["apache baseball cap", "zomg shirt"]
+
+                click "admin_products_listing_name_title"
+                see :ordered => ["zomg shirt", "apache baseball cap"]
+              end
+            end
+          end
+
+And more complex example, with two user sessions:
+
+bc.    scenario "admin adds a product and user buys it", :status => "done", :driver => :selenium do
+          create_session(:admin)
+          @admin = Factory.create(:admin_user)
+          create_session(:user)
+
+          act_as(:admin) do
+            visit spree.admin_path
+            click "Products", "admin_new_product"
+            within('#new_product') do
+              see "SKU"
+            end
+            fill_in "product_name" => "Baseball Cap",
+                    "product_sku" => "B100",
+                    "product_price"=> "100",
+                    "product_available_on"=> "2012/01/24"
+
+            click "Create"
+            see "successfully created!"
+
+            fill_in "product_on_hand" => "100"
+            click "Update"
+            see "successfully updated!"
+          end
+
+          act_as(:user) do
+            visit spree.root_path
+            click "Baseball Cap", "add-to-cart-button", "Checkout"
+            within("span.out-of-stock") do
+              see "Baseball Cap added to your cart"
+            end
+          end
         end
-      end
-      context "listing products" do
-        scenario "products sorting" do
-          Factory(:product, :name => 'apache baseball cap', :available_on => '2011-01-06 18:21:13:', :count_on_hand => '0')
-          Factory(:product, :name => 'zomg shirt', :available_on => '2125-01-06 18:21:13', :count_on_hand => '5')
-          @admin.click "Products"
-          @admin.see :ordered => ["apache baseball cap", "zomg shirt" ]
-          @admin.click "admin_products_listing_name_title"
-          @admin.see :ordered =>  ["zomg shirt", "apache baseball cap"  ]
-        end
-      end
+
+
+h2. Tips & Tricks:
+* You have access to page variable. So if you think that something cannot be accomplished by the Kameleon DSL, you can just write using RSpec matchers and page variable. Like this: <pre>  page.should have_css("li.banner_message", :count => 10) </pre>  Of course, after you've submitted feature request to the owner of the original repository ;)
+* It is handy to define a common set of areas, that user often follows navigating on the site. Here is an example:
+<pre> Kameleon::Session.defined_areas.merge!({
+                                           :menu => [:xpath, "//nav/ul"],
+                                           :main => '.main_body',
+                                           :right_column => '.col_aside',
+                                           :ordered_list => '.ordered_list',
+                                           :favourites => '.favourites_list',
+                                           :gallery_tiny => '.gallery_tiny',
+                                           :gallery_list => '.gallery_list',
+                                           :content => '.col_content',
+                                           :col_aside => '.col_aside'
+                                       })
+
+</pre>
+
+soon we will merge with new capybara approach for that
 
 h2. Tips & Tricks:
 

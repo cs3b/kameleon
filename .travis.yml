@@ -5,11 +5,14 @@ rvm:
 env:
   - CAPYBARA_DEFAULT_DRIVER=rack_test
   - CAPYBARA_DEFAULT_DRIVER=selenium
+  - CAPYBARA_DEFAULT_DRIVER=webkit
 branches:
   only:
+    - master
     - 0_1_x
-install: sudo apt-get install xvfb firefox
+install: sudo apt-get install xvfb firefox libqt4-dev libqtwebkit-dev
 before_script:
   - 'bundle'
 script: 'bundle exec rspec'
+
 
