@@ -10,11 +10,11 @@ h2. Setup:
 Kameleon requires:
 * rspec
 * capybara
-* devise ( kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
+* devise ( Kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
 * selenium && racktest drivers
 * thin (if you want run your specs faster - add gem 'thin' to Gemfile in your app)
 
-Before you start using kameleon ensure that capybara is properly loaded (in your test helper file)
+Before you start using Kameleon ensure that capybara is properly loaded (in your test helper file)
 
 <pre>
 require 'capybara/rails'
@@ -31,12 +31,13 @@ will get you going.
 
 h2. Usage:
 
-You start writing a scenario kameleon by defining your a session and usually an user.
-bc. create_session(:fancy_name_that_identifies_the_session)
+You start writing a scenario Kameleon by defining your a session and usually an user.
+<pre> create_session(:fancy_name_that_identifies_the_session)
     @user = Factory.create(:user)
+</pre>
 
-Yuo can create more sessions, giving each one an unique identifier. This is handy if you want to test scenarios that engage more than one user.
-And here is an example of rspec scenario, writen using Kameleon DSL:
+You can create more sessions, giving each one an unique identifier. This is handy if you want to test scenarios that engage more than one user.
+And here is an example of RSpec scenario, writen using Kameleon DSL:
 
 bc. background do
       create_session(:admin)
@@ -125,6 +126,7 @@ h2. Tips & Tricks:
                                        })
 
 </pre>
+
 h3. Session pooling
 
 Kameleon has useful technique of session pooling implemented, that can speed up test suite greatly.
