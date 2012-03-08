@@ -111,7 +111,7 @@ bc.    scenario "admin adds a product and user buys it", :status => "done", :dri
 
 
 h2. Tips & Tricks:
-* You have access to page variable. So if you think that something cannot be accomplished by the Kameleon DSL, you can just write using RSpec matchers and page variable. Like this: <pre>  page.should have_css("li.banner_message", :count => 10) </pre>
+* You have access to page variable. So if you think that something cannot be accomplished by the Kameleon DSL, you can just write using RSpec matchers and page variable. Like this: <pre>  page.should have_css("li.banner_message", :count => 10) </pre>  Of course, after you've submitted feature request to the owner of the original repository ;)
 * It is handy to define a common set of areas, that user often follows navigating on the site. Here is an example:
 <pre> Kameleon::Session.defined_areas.merge!({
                                            :menu => [:xpath, "//nav/ul"],
