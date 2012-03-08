@@ -32,8 +32,7 @@ will get you going.
 h2. Usage:
 
 You start writing a scenario Kameleon by defining your a session and usually an user.
-<pre>
-create_session(:fancy_name_that_identifies_the_session)
+<pre>create_session(:fancy_name_that_identifies_the_session)
 @user = Factory.create(:user)
 </pre>
 
