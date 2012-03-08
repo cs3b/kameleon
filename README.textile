@@ -110,10 +110,9 @@ bc.    scenario "admin adds a product and user buys it", :status => "done", :dri
 
 
 h2. Tips & Tricks:
-* You have access to page variable. So if you think that something cannot be accomplished by the Kameleon DSL, you can just write using RSpec matchers
-and page variable. Like this:  page.should have_css("li.banner_message", :count => 10)
+* You have access to page variable. So if you think that something cannot be accomplished by the Kameleon DSL, you can just write using RSpec matchers and page variable. Like this: <pre>  page.should have_css("li.banner_message", :count => 10) </pre>
 * It is handy to define a common set of areas, that user often follows navigating on the site. Here is an example:
-bc. Kameleon::Session.defined_areas.merge!({
+<pre> Kameleon::Session.defined_areas.merge!({
                                            :menu => [:xpath, "//nav/ul"],
                                            :main => '.main_body',
                                            :right_column => '.col_aside',
@@ -125,7 +124,7 @@ bc. Kameleon::Session.defined_areas.merge!({
                                            :col_aside => '.col_aside'
                                        })
 
-
+</pre>
 h3. Session pooling
 
 Kameleon has useful technique of session pooling implemented, that can speed up test suite greatly.
