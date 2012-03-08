@@ -7,7 +7,7 @@ env:
   - CAPYBARA_DEFAULT_DRIVER=selenium
 branches:
   only:
-    - master
+    - 0_1_x
 install: sudo apt-get install xvfb firefox
 before_script:
   - 'bundle'
