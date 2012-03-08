@@ -39,81 +39,74 @@ Yuo can create more sessions, giving each one an unique identifier. This is hand
 And here is an example of rspec scenario, writen using Kameleon DSL:
 
 bc. background do
-  create_session(:admin)
-  @admin = Factory.create(:user)
-end
-scenario "opening list of news", :status => 'done' do
-  act_as(:admin) do
-    click "homepage", "community", "news"
-    see "new medicine developed last weekend"
-
-    within(:row => 'some cell text') do
-      see 'see all values in row that contains that text'
+      create_session(:admin)
+      @admin = Factory.create(:user)
     end
-    within(:column => 'some header') do
-      see 'see all values in that column'
-    end.see :ordered => 'Z', 'X', 'Y'
-    click :and_confirm => "Cancel", :and_dismiss => "Cancel"
-  end
-end
+    scenario "opening list of news", :status => 'done' do
+      act_as(:admin) do
+        click "homepage", "community", "news"
+        see "new medicine developed last weekend"
+        within(:row => 'some cell text') do
+          see 'see all values in row that contains that text'
+        end
+        within(:column => 'some header') do
+          see 'see all values in that column'
+        end.see :ordered => 'Z', 'X', 'Y'
+        click :and_confirm => "Cancel", :and_dismiss => "Cancel"
+      end
+    end
 
 Another example:
 
 bc.   feature "Products", :driver => :selenium do
-  background do
-    create_session(:admin)
-    @admin = Factory.create(:user)
-    visit spree.admin_path
-  end
-  context "listing products" do
-    scenario "products sorting" do
-      Factory(:product, :name => 'apache baseball cap', :available_on => '2011-01-06 18:21:13:', :count_on_hand => '0')
-      Factory(:product, :name => 'zomg shirt', :available_on => '2125-01-06 18:21:13', :count_on_hand => '5')
-      act_as(:admin) do
-        click "Products"
-        see :ordered => ["apache baseball cap", "zomg shirt"]
-        click "admin_products_listing_name_title"
-        see :ordered => ["zomg shirt", "apache baseball cap"]
-      end
-    end
-  end
+          background do
+            create_session(:admin)
+            @admin = Factory.create(:user)
+            visit spree.admin_path
+          end
+          context "listing products" do
+            scenario "products sorting" do
+              Factory(:product, :name => 'apache baseball cap', :available_on => '2011-01-06 18:21:13:', :count_on_hand => '0')
+              Factory(:product, :name => 'zomg shirt', :available_on => '2125-01-06 18:21:13', :count_on_hand => '5')
+              act_as(:admin) do
+                click "Products"
+                see :ordered => ["apache baseball cap", "zomg shirt"]
+                click "admin_products_listing_name_title"
+                see :ordered => ["zomg shirt", "apache baseball cap"]
+              end
+            end
+          end
 
 And more complex example, with two user sessions:
 
 bc.    scenario "admin adds a product and user buys it", :status => "done", :driver => :selenium do
-
-      create_session(:admin)
-      @admin = Factory.create(:admin_user)
-
-
-      act_as(:admin) do
-        visit spree.admin_path
-        click "Products", "admin_new_product"
-        within('#new_product') do
-          see "SKU"
+          create_session(:admin)
+          @admin = Factory.create(:admin_user)
+          act_as(:admin) do
+            visit spree.admin_path
+            click "Products", "admin_new_product"
+            within('#new_product') do
+              see "SKU"
+            end
+            fill_in "product_name" => "Baseball Cap"
+            fill_in "product_sku" => "B100"
+            fill_in "product_price"=> "100"
+            fill_in "product_available_on"=> "2012/01/24"
+            click "Create"
+            see "successfully created!"
+            fill_in "product_on_hand" => "100"
+            click "Update"
+            see "successfully updated!"
+          end
+          create_session(:user)
+          act_as(:user) do
+            visit spree.root_path
+            click "Baseball Cap", "add-to-cart-button", "Checkout"
+            within("span.out-of-stock") do
+              see "Baseball Cap added to your cart"
+            end
+          end
         end
-        fill_in "product_name" => "Baseball Cap"
-        fill_in "product_sku" => "B100"
-        fill_in "product_price"=> "100"
-        fill_in "product_available_on"=> "2012/01/24"
-        click "Create"
-        see "successfully created!"
-        fill_in "product_on_hand" => "100"
-        click "Update"
-        see "successfully updated!"
-      end
-
-      create_session(:user)
-
-      act_as(:user) do
-        visit spree.root_path
-        click "Baseball Cap", "add-to-cart-button", "Checkout"
-        within("span.out-of-stock") do
-          see "Baseball Cap added to your cart"
-        end
-      end
-    end
-
 
 
 h2. Tips & Tricks:
