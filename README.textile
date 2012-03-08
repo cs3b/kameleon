@@ -1,61 +1,144 @@
 h1. Kameleon [chameleon]
 
-"!https://secure.travis-ci.org/cs3b/kameleon.png?branch=0_2_0!":http://travis-ci.org/cs3b/kameleon
+"!https://secure.travis-ci.org/cs3b/kameleon.png!":http://travis-ci.org/cs3b/kameleon
 
 Kameleon is a high abstraction dsl for better* writting acceptance, integration and functional tests using Capybara.
-
-It's not dependend on any ruby framework (can be used with Ruby On Rails, Sinatra, Padrino, etc). So far binding are only done for one test framework: Rspec.
+And "better" means: from the end user perspective.
 
 h2. Setup:
 
-Kameleon depends on:
-
+Kameleon requires:
 * rspec
 * capybara
+* devise ( Kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
 * selenium && racktest drivers
-* devise ( kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
 * thin (if you want run your specs faster - add gem 'thin' to Gemfile in your app)
 
+Gemfile
 
-h3. Gemfile
+<pre>
+gem 'kameleon', '>= 0.2.0'
+</pre>
 
-gem 'kameleon'
-gem 'capybara'
-gem 'selenium-webdriver'
-gem 'headles' # to run firefox on virtual frame buffer
-
-h3. System
-
-xvfb and firefox should be installed
-
-h3. Rspec Configure
-In your spec file add (do not load capybara - kameleon will do it in a slightly different way, for more info look into lib/kameleon/ext/rspec/dsl.rb)
+Before you start using Kameleon ensure that capybara is properly loaded (in your test helper file)
 
 <pre>
 require 'kameleon/ext/rspec/all'
 </pre>
 
+or just components you want, kemeleon/ext/rspec/all by default loads:
+
+<pre>
+require 'kameleon/ext/rspec/dsl'
+require 'kameleon/ext/rspec/garbage_collector'
+require 'kameleon/ext/rspec/headless'
+</pre>
 
 h2. Usage:
 
-h3. Defined Areas
+below few examples for more please check spec/integration tests suite
 
-bc. Kameleon::Session.defined_areas.merge!({
-                               :default => [:xpath, ".//*[@id='main']"],
-                               :menu => [:xpath, ".//*[@id='top']/nav"],
-                               :right => '#right',
-                               :footer => [:css, '#footer']
-                           })
+bc. background do
+      @admin = Factory.create(:user)
+    end
 
-h3. Example
+    scenario "opening list of news", :status => 'done' do
+      click "homepage",
+            "community",
+            "news"
 
-bc. tba ...
+      see "new medicine developed last weekend"
+      within(:row => 'some cell text') do
+        see 'see all values in row that contains that text'
+      end
+      see :ordered => 'Z', 'X', 'Y'
+      click :and_confirm => "Cancel", :and_dismiss => "Cancel"
+    end
 
-h2. Another Example
+Another example
 
-bc. tba ...
+bc.   feature "Products", :driver => :selenium do
+          background do
+            @admin = Factory.create(:user)
+            create_session(:admin)
+            visit spree.admin_path
+          end
+
+          context "listing products" do
+            scenario "products sorting" do
+              Factory(:product, :name => 'apache baseball cap',
+                                :available_on => '2011-01-06 18:21:13:',
+                                :count_on_hand => '0')
+              Factory(:product, :name => 'zomg shirt',
+                                :available_on => '2125-01-06 18:21:13',
+                                :count_on_hand => '5')
+
+              act_as(:admin) do
+                click "Products"
+                see :ordered => ["apache baseball cap", "zomg shirt"]
+
+                click "admin_products_listing_name_title"
+                see :ordered => ["zomg shirt", "apache baseball cap"]
+              end
+            end
+          end
+
+And more complex example, with two user sessions:
+
+bc.    scenario "admin adds a product and user buys it", :status => "done", :driver => :selenium do
+          create_session(:admin)
+          @admin = Factory.create(:admin_user)
+          create_session(:user)
+
+          act_as(:admin) do
+            visit spree.admin_path
+            click "Products", "admin_new_product"
+            within('#new_product') do
+              see "SKU"
+            end
+            fill_in "product_name" => "Baseball Cap",
+                    "product_sku" => "B100",
+                    "product_price"=> "100",
+                    "product_available_on"=> "2012/01/24"
+
+            click "Create"
+            see "successfully created!"
+
+            fill_in "product_on_hand" => "100"
+            click "Update"
+            see "successfully updated!"
+          end
+
+          act_as(:user) do
+            visit spree.root_path
+            click "Baseball Cap", "add-to-cart-button", "Checkout"
+            within("span.out-of-stock") do
+              see "Baseball Cap added to your cart"
+            end
+          end
+        end
+
+
+h2. Tips & Tricks:
+* You have access to page variable. So if you think that something cannot be accomplished by the Kameleon DSL, you can just write using RSpec matchers and page variable. Like this: <pre>  page.should have_css("li.banner_message", :count => 10) </pre>  Of course, after you've submitted feature request to the owner of the original repository ;)
+* It is handy to define a common set of areas, that user often follows navigating on the site. Here is an example:
+<pre> Kameleon::Session.defined_areas.merge!({
+                                           :menu => [:xpath, "//nav/ul"],
+                                           :main => '.main_body',
+                                           :right_column => '.col_aside',
+                                           :ordered_list => '.ordered_list',
+                                           :favourites => '.favourites_list',
+                                           :gallery_tiny => '.gallery_tiny',
+                                           :gallery_list => '.gallery_list',
+                                           :content => '.col_content',
+                                           :col_aside => '.col_aside'
+                                       })
+
+</pre>
+
+soon we will merge with new capybara approach for that
 
 h2. Credits:
 * <a href="http://selleo.com/people/michal-czyz">Michał Czyż</a>
 * <a href="http://selleo.com/people/radoslaw-jedryszczak">Radosław Jędryszczak</a>
-* <a href="http://selleo.com/people/szymon-kieloch">Szymon Kieloch</a>
+* <a href="http://selleo.com/people">Szymon Kieloch</a>
