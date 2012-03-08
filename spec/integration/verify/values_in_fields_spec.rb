@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "form inputs" do
+describe "values in fields" do
   before(:each) { visit('/form_elements') }
 
   describe "fields" do

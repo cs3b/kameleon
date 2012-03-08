@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "presence of image" do
+describe "presence of images" do
   before(:each) { visit('/special_elements') }
 
   it "by alt attribute" do
