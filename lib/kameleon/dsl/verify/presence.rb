@@ -69,6 +69,8 @@ module Kameleon
         end
       end
 
+      #! below class  require some deep refactoring
+
       class Link
         attr_reader :conditions
 
@@ -321,26 +323,5 @@ module Kameleon
   end
 end
 
-#    when 'Hash'
-#      options.each_pair do |value, locator|
-#        case value.class.name
-#          when 'Symbol'
-#            case value
-#              when :button, :buttons
-#                one_or_all(locator).each do |selector|
-#                  session.should rspec_world.have_button(selector)
-#                end
-#              when :disabled, :readonly
-#                one_or_all(locator).each do |selector|
-#                  see :field => selector
-#                  case session.driver
-#                    when Capybara::Selenium::Driver
-#                      session.find_field(selector)[value].should == 'true'
-#                    when Capybara::RackTest::Driver
-#                      session.find_field(selector)[value].should ==(value.to_s)
-#                  end
-#                end
-#              when :error_message_for, :error_messages_for
-#                one_or_all(locator).each do |selector|
-#                  session.find(:xpath, '//div[@id="error_explanation"]').should rspec_world.have_content(selector.capitalize)
-#                end
+#! see :button, :buttons -> have_button(selector)
+#! see field that is :disabled, :readonly
