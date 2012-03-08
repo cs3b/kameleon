@@ -2,16 +2,18 @@ h1. Kameleon [chameleon]
 
 "!https://secure.travis-ci.org/cs3b/kameleon.png!":http://travis-ci.org/cs3b/kameleon
 
-Kameleon is a high abstraction dsl for better* writting acceptance, integration and functional tests using Capybara.
-And "better" means: from the end user perspective.
+Kameleon is a high abstraction dsl for better writing acceptance and integrationtests using Capybara.
+And "better" means: more easily to mimic how user interact with browser.
 
 h2. Setup:
 
 Kameleon requires:
 * rspec
 * capybara
+
+Optional is nice to use
 * devise ( Kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it )
-* selenium && racktest drivers
+* selenium-wedriver && capybara-webkit for testing full site
 * thin (if you want run your specs faster - add gem 'thin' to Gemfile in your app)
 
 Gemfile
