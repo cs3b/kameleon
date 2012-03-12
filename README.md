@@ -132,7 +132,7 @@ page.should have_content("$99.00")
 
 taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/orders/adjustments_spec.rb#L48
 
-### Example Four []
+### Example Four [payment method > should be able to list, edit, and create payment methods for an order]
 
 kameleon
 
@@ -144,14 +144,43 @@ within('#payment_status') { see "Payment: balance due" }
 within(:cell => [2, 2]) { see "$39.98" }
 within(:cell => [2, 3]) { see "Credit Card" }
 within(:cell => [2, 4]) { see "pending" }
+```
+vs capybara
 
+``` ruby
+visit spree.admin_path
+click_link "Orders"
+within('table#listing_orders tbody tr:nth-child(1)') { click_link "R100" }
+click_link "Payments"
+within('#payment_status') { page.should have_content("Payment: balance due") }
+find('table.index tbody tr:nth-child(2) td:nth-child(2)').text.should == "$39.98"
+find('table.index tbody tr:nth-child(2) td:nth-child(3)').text.should == "Credit Card"
+find('table.index tbody tr:nth-child(2) td:nth-child(4)').text.should == "pending"
+```
+kameleon
+
+``` ruby
 click "Void"
 within('#payment_status') { see "Payment: balance due" }
 see "Payment Updated"
 within(:cell => [2,2] { see "$39.98" }
 within(:cell => [2,3] { see "Credit Card" }
 within(:cell => [2,4] { see "void" }
+```
 
+vs capybara
+
+``` ruby
+click_button "Void"
+within('#payment_status') { page.should have_content("Payment: balance due") }
+page.should have_content("Payment Updated")
+find('table.index tbody tr:nth-child(2) td:nth-child(2)').text.should == "$39.98"
+find('table.index tbody tr:nth-child(2) td:nth-child(3)').text.should == "Credit Card"
+find('table.index tbody tr:nth-child(2) td:nth-child(4)').text.should == "void"
+```
+kameleon
+
+``` ruby
 click "New Payment"
 see "New Payment"
 click "Continue",
@@ -166,27 +195,9 @@ within('table.index', :row => 2) { check "#inventory_unit" }
 click "Create"
 see "successfully created!"
 ```
-
 vs capybara
 
 ``` ruby
-visit spree.admin_path
-click_link "Orders"
-within('table#listing_orders tbody tr:nth-child(1)') { click_link "R100" }
-click_link "Payments"
-within('#payment_status') { page.should have_content("Payment: balance due") }
-find('table.index tbody tr:nth-child(2) td:nth-child(2)').text.should == "$39.98"
-find('table.index tbody tr:nth-child(2) td:nth-child(3)').text.should == "Credit Card"
-find('table.index tbody tr:nth-child(2) td:nth-child(4)').text.should == "pending"
-
-
-click_button "Void"
-within('#payment_status') { page.should have_content("Payment: balance due") }
-page.should have_content("Payment Updated")
-find('table.index tbody tr:nth-child(2) td:nth-child(2)').text.should == "$39.98"
-find('table.index tbody tr:nth-child(2) td:nth-child(3)').text.should == "Credit Card"
-find('table.index tbody tr:nth-child(2) td:nth-child(4)').text.should == "void"
-
 click_on "New Payment"
 page.should have_content("New Payment")
 click_button "Continue"
@@ -196,8 +207,7 @@ page.should_not have_css('#new_payment_section')
 
 click_link "Shipments"
 click_on "New Shipment"
-#within('table.index tbody tr:nth-child(2)') { check "#inventory_unit" }
-save_and_open_page
+within('table.index tbody tr:nth-child(2)') { check "#inventory_unit" }
 click_button "Create"
 page.should have_content("successfully created!")
 ```
