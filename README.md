@@ -14,8 +14,7 @@ Kameleon requires:
 
 Optionally is nice to use:
 
-* devise (Kameleon uses paths suplied by devise. So if you're using some other authentication solution, you might want to overwrite it)
-* selenium-wedriver && capybara-webkit for testing full site
+* selenium-wedriver && capybara-webkit for testing together with javascript
 * thin (if you want run your specs faster - add gem 'thin' to Gemfile in your app)
 
 Gemfile
