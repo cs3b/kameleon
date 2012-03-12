@@ -34,7 +34,7 @@ describe "presence of" do
     end
 
     it "many at once" do
-      see :links => ['What you want', { "What I need" => '/what-i/need', "What I have" => '/what-i/have' }]
+      see :links => ['What you want', {"What I need" => '/what-i/need', "What I have" => '/what-i/have'}]
     end
 
     context "raise errors when" do
@@ -47,6 +47,29 @@ describe "presence of" do
         expect do
           see :link => {"What I need" => '/what-i/have'}
         end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
+  describe "Elements" do
+    context "defined by" do
+      it "default selector type" do
+        pending
+        see :element => "#some_id"
+      end
+
+      it "explicit selector type" do
+        pending
+        see :element => [:xpath, ".//image[@id='some_id'"]
+      end
+
+      context "raise errors when" do
+        it "element is not present" do
+          pending
+          expect do
+            see :element => [:xpath, ".//image[@id='not_present'"]
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end
       end
     end
   end

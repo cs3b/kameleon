@@ -22,6 +22,18 @@ describe "mouse" do
       end
     end
 
+    context "element defined by" do
+      it "default selector type" do
+        pending
+        click :element => "#some_id"
+      end
+
+      it "explicit selector type" do
+        pending
+        click :element => [:xpath, ".//image[@id='some_id'"]
+      end
+    end
+
     context "raise error when" do
       it "one of link doesn't exists" do
         expect do

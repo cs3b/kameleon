@@ -126,6 +126,14 @@ describe 'Scope' do
       end
     end
   end
+
+  describe "chaining with" do
+    it "default selectors"
+    it "default and explicit defined selector"
+    it "many special selectors"
+    it "default and special selector"
+    it "explicit defined and special selector"
+  end
 end
 
 
