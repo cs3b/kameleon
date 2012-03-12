@@ -36,100 +36,173 @@ or just components you want; `kemeleon/ext/rspec/all` by default loads:
 
 checkout this [slides from wrocloverb 2012](http://www.slideshare.net/cs3b/2012wrocloverbuserperspectivetestingusingruby)
 
-### Examples
+### Example One [listing products > should list existing products with correct sorting ]
 
 kameleon
 
 ``` ruby
-  click "Products"
-  within('table.index) do
-    see :ordered => [ "apache baseball cap",
-                      "zomg shirt" ]
-  end
-  click "admin_products_listing_name_title"
-  within('table.index') do
-    see :ordered => [ "zomg shirt",
-                      "apache baseball cap"]
-  end
-
+click "Products"
+within('table.index) do
+  see :ordered => [ "apache baseball cap",
+                    "zomg shirt" ]
+end
+click "admin_products_listing_name_title"
+within('table.index') do
+  see :ordered => [ "zomg shirt",
+                    "apache baseball cap"]
+end
 ```
 
 vs capybara
 
 ``` ruby
-  click_link "Products"
-  within('table.index tr:nth-child(2)') { page.should have_content("apache baseball cap") }
-  within('table.index tr:nth-child(3)') { page.should have_content("zomg shirt") }
-  click_link "admin_products_listing_name_title"
-  within('table.index tr:nth-child(2)') { page.should have_content("zomg shirt") }
-  within('table.index tr:nth-child(3)') { page.should have_content("apache baseball cap") }
+click_link "Products"
+within('table.index tr:nth-child(2)') { page.should have_content("apache baseball cap") }
+within('table.index tr:nth-child(3)') { page.should have_content("zomg shirt") }
+click_link "admin_products_listing_name_title"
+within('table.index tr:nth-child(2)') { page.should have_content("zomg shirt") }
+within('table.index tr:nth-child(3)') { page.should have_content("apache baseball cap") }
 ```
 
 taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/products/products_spec.rb#L22
 
-Another example:
 
-    feature "Products", :driver => :selenium do
-      background do
-        @admin = Factory.create(:user)
-        create_session(:admin)
-        visit spree.admin_path
-      end
+### Example Two [should allow an admin to create a new product and variants from a prototype]
 
-      context "listing products" do
-        scenario "products sorting" do
-          Factory(:product, :name => 'apache baseball cap',
-                            :available_on => '2011-01-06 18:21:13:',
-                            :count_on_hand => '0')
-          Factory(:product, :name => 'zomg shirt',
-                            :available_on => '2125-01-06 18:21:13',
-                            :count_on_hand => '5')
+kameleon
 
-          act_as(:admin) do
-            click "Products"
-            see :ordered => ["apache baseball cap", "zomg shirt"]
+``` ruby
+click "Products",
+      "admin_new_product"
+fill_in "Baseball Cap" => "product_name",
+        "B100" => "product_sku",
+        "100" => "product_price",
+        "2012/01/24" => "product_available_on",
+        :select => { "Size" => "Prototype" },
+        :check => "Large"
+click "Create"
+see "successfully created!"
+```
 
-            click "admin_products_listing_name_title"
-            see :ordered => ["zomg shirt", "apache baseball cap"]
-          end
-        end
-      end
-    end
+vs capybara
 
-And more complex example, with two user sessions:
+``` ruby
+click_link "Products"
+click_link "admin_new_product"
+fill_in "product_name", :with => "Baseball Cap"
+fill_in "product_sku", :with => "B100"
+fill_in "product_price", :with => "100"
+fill_in "product_available_on", :with => "2012/01/24"
+select "Size", :from => "Prototype"
+check "Large"
+click_button "Create"
+page.should have_content("successfully created!")
 
-    scenario "admin adds a product and user buys it", :status => "done", :driver => :selenium do
-      create_session(:admin)
-      @admin = Factory.create(:admin_user)
-      create_session(:user)
+```
 
-      act_as(:admin) do
-        visit spree.admin_path
-        click "Products", "admin_new_product"
-        within('#new_product') do
-          see "SKU"
-        end
-        fill_in "product_name" => "Baseball Cap",
-                "product_sku" => "B100",
-                "product_price"=> "100",
-                "product_available_on"=> "2012/01/24"
+taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/products/products_spec.rb#L77
 
-        click "Create"
-        see "successfully created!"
 
-        fill_in "product_on_hand" => "100"
-        click "Update"
-        see "successfully updated!"
-      end
+### Example Three [admin editing an adjustment > successfully > should update the adjustment]
 
-      act_as(:user) do
-        visit spree.root_path
-        click "Baseball Cap", "add-to-cart-button", "Checkout"
-        within("span.out-of-stock") do
-          see "Baseball Cap added to your cart"
-        end
-      end
-    end
+kameleon
+
+``` ruby
+within(:row => 2) { click "Edit" }
+fill_in 99 => "adjustment_amount",
+        "rebate 99" => "adjustment_label"
+click "Continue"
+see "successfully updated!",
+    "rebate 99",
+    "$99.00"
+```
+
+vs capybara
+
+``` ruby
+within(:css, 'table.index tr:nth-child(2)') { click_link "Edit" }
+fill_in "adjustment_amount", :with => "99"
+fill_in "adjustment_label", :with => "rebate 99"
+click_button "Continue"
+page.should have_content("successfully updated!")
+page.should have_content("rebate 99")
+page.should have_content("$99.00")
+
+```
+
+taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/orders/adjustments_spec.rb#L48
+
+### Example Four []
+
+kameleon
+
+``` ruby
+click "Orders"
+within('table#listing_orders', :row => 1) { click_link "R100" }
+click "Payments"
+within('#payment_status') { see "Payment: balance due" }
+within(:cell => [2, 2]) { see "$39.98" }
+within(:cell => [2, 3]) { see "Credit Card" }
+within(:cell => [2, 4]) { see "pending" }
+
+click "Void"
+within('#payment_status') { see "Payment: balance due" }
+see "Payment Updated"
+within(:cell => [2,2] { see "$39.98" }
+within(:cell => [2,3] { see "Credit Card" }
+within(:cell => [2,4] { see "void" }
+
+click "New Payment"
+see "New Payment"
+click "Continue",
+      "Capture"
+within('#payment_status') { see "Payment: paid" }
+see :element => '#new_payment_section'
+
+click "Shipments",
+      "New Shipment"
+within('table.index', :row => 2) { check "#inventory_unit" }
+
+click "Create"
+see "successfully created!"
+```
+
+vs capybara
+
+``` ruby
+visit spree.admin_path
+click_link "Orders"
+within('table#listing_orders tbody tr:nth-child(1)') { click_link "R100" }
+click_link "Payments"
+within('#payment_status') { page.should have_content("Payment: balance due") }
+find('table.index tbody tr:nth-child(2) td:nth-child(2)').text.should == "$39.98"
+find('table.index tbody tr:nth-child(2) td:nth-child(3)').text.should == "Credit Card"
+find('table.index tbody tr:nth-child(2) td:nth-child(4)').text.should == "pending"
+
+
+click_button "Void"
+within('#payment_status') { page.should have_content("Payment: balance due") }
+page.should have_content("Payment Updated")
+find('table.index tbody tr:nth-child(2) td:nth-child(2)').text.should == "$39.98"
+find('table.index tbody tr:nth-child(2) td:nth-child(3)').text.should == "Credit Card"
+find('table.index tbody tr:nth-child(2) td:nth-child(4)').text.should == "void"
+
+click_on "New Payment"
+page.should have_content("New Payment")
+click_button "Continue"
+click_button "Capture"
+within('#payment_status') { page.should have_content("Payment: paid") }
+page.should_not have_css('#new_payment_section')
+
+click_link "Shipments"
+click_on "New Shipment"
+#within('table.index tbody tr:nth-child(2)') { check "#inventory_unit" }
+save_and_open_page
+click_button "Create"
+page.should have_content("successfully created!")
+```
+
+taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/orders/payments_spec.rb#L32
 
 
 ## Tips & Tricks
@@ -148,17 +221,6 @@ And more complex example, with two user sessions:
                                               :content => '.col_content',
                                               :col_aside => '.col_aside'})`
     ```
-
-
-### Session pooling
-Soon we will merge with new capybara approach for that
-
-Kameleon has useful technique of session pooling implemented, that can speed up test suite greatly.
-In order to enable it, you need to pass this to the RSpec.configure block, in spec_helper.rb:
-
-    config.after(:each) do
-      ::SessionPool.release_all
-    end
 
 ## Credits
 * [Michał Czyż](http://selleo.com/people/michal-czyz)
