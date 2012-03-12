@@ -20,7 +20,7 @@ Optionally is nice to use:
 
 Gemfile
 
-    gem 'kameleon', '>= 0.2.0'
+    gem 'kameleon', '>= 0.2.0.aplha.2'
 
 Before you start using Kameleon ensure that capybara is properly loaded (in your test helper file)
 
@@ -34,24 +34,38 @@ or just components you want; `kemeleon/ext/rspec/all` by default loads:
 
 ## Usage
 
-Below few examples for more please check spec/integration tests suite
+checkout this [slides from wrocloverb 2012](http://www.slideshare.net/cs3b/2012wrocloverbuserperspectivetestingusingruby)
 
-    background do
-      @admin = Factory.create(:user)
-    end
+### Examples
 
-    scenario "opening list of news", :status => 'done' do
-      click "homepage",
-            "community",
-            "news"
+kameleon
 
-      see "new medicine developed last weekend"
-      within(:row => 'some cell text') do
-        see 'see all values in row that contains that text'
-      end
-      see :ordered => 'Z', 'X', 'Y'
-      click :and_confirm => "Cancel", :and_dismiss => "Cancel"
-    end
+``` ruby
+  click "Products"
+  within('table.index) do
+    see :ordered => [ "apache baseball cap",
+                      "zomg shirt" ]
+  end
+  click "admin_products_listing_name_title"
+  within('table.index') do
+    see :ordered => [ "zomg shirt",
+                      "apache baseball cap"]
+  end
+
+```
+
+vs capybara
+
+``` ruby
+  click_link "Products"
+  within('table.index tr:nth-child(2)') { page.should have_content("apache baseball cap") }
+  within('table.index tr:nth-child(3)') { page.should have_content("zomg shirt") }
+  click_link "admin_products_listing_name_title"
+  within('table.index tr:nth-child(2)') { page.should have_content("zomg shirt") }
+  within('table.index tr:nth-child(3)') { page.should have_content("apache baseball cap") }
+```
+
+taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/products/products_spec.rb#L22
 
 Another example:
 
