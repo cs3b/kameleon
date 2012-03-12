@@ -72,7 +72,7 @@ module Kameleon
           end
         end
 
-        def self.row_and_column(param)
+        def self.cell(param)
           value_in_row, value_in_column = *param
           if value_in_row.is_a?(Fixnum) and value_in_column.is_a?(Fixnum)
             [:xpath, "//tbody/tr[#{value_in_row}]/td[#{value_in_column}]"]

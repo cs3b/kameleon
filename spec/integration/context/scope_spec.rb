@@ -111,14 +111,14 @@ describe 'Scope' do
 
       context "row and column" do
         it "find by text" do
-          within(:row_and_column => ['Michal Czyz', 'NotHotel']) do
+          within(:cell => ['Michal Czyz', 'NotHotel']) do
             see "7.00"
             not_see "13.00", "19.61"
           end
         end
 
         it "find by position" do
-          within(:row_and_column => [2, 5]) do
+          within(:cell => [2, 5]) do
             see "7.00"
             not_see "13.00", "19.61"
           end
