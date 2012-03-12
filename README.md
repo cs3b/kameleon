@@ -1,6 +1,6 @@
 # Kameleon [chameleon]
 
-![Travis](https://secure.travis-ci.org/cs3b/kameleon.png?branch=master "http://travis-ci.org/cs3b/kameleon")
+[!https://secure.travis-ci.org/cs3b/kameleon.png?branch=master](http://travis-ci.org/cs3b/kameleon)
 
 Kameleon is a high abstraction dsl for better writing acceptance and integrationtests using Capybara.
 And "better" means: more easily to mimic how user interact with browser.
