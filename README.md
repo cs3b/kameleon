@@ -41,7 +41,7 @@ kameleon
 
 ``` ruby
 click "Products"
-within('table.index) do
+within('table.index') do
   see :ordered => [ "apache baseball cap",
                     "zomg shirt" ]
 end
