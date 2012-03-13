@@ -156,6 +156,9 @@ find('table.index tbody tr:nth-child(2) td:nth-child(2)').text.should == "$39.98
 find('table.index tbody tr:nth-child(2) td:nth-child(3)').text.should == "Credit Card"
 find('table.index tbody tr:nth-child(2) td:nth-child(4)').text.should == "pending"
 ```
+
+#### part II
+
 kameleon
 
 ``` ruby
@@ -177,6 +180,9 @@ find('table.index tbody tr:nth-child(2) td:nth-child(2)').text.should == "$39.98
 find('table.index tbody tr:nth-child(2) td:nth-child(3)').text.should == "Credit Card"
 find('table.index tbody tr:nth-child(2) td:nth-child(4)').text.should == "void"
 ```
+
+#### part III
+
 kameleon
 
 ``` ruby
