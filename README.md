@@ -19,17 +19,23 @@ Optionally is nice to use:
 
 Gemfile
 
-    gem 'kameleon', '>= 0.2.0.aplha.2'
+``` ruby
+gem 'kameleon', '>= 0.2.0.aplha.2'
+```
 
 Before you start using Kameleon ensure that capybara is properly loaded (in your test helper file)
 
-    require 'kameleon/ext/rspec/all'
+``` ruby
+require 'kameleon/ext/rspec/all'
+```
 
 or just components you want; `kemeleon/ext/rspec/all` by default loads:
 
-    require 'kameleon/ext/rspec/dsl'
-    require 'kameleon/ext/rspec/garbage_collector'
-    require 'kameleon/ext/rspec/headless'
+``` ruby
+require 'kameleon/ext/rspec/dsl'
+require 'kameleon/ext/rspec/garbage_collector'
+require 'kameleon/ext/rspec/headless'
+```
 
 ## Usage
 
@@ -96,7 +102,6 @@ select "Size", :from => "Prototype"
 check "Large"
 click_button "Create"
 page.should have_content("successfully created!")
-
 ```
 
 taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/products/products_spec.rb#L77
@@ -126,7 +131,6 @@ click_button "Continue"
 page.should have_content("successfully updated!")
 page.should have_content("rebate 99")
 page.should have_content("$99.00")
-
 ```
 
 taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/orders/adjustments_spec.rb#L48
@@ -165,9 +169,9 @@ kameleon
 click "Void"
 within('#payment_status') { see "Payment: balance due" }
 see "Payment Updated"
-within(:cell => [2,2] { see "$39.98" }
-within(:cell => [2,3] { see "Credit Card" }
-within(:cell => [2,4] { see "void" }
+within(:cell => [2,2]) { see "$39.98" }
+within(:cell => [2,3]) { see "Credit Card" }
+within(:cell => [2,4]) { see "void" }
 ```
 
 vs capybara
@@ -225,17 +229,17 @@ taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/
 * You have access to page variable. So if you think that something cannot be accomplished by the Kameleon DSL, you can just write using RSpec matchers and page variable. Like this: `page.should have_css("li.banner_message", :count => 10)`. Of course, after you've submitted feature request to the owner of the original repository ;)
 * It is handy to define a common set of areas, that user often follows navigating on the site. Here is an example
 
-    ```
-    Kameleon::Session.defined_areas.merge!({:menu => [:xpath, "//nav/ul"],
-                                              :main => '.main_body',
-                                              :right_column => '.col_aside',
-                                              :ordered_list => '.ordered_list',
-                                              :favourites => '.favourites_list',
-                                              :gallery_tiny => '.gallery_tiny',
-                                              :gallery_list => '.gallery_list',
-                                              :content => '.col_content',
-                                              :col_aside => '.col_aside'})`
-    ```
+``` ruby
+Kameleon::Session.defined_areas.merge!({ :menu => [:xpath, "//nav/ul"],
+                                         :main => '.main_body',
+                                         :right_column => '.col_aside',
+                                         :ordered_list => '.ordered_list',
+                                         :favourites => '.favourites_list',
+                                         :gallery_tiny => '.gallery_tiny',
+                                         :gallery_list => '.gallery_list',
+                                         :content => '.col_content',
+                                         :col_aside => '.col_aside' })
+```
 
 ## Credits
 * [Michał Czyż](http://selleo.com/people/michal-czyz)
