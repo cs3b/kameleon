@@ -10,7 +10,7 @@
 <img src="some_great_image.png" alt="help">
 </a>
 
-<form action="click.html">
+<form action="form_elements.html" onsubmit="return confirm('Are you sure you want to submit?')">
   <label for="xlInput">X-Large input</label>
   <input type="text" size="30" name="xlInput" id="xlInput" value="this is great value" class="xlarge">
 
@@ -26,7 +26,7 @@
 
   <label for="appendedInput">Appended checkbox</label>
   <label class="add-on active"><input type="checkbox" value="" id="appendedInput" name="">
-
+  </label>
     <label for="some_checkbox_one">Some checkbox</label>
     <input type="checkbox" checked="checked" value="" id="some_checkbox_one" name="">
     <label for="some_checkbox_two">Another checkbox</label>
@@ -36,10 +36,7 @@
 
     <input type="submit" value="Save changes" class="btn primary">
     <button class="btn" type="reset">Cancel</button>
-
-    <button class="btn" type="button" onclick="confirm('Confirm button');">Confirm button</button>
-    <a href="" onclick="confirm('Confirm link');">Confirm link</a>
 </form>
-<body>
+</body>
 </html>
 

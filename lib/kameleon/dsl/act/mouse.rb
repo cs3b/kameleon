@@ -32,12 +32,34 @@ module Kameleon
                         selector = Kameleon::DSL::Context::Scope.new(element).selector
                         find(*selector).click
                       end
+
                     when :image
-                      # Looks like Rack Test doesn't propagate click event up - this is simply hack
-                      # It's not perfect it would work only when a is parent of image (not one of ancestor)
-                      prepend_text =  "/.." if ::Capybara.current_driver == :rack_test
+                      #! Looks like Rack Test doesn't propagate click event up - this is simply hack
+                      # It's not perfect it would work only when "a" is parent of image (not one of ancestor)
+                      prepend_text = "/.." if ::Capybara.current_driver == :rack_test
 
                       prepare_actions(:element => [:xpath, ".//img[@alt=\"#{values}\"]#{prepend_text}"])
+
+                    when :and_accept
+                      unless Capybara.current_driver == :rack_test
+                        #! js hack - problem with selenium native alerts usage
+                        #! it switch to alert window but no reaction on accept or dismiss
+                        actions << Action.new(:block, values) do |element|
+                          evaluate_script("window.alert = function(msg) { return true; }")
+                          evaluate_script("window.confirm = function(msg) { return true; }")
+                        end
+                      end
+                      prepare_actions(values)
+
+                    when :and_dismiss
+                      unless Capybara.current_driver == :rack_test
+                        actions << Action.new(:block, values) do |element|
+                          evaluate_script("window.alert = function(msg) { return true; }")
+                          evaluate_script("window.confirm = function(msg) { return false; }")
+                        end
+                        prepare_actions(values)
+                      end
+
                     else
                       raise "not implemented"
                   end

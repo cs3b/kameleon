@@ -12,13 +12,16 @@ describe "mouse" do
 
     context "confirmation popups" do
       it "confirm" do
-        pending
-        click :and_accept => 'Confirm button'
+        see "This is simple app"
+        click :and_accept => 'Save changes'
+        not_see "This is simple app"
+        see "Example form legend"
       end
 
       it "dismiss" do
-        pending
-        click :and_dismiss => 'Confirm button'
+        see "This is simple app"
+        click :and_dismiss => 'Save changes'
+        see "This is simple app"
       end
     end
 
