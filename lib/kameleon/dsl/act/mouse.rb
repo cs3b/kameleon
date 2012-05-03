@@ -22,11 +22,16 @@ module Kameleon
             case param
               when String
                 actions << Action.new(:click_on, param)
+              when Symbol
+                prepare_actions(:element => param)
               when Hash
                 param.each_pair do |type, values|
                   case type
-                    when :non_implemented
-                      raise "not implemented"
+                    when :element
+                      actions << Action.new(:block, values) do |element|
+                        selector = Kameleon::DSL::Context::Scope.new(element).selector
+                        find(*selector).click
+                      end
                     else
                       raise "not implemented"
                   end

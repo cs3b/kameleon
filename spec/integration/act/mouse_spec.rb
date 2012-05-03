@@ -24,13 +24,25 @@ describe "mouse" do
 
     context "element defined by" do
       it "default selector type" do
-        pending
-        click :element => "#some_id"
+        not_see "and there is many lines"
+        click :element => "#text_link"
+        see "and there is many lines"
       end
 
       it "explicit selector type" do
-        pending
-        click :element => [:xpath, ".//image[@id='some_id'"]
+        not_see "and there is many lines"
+        click :element => [:xpath, ".//a[@id='text_link']"]
+        see "and there is many lines"
+      end
+
+      it "predefined area" do
+        Kameleon::Session.stub!(:defined_areas).and_return({
+                                                               :homepage_link => [:xpath, "//a[@id='homepage_link']"]
+                                                           })
+
+        not_see "Welcome on Home Page"
+        click :homepage_link
+        see "Welcome on Home Page"
       end
     end
 
