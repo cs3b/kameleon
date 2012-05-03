@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = 'kameleon'
-  s.version = '0.2.0.alpha.2'
-  s.files = Dir['lib/**/*.rb'] + %w(LICENCE README.textile)
+  s.version = '0.2.0.alpha.3'
+  s.files = Dir['lib/**/*.rb'] + %w(LICENCE README.md)
   s.add_runtime_dependency 'rspec'
   s.add_runtime_dependency 'capybara'
   s.add_runtime_dependency 'headless'
