@@ -40,6 +40,7 @@ describe "fill in" do
     it "attach file" do
       fill_in :attach => {'sample.txt' => 'Active File input'}
       click "Save Changes"
+      pending
       #! we need to verify if file have been enclosed
     end
   end
