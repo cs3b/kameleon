@@ -40,7 +40,7 @@ describe "fill in" do
     it "attach file" do
       fill_in :attach => {'sample.txt' => 'Active File input'}
       click "Save Changes"
-      #! we need to verify it file have been enclosed
+      #! we need to verify if file have been enclosed
     end
   end
 
@@ -77,7 +77,17 @@ describe "fill in" do
   end
 
   it "multiple different fields at once" do
-    pending
+    fill_in 'Value for sampleEmtyInput' => 'sampleEmptyInput',
+            :check => 'Sample unchecked checkbox',
+            :select => {'2' => 'multiSelect'},
+            :choose => ['Option one is not checked',
+                        'Option five is not checked']
+
+    see 'Value for sampleEmtyInput' => 'sampleEmptyInput',
+        :checked => 'Sample unchecked checkbox',
+        :selected => {'2' => 'multiSelect'},
+        :checked => ['Option one is not checked',
+                     'Option five is not checked']
   end
 end
 
