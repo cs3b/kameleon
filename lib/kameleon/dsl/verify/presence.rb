@@ -22,6 +22,8 @@ module Kameleon
           case param
             when String
               conditions << Condition.new(:have_content, param)
+            when Symbol
+              prepare_conditions(:element => param)
             when Hash
               param.each_pair do |type, values|
                 case type
@@ -47,6 +49,8 @@ module Kameleon
                     conditions.concat TextInput.new(nil, values).conditions
                   when :empty
                     conditions.concat EmptyInput.new(values).conditions
+                  when :element
+                    conditions.concat Element.new(values).conditions
                   else
                     raise "not implemented"
                 end
@@ -120,6 +124,33 @@ module Kameleon
 
         def prepare_xpath(alt_or_src)
           "//img[@alt=\"#{alt_or_src}\"] | //img[@src=\"#{alt_or_src}\"]"
+        end
+      end
+
+      class Element
+        attr_reader :conditions, :expression
+
+        def initialize(expression)
+          @expression = expression
+          @conditions = [condition]
+        end
+
+        private
+
+        def condition
+          Condition.new(have_selector_method, selector_expression)
+        end
+
+        def have_selector_method
+          "have_#{selector.first}".to_sym
+        end
+
+        def selector
+          @selector ||= Kameleon::DSL::Context::Scope.new(expression).selector
+        end
+
+        def selector_expression
+          selector.last
         end
       end
 

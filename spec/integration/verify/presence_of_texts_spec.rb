@@ -54,52 +54,28 @@ describe "presence of" do
   describe "Elements" do
     context "defined by" do
       it "default selector type" do
-        pending
-        see :element => "#some_id"
+        see :element => "ul.pretty"
       end
 
       it "explicit selector type" do
-        pending
-        see :element => [:xpath, ".//image[@id='some_id'"]
+        see :element => [:xpath, ".//ul[@class='pretty']"]
+      end
+
+      it "predefined area" do
+        Kameleon::Session.stub!(:defined_areas).and_return({
+                                                               :admin_menu => [:xpath, "//ul[@class='admin_menu']"]
+                                                           })
+        see :admin_menu
       end
 
       context "raise errors when" do
         it "element is not present" do
-          pending
           expect do
-            see :element => [:xpath, ".//image[@id='not_present'"]
+            see :element => [:xpath, ".//image[@id='not_present']"]
           end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
         end
       end
     end
   end
-
-  #! need to think do we need buttons (real buttons are only used in forms - all other buttons are just links with proper style)
-  #describe '#see special elements - buttons' do
-  #  before do
-  #    @user = Kameleon::User::Guest.new(self)
-  #        @user.debug.visit('/special_elements.html')
-  #  end
-  #
-  #  it 'should see by id' do
-  #    @user.see :button => 'superButton'
-  #  end
-  #
-  #  it 'should see by label' do
-  #    @user.see :button => 'Super button'
-  #  end
-  #
-  #  it 'should see many buttons' do
-  #    @user.see :button => ['Super button', 'Second super button']
-  #  end
-  #
-  #  context 'when does not exist' do
-  #    it 'should raise error' do
-  #      expect do
-  #        @user.see :button => 'button does not exist'
-  #      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-  #    end
-  #  end
-  #end
 
 end
