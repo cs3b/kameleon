@@ -112,7 +112,7 @@ taken from: https://github.com/spree/spree/blob/master/core/spec/requests/admin/
 kameleon
 
 ``` ruby
-within(:row => 2) { click "Edit" }
+within(:row => 2).click "Edit"
 fill_in 99 => "adjustment_amount",
         "rebate 99" => "adjustment_label"
 click "Continue"
@@ -141,12 +141,12 @@ kameleon
 
 ``` ruby
 click "Orders"
-within('table#listing_orders', :row => 1) { click_link "R100" }
+within('table#listing_orders', :row => 1).click_link "R100"
 click "Payments"
-within('#payment_status') { see "Payment: balance due" }
-within(:cell => [2, 2]) { see "$39.98" }
-within(:cell => [2, 3]) { see "Credit Card" }
-within(:cell => [2, 4]) { see "pending" }
+within('#payment_status').see "Payment: balance due"
+within(:cell => [2, 2]).see "$39.98"
+within(:cell => [2, 3]).see "Credit Card"
+within(:cell => [2, 4]).see "pending"
 ```
 vs capybara
 
@@ -167,11 +167,11 @@ kameleon
 
 ``` ruby
 click "Void"
-within('#payment_status') { see "Payment: balance due" }
+within('#payment_status').see "Payment: balance due"
 see "Payment Updated"
-within(:cell => [2,2]) { see "$39.98" }
-within(:cell => [2,3]) { see "Credit Card" }
-within(:cell => [2,4]) { see "void" }
+within(:cell => [2,2]).see "$39.98"
+within(:cell => [2,3]).see "Credit Card"
+within(:cell => [2,4]).see "void"
 ```
 
 vs capybara
@@ -194,12 +194,12 @@ click "New Payment"
 see "New Payment"
 click "Continue",
       "Capture"
-within('#payment_status') { see "Payment: paid" }
+within('#payment_status').see "Payment: paid"
 see :element => '#new_payment_section'
 
 click "Shipments",
       "New Shipment"
-within('table.index', :row => 2) { check "#inventory_unit" }
+within('table.index', :row => 2).check "#inventory_unit"
 
 click "Create"
 see "successfully created!"

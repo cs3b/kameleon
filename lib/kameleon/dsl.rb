@@ -56,8 +56,7 @@ module Kameleon
       if block_given?
         super(*parse_selector(scope).selector)
       else
-        #! we need proxy object to make it working
-        raise 'not impelemented'
+        ScopeProxy.new(self, scope)
       end
     end
 
@@ -93,6 +92,19 @@ module Kameleon
 
     def parse_selector(scope)
       Kameleon::DSL::Context::Scope.new(scope)
+    end
+
+
+    class ScopeProxy < Struct.new(:world, :scope)
+
+      Kameleon::DSL.instance_methods.each do |method|
+        define_method method do |args|
+          world.within(scope) do
+            world.send(method, args)
+          end
+        end
+      end
+
     end
   end
 end

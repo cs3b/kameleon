@@ -24,11 +24,26 @@ describe 'Scope' do
     end
 
 
-    it "allow to method chain with (when one call per scope we woun't need to add block'" do
-      pending "proxy object needed to handle it"
-      within("#left").see "Left side"
-      within("#right").not_see "Left side"
+    context "method chain (shortcut for case: when you only call one method within block)" do
+      it "see" do
+        within("#left").see "Left side"
+        within("#right").not_see "Left side"
+      end
+
+      it "click" do
+        within("#underFooter").click "Show Me Lists"
+        within("ul#menu").see 7 => "li"
+      end
+
+      context "errors" do
+        it "raise when element not found" do
+          expect do
+            within("#right").see "Left side"
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end
+      end
     end
+
   end
 
   describe "defined areas" do
@@ -59,15 +74,15 @@ describe 'Scope' do
   describe "special selectors" do
     before(:each) { visit('/special_elements') }
 
-
-    context "many selectors at once" do
-      it 'should see in many selctors scope' do
-        pending "it would require to change how capybara handle scopes - not as single object but as collection"
-        within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]') do
-          see 'Left side', 'Simple'
-        end
-      end
-    end
+    # maybe in some future
+    #context "many selectors at once" do
+    #  it 'should see in many selctors scope' do
+    #    pending "it would require to change how capybara handle scopes - not as single object but as collection"
+    #    within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]') do
+    #      see 'Left side', 'Simple'
+    #    end
+    #  end
+    #end
 
     describe "table" do
       context "row" do
@@ -86,22 +101,23 @@ describe 'Scope' do
         end
       end
 
-      context "column" do
-        it "find by text" do
-          pending "it would require to change how capybara handle scopes - not as single object but as collection"
-          within(:column => 'Selleo') do
-            see "13.00", "2.00", "0.00"
-            not_see "17.00", "5.00"
-          end
-        end
-        it "find by position" do
-          pending "it would require to change how capybara handle scopes - not as single object but as collection"
-          within(:column => 3) do
-            see "13.00", "2.00", "0.00"
-            not_see "17.00", "5.00"
-          end
-        end
-      end
+      # maybe in some future
+      #context "column" do
+      #  it "find by text" do
+      #    pending "it would require to change how capybara handle scopes - not as single object but as collection"
+      #    within(:column => 'Selleo') do
+      #      see "13.00", "2.00", "0.00"
+      #      not_see "17.00", "5.00"
+      #    end
+      #  end
+      #  it "find by position" do
+      #    pending "it would require to change how capybara handle scopes - not as single object but as collection"
+      #    within(:column => 3) do
+      #      see "13.00", "2.00", "0.00"
+      #      not_see "17.00", "5.00"
+      #    end
+      #  end
+      #end
 
       context "row and column" do
         it "find by text" do
