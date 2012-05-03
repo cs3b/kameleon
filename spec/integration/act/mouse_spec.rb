@@ -46,6 +46,12 @@ describe "mouse" do
       end
     end
 
+    it "image defined by alt" do
+      not_see "in that app"
+      click :image => 'help'
+      see "in that app"
+    end
+
     context "raise error when" do
       it "one of link doesn't exists" do
         expect do

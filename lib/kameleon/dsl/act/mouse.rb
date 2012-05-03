@@ -32,6 +32,12 @@ module Kameleon
                         selector = Kameleon::DSL::Context::Scope.new(element).selector
                         find(*selector).click
                       end
+                    when :image
+                      # Looks like Rack Test doesn't propagate click event up - this is simply hack
+                      # It's not perfect it would work only when a is parent of image (not one of ancestor)
+                      prepend_text =  "/.." if ::Capybara.current_driver == :rack_test
+
+                      prepare_actions(:element => [:xpath, ".//img[@alt=\"#{values}\"]#{prepend_text}"])
                     else
                       raise "not implemented"
                   end
@@ -60,5 +66,3 @@ end
 
 #! click and dismiss
 #! click and accept
-#! click on image
-#! click on element
