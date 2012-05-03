@@ -56,7 +56,7 @@ module Kameleon
                 end
               end
             when Array
-              params.each { |parameter| prepare_conditions(parameter) }
+              param.each { |parameter| prepare_conditions(parameter) }
             else
               raise "not implemented"
           end
