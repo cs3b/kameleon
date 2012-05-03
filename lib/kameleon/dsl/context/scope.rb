@@ -44,8 +44,10 @@ module Kameleon
                 normalize(default_selector)
               elsif params.size == 1
                 [::Capybara.default_selector] + params
-              else
+              elsif [:xpath, :css].include?(params.first)
                 params
+              else
+                JoinInToOne.new(params, self).selector
               end
           end
         end
@@ -87,6 +89,32 @@ module Kameleon
           raise "not implemented"
           #            position = session.all(:xpath, "//table//th").index { |n| n.text =~ /#{value}/ }
           #            return [:xpath, ".//table//th[#{position + 1}] | .//table//td[#{position + 1}]", :select_multiple]
+        end
+      end
+
+      class JoinInToOne < Struct.new(:params, :scope)
+
+        def selector
+          [:xpath, xpath_selector]
+        end
+
+        private
+
+        def xpath_selector
+          ([xpaths.first] + cleanup(xpaths[1..-1])).join("//")
+        end
+
+        def cleanup(others)
+          others.collect { |xpath| xpath.gsub(/^\.+/, '').gsub(/^\/+/, '') }
+        end
+
+        def xpaths
+          @xpaths ||= normalized.map { |param| param.first == :css ? ::Nokogiri::CSS.xpath_for(param.last).first : param.last }
+        end
+
+        # TODO detect_selector should be in module
+        def normalized
+          params.map { |param| scope.send(:detect_selector, param) }
         end
       end
     end

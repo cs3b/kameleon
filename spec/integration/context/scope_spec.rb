@@ -23,11 +23,11 @@ describe 'Scope' do
       end
     end
 
-    pending do
-      it "allow to method chain with i.e. verification dsl" do
-        within("#left").see "Left side"
-        within("#right").not_see "Left side"
-      end
+
+    it "allow to method chain with (when one call per scope we woun't need to add block'" do
+      pending "proxy object needed to handle it"
+      within("#left").see "Left side"
+      within("#right").not_see "Left side"
     end
   end
 
@@ -48,12 +48,6 @@ describe 'Scope' do
       end
     end
 
-    it "allow to method chain with default selector" do
-      pending "Need Context::Proxy object"
-      within.see 'Left', 'Right', 'Sample text in main part of page'
-      within.not_see 'Sample text in footer', 'Sample title for page'
-    end
-
     it "can use on of defined area" do
       within(:footer) do
         see 'Sample text in footer', 'Simple text'
@@ -65,12 +59,12 @@ describe 'Scope' do
   describe "special selectors" do
     before(:each) { visit('/special_elements') }
 
-    pending do
-      context "multi-select" do
-        it 'should see in many selctors scope' do
-          within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]') do
-            see 'Left side', 'Simple'
-          end
+
+    context "many selectors at once" do
+      it 'should see in many selctors scope' do
+        pending "it would require to change how capybara handle scopes - not as single object but as collection"
+        within(:xpath, '//div[@id="footer"]/span | //div[@id="main"]/div[@id="left"]') do
+          see 'Left side', 'Simple'
         end
       end
     end
@@ -92,19 +86,19 @@ describe 'Scope' do
         end
       end
 
-      pending do
-        context "column" do
-          it "find by text" do
-            within(:column => 'Selleo') do
-              see "13.00", "2.00", "0.00"
-              not_see "17.00", "5.00"
-            end
+      context "column" do
+        it "find by text" do
+          pending "it would require to change how capybara handle scopes - not as single object but as collection"
+          within(:column => 'Selleo') do
+            see "13.00", "2.00", "0.00"
+            not_see "17.00", "5.00"
           end
-          it "find by position" do
-            within(:column => 3) do
-              see "13.00", "2.00", "0.00"
-              not_see "17.00", "5.00"
-            end
+        end
+        it "find by position" do
+          pending "it would require to change how capybara handle scopes - not as single object but as collection"
+          within(:column => 3) do
+            see "13.00", "2.00", "0.00"
+            not_see "17.00", "5.00"
           end
         end
       end
@@ -127,12 +121,46 @@ describe 'Scope' do
     end
   end
 
-  describe "chaining with" do
-    it "default selectors"
-    it "default and explicit defined selector"
-    it "many special selectors"
-    it "default and special selector"
-    it "explicit defined and special selector"
+  describe "chaining many selectors in one within for" do
+    it "default selectors" do
+      within("#main", ".important") do
+        see "Left side"
+        not_see "Right side"
+      end
+    end
+
+    it "default and explicit defined selector" do
+      within("#main", [:xpath, ".//*[@class='important']"]) do
+        see "Left side"
+        not_see "Right side"
+      end
+    end
+
+    context "special selectors" do
+      before(:each) do
+        Kameleon::Session.stub!(:defined_areas).and_return({
+                                                               :default => [:xpath, "//*[@id='main']"],
+                                                               :left => '#left',
+                                                               :right => '#right',
+                                                               :footer => '#footer'
+                                                           })
+      end
+
+      it "many special selectors" do
+        within(:default, :right) do
+          not_see "Left side"
+          see "Right side"
+        end
+      end
+
+      it "explicit defined and special selector" do
+        within(:footer, "span") do
+          see "Simple text"
+          not_see "Sample text in footer"
+        end
+      end
+    end
+
   end
 end
 

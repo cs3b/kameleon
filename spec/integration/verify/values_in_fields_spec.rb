@@ -40,52 +40,6 @@ describe "values in fields" do
     end
   end
 
-  describe "readonly" do
-    it "single" do
-      pending
-      see :readonly => 'readonlyInput'
-    end
-
-    it "multiple" do
-      pending
-      see :readonly => ['Readonly input',
-                        'Readonly textarea']
-    end
-
-    context "raise errors when" do
-      it "when at least one field is editable" do
-        pending
-        expect do
-          see :readonly => ['Readonly input', 'X-Large input']
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-      end
-    end
-  end
-
-  describe "disabled" do
-    it "single" do
-      pending
-      see :disabled => 'disabledInput'
-    end
-
-    it "multiple" do
-      pending
-      see :disabled => ['Disabled input',
-                        'Disabled textarea']
-    end
-
-    context "raise errors when" do
-      it "when at least one field is not disabled" do
-        pending
-        expect do
-          see :disabled => ['Disabled input',
-                            'Disabled textarea',
-                            'X-Large input']
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
-      end
-    end
-  end
-
   describe "text fields" do
     it "textinput" do
       see 'this is great value' => 'xlInput'
