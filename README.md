@@ -20,7 +20,7 @@ Optionally is nice to use:
 Gemfile
 
 ``` ruby
-gem 'kameleon', '>= 0.2.0.alpha.2'
+gem 'kameleon', '>= 0.2.0'
 ```
 
 Before you start using Kameleon ensure that capybara is properly loaded (in your test helper file)
