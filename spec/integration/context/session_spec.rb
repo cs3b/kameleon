@@ -36,6 +36,36 @@ describe "Session" do
     end
   end
 
+  describe 'creating multiple sessions at once' do
+    before do
+      create_sessions(:admin, :user)
+      visit '/'
+    end
+
+    it 'should work on the last created session by default' do
+      not_see 'This is simple app', 'in that app'
+      see 'Home'
+
+      act_as(:user) do
+        not_see 'This is simple app', 'in that app'
+        see 'Home'
+      end
+    end
+
+    it 'should work on all created sessions' do
+      act_as(:admin) do
+        visit '/texts'
+        see 'This is simple app', 'in that app'
+        not_see 'Home'
+      end
+
+      act_as(:user) do
+        not_see 'This is simple app', 'in that app'
+        see 'Home'
+      end
+    end
+  end
+
   describe "Drivers" do
 
   end
