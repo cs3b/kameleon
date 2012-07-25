@@ -41,6 +41,10 @@ module Kameleon
       Kameleon::Session.new(name).tap { |ks| act_as(ks.name) }
     end
 
+    def create_sessions(*names)
+      names.each { |n| create_session(n) }
+    end
+
     def act_as(name)
       if block_given?
         using_session(name) do
@@ -98,9 +102,9 @@ module Kameleon
     class ScopeProxy < Struct.new(:world, :scope)
 
       Kameleon::DSL.instance_methods.each do |method|
-        define_method method do |args|
+        define_method method do |*args|
           world.within(scope) do
-            world.send(method, args)
+            world.send(method, *args)
           end
         end
       end

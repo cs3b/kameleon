@@ -35,6 +35,13 @@ describe 'Scope' do
         within("ul#menu").see 7 => "li"
       end
 
+      context 'with many parameters passed to methods' do
+        it 'see' do
+          within('#main').see 'Left side', 'Right side'
+          within('#footer').not_see 'Left side', 'Right side'
+        end
+      end
+
       context "errors" do
         it "raise when element not found" do
           expect do
@@ -42,8 +49,8 @@ describe 'Scope' do
           end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
         end
       end
-    end
 
+    end
   end
 
   describe "defined areas" do
