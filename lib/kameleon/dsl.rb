@@ -102,9 +102,9 @@ module Kameleon
     class ScopeProxy < Struct.new(:world, :scope)
 
       Kameleon::DSL.instance_methods.each do |method|
-        define_method method do |args|
+        define_method method do |*args|
           world.within(scope) do
-            world.send(method, args)
+            world.send(method, *args)
           end
         end
       end
