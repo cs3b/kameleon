@@ -1,6 +1,23 @@
 require 'spec_helper'
 
 describe "Session" do
+  describe '#create_session' do
+    describe 'with block' do
+      it 'should run passed block' do
+        create_session(:user) do
+          visit('/texts')
+          see 'This is simple app', 'in that app'
+          not_see 'Home'
+        end
+
+        act_as :user do
+          see 'This is simple app', 'in that app'
+          not_see 'Home'
+        end
+      end
+    end
+  end
+
   describe "switch" do
     before do
       # we use :default session
