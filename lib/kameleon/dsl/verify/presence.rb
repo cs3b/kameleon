@@ -20,7 +20,8 @@ module Kameleon
 
         def prepare_conditions(param)
           case param
-            when String
+            when String, Fixnum
+              param = param.to_s
               conditions << Condition.new(:have_content, param)
             when Hash
               param.each_pair do |type, values|
@@ -48,13 +49,13 @@ module Kameleon
                   when :empty
                     conditions.concat EmptyInput.new(values).conditions
                   else
-                    raise "not implemented"
+                    raise Kameleon::NotImplementedException, "Not implemented #{param}"
                 end
               end
             when Array
               params.each { |parameter| prepare_conditions(parameter) }
             else
-              raise "not implemented"
+              raise Kameleon::NotImplementedException, "Not implemented #{param}"
           end
         end
       end
