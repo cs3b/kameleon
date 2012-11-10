@@ -9,7 +9,8 @@ RSpec.configure do |config|
   def config.escaped_path(*parts)
     Regexp.compile(parts.join('[\\\/]'))
   end
-  escaped_group_file_path = config.escaped_path(%w[spec (requests|integration)])
+  # TODO add custom configuration option
+  escaped_group_file_path = config.escaped_path(%w[spec (requests|integration|acceptance)])
 
   config.include Capybara::DSL, :type => :request, :example_group => {:file_path => escaped_group_file_path}
   config.include Kameleon::DSL, :type => :request, :example_group => {:file_path => escaped_group_file_path}
