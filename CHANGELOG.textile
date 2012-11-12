@@ -1,3 +1,12 @@
+h2. 0.2.1
+
+* replacing ripl with pry - much better solution for debugging
+* field locators as symbols (except checkboxes, radiobuttons)
+* support to fill_in float, fixnum into textfield
+* fill_in select with just a number
+* see selected number within select_tag
+* checking order on page - can handle duplicates in both sides ( definition and page )
+
 h2. 0.2.0
 
 rewrite of kemeleon from scratch

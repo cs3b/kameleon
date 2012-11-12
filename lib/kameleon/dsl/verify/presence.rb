@@ -206,7 +206,7 @@ module Kameleon
         def condition
           Condition.new(nil, params, prepare_xpath) do |elements, xpath_query|
             texts = page.all(:xpath, xpath_query).map(&:text)
-            texts.should == elements
+            texts.uniq.should == elements.uniq
           end
         end
 
@@ -228,6 +228,8 @@ module Kameleon
 
         def parse_params(params)
           case params
+            when Symbol
+              parse_params(params.to_s)
             when String
               conditions << Condition.new(:have_field, params, :with => value)
             when Array
@@ -251,6 +253,8 @@ module Kameleon
 
         def parse_params(params)
           case params
+            when Symbol
+              parse_params(params.to_s)
             when String
               conditions << condition(params)
             when Array
@@ -324,8 +328,18 @@ module Kameleon
                     selected_value.each do |value|
                       parse_params(value => identifier)
                     end
+                  when Symbol
+                    parse_params(selected_value => identifier.to_s)
                   when String
-                    conditions << Condition.new(matcher_method, identifier, :selected => selected_value)
+                    value = case selected_value
+                      when Symbol, Fixnum
+                        selected_value.to_s
+                      when String, Array
+                        selected_value
+                      else
+                        raise "not supported"
+                    end
+                    conditions << Condition.new(matcher_method, identifier, :selected => value)
                   else
                     raise "not supported"
                 end
