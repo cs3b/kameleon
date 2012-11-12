@@ -1,6 +1,6 @@
 #! TODO
 # gemfile
-# gem 'ripl'
+# gem 'pry'
 # gem 'database-cleaner'
 
 # spec_helper.rb
@@ -24,7 +24,7 @@ RSpec.configure do |config|
   config.after(:each) do
     if exception = example.instance_variable_get(:@exception)
       save_and_open_page unless Capybara.current_driver == :selenium
-      Ripl.start :binding => binding
+      binding.pry
     end
     DatabaseCleaner.clean
   end
