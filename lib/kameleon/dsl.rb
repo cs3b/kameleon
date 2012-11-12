@@ -41,6 +41,10 @@ module Kameleon
       Kameleon::Session.new(name).tap { |ks| act_as(ks.name) }
     end
 
+    def create_sessions(*names)
+      names.each { |n| create_session(n) }
+    end
+
     def act_as(name)
       if block_given?
         using_session(name) do
