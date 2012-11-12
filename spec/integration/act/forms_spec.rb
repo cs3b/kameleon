@@ -3,14 +3,29 @@ require 'spec_helper'
 describe "fill in" do
   before(:each) { visit('/form_elements') }
   context "single value in field" do
-    it "text" do
-      see :empty => ['sampleEmptyInput',
-                     'textarea2']
-      fill_in 'Value for sampleEmtyInput' => 'sampleEmptyInput',
-              'Value for textarea2' => 'textarea2'
-      see 'Value for textarea2' => 'textarea2',
-          'Value for sampleEmtyInput' => 'sampleEmptyInput'
+    context "text field" do
+      it "text" do
+        see :empty => ['sampleEmptyInput',
+                       'textarea2']
+        fill_in 'Value for sampleEmtyInput' => 'sampleEmptyInput',
+                'Value for textarea2' => 'textarea2'
+        see 'Value for textarea2' => 'textarea2',
+            'Value for sampleEmtyInput' => 'sampleEmptyInput'
+      end
+
+      it "fixnum", :pending do
+        see :empty => 'sampleEmptyInput'
+        fill_in 12 => 'sampleEmptyInput'
+        see '12' => 'sampleEmptyInput'
+      end
+
+      it "Float", :pending do
+        see :empty => 'sampleEmptyInput'
+        fill_in 12.45 => 'sampleEmptyInput'
+        see '12.45' => 'sampleEmptyInput'
+      end
     end
+
 
     it "checkbox" do
       see :unchecked => 'Sample unchecked checkbox'
@@ -30,11 +45,19 @@ describe "fill in" do
     end
 
     it "select" do
-      see :unselected => {'2' => 'multiSelect'}
-      fill_in :select => {'2' => 'multiSelect'}
-      see :selected => {'2' => 'multiSelect'}
-      fill_in :unselect => {'2' => 'multiSelect'}
-      see :unselected => {'2' => 'multiSelect'}
+      see :unselected => {2 => 'multiSelect'}
+      fill_in :select => {2 => 'multiSelect'}
+      see :selected => {2 => 'multiSelect'}
+      fill_in :unselect => {2 => 'multiSelect'}
+      see :unselected => {2 => 'multiSelect'}
+    end
+
+    # it have more sense in ruby 1.9.x and above
+    #   e.g. select: { inactive: 'q_active_eq' }
+    it "select values passed as symbols" do
+      see :unselected => {:inactive => 'someSymbolSelect'}
+      fill_in :select => {:inactive => 'someSymbolSelect'}
+      see :selected => {:inactive => 'someSymbolSelect'}
     end
 
     it "attach file" do
@@ -67,6 +90,31 @@ describe "fill in" do
       see :unchecked => radio_buttons
       fill_in :choose => radio_buttons
       see :checked => radio_buttons
+    end
+  end
+
+  context "field identifications as symbols" do
+    it "text field" do
+      see :empty => :textarea2
+      fill_in 'some common value' => :textarea2
+      see 'some common value' => :textarea2
+    end
+
+    it "checkbox" do
+      pending
+      #see :unchecked => 'Sample unchecked checkbox'
+      #fill_in :check => :first_unchecked_checkbox
+      #see :checked => 'Sample unchecked checkbox'
+      #fill_in :uncheck => "first_unchecked_checkbox"
+      #see :unchecked => 'Sample checked checkbox'
+    end
+
+    it "radio button"
+    it "select" do
+      select_options = {['2', '1'] => :multiSelect}
+      see :unselected => select_options
+      fill_in :select => select_options
+      see :selected => {['2', '1'] => 'multiSelect'}
     end
   end
 
