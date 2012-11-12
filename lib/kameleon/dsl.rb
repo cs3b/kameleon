@@ -38,7 +38,11 @@ module Kameleon
     end
 
     def create_session(name = :default)
-      Kameleon::Session.new(name).tap { |ks| act_as(ks.name) }
+      Kameleon::Session.new(name).tap do |session|
+        act_as(session.name).tap do
+          yield if block_given?
+        end
+      end
     end
 
     def act_as(name)
