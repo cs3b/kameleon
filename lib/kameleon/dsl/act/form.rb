@@ -25,7 +25,7 @@ module Kameleon
                 identifier.each { |identifier| prepare_actions(value => identifier) }
               else
                 case value
-                  when Fixnum, String
+                  when Fixnum, Float, String
                     actions << Action.new(:fill_in, identifier, :with => value)
                   when :check, :choose, :uncheck
                     actions << Action.new(value, identifier)

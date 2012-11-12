@@ -14,15 +14,15 @@ describe "fill in" do
       end
 
       it "fixnum", :pending do
-        #see :empty => 'sampleEmptyInput'
-        #fill_in 12 => 'sampleEmptyInput'
-        #see 12 => 'sampleEmptyInput'
+        see :empty => 'sampleEmptyInput'
+        fill_in 12 => 'sampleEmptyInput'
+        see '12' => 'sampleEmptyInput'
       end
 
       it "Float", :pending do
-        #see :empty => 'sampleEmptyInput'
-        #fill_in 12 => 'sampleEmptyInput'
-        #see 12 => 'sampleEmptyInput'
+        see :empty => 'sampleEmptyInput'
+        fill_in 12.45 => 'sampleEmptyInput'
+        see '12.45' => 'sampleEmptyInput'
       end
     end
 
