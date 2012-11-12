@@ -30,7 +30,6 @@ module Kameleon
                   when Fixnum, Float, String
                     actions << Action.new(:fill_in, identifier, :with => value)
                   when :check, :choose, :uncheck
-                    puts identifier.class
                     actions << Action.new(value, identifier)
                   when :select, :unselect
                     actions.concat SelectTag.new(value, identifier).actions

@@ -105,7 +105,6 @@ describe "fill in" do
       #see :unchecked => 'Sample unchecked checkbox'
       #fill_in :check => :first_unchecked_checkbox
       #see :checked => 'Sample unchecked checkbox'
-      #binding.pry
       #fill_in :uncheck => "first_unchecked_checkbox"
       #see :unchecked => 'Sample checked checkbox'
     end
