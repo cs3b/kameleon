@@ -206,7 +206,7 @@ module Kameleon
         def condition
           Condition.new(nil, params, prepare_xpath) do |elements, xpath_query|
             texts = page.all(:xpath, xpath_query).map(&:text)
-            texts.should == elements
+            texts.uniq.should == elements.uniq
           end
         end
 

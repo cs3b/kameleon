@@ -7,6 +7,16 @@ describe 'order' do
     see :ordered => ['Michal Czyz', 'Tomasz Bak', 'Rafal Bromirski']
   end
 
+  context "ignore duplicates" do
+    it "in definition array" do
+      see :ordered => ['Michal Czyz', 'Tomasz Bak', 'Tomasz Bak', 'Rafal Bromirski']
+    end
+
+    it "on the page" do
+      see :ordered => ['Michal Czyz', 'Tomasz Bak', 'Rafal Bromirski', 'Jan Kowalski']
+    end
+  end
+
   context 'raise error' do
     it 'different order' do
       expect do

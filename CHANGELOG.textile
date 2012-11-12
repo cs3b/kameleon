@@ -1,3 +1,7 @@
+h2. 0.2.1
+
+* checking order on page - can handle duplicates in both sides ( definition and page )
+
 h2. 0.2.0
 
 rewrite of kemeleon from scratch
