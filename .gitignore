@@ -1,3 +1,4 @@
 .idea
 *.gem
 .rspec
+.DS_Store
