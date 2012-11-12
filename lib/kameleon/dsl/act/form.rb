@@ -58,7 +58,7 @@ module Kameleon
                 parse_params(o => id)
               end
             else
-              actions << Action.new(action, option, :from => id)
+              actions << Action.new(action, option.to_s, :from => id)
             end
           end
         end

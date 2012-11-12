@@ -325,7 +325,15 @@ module Kameleon
                       parse_params(value => identifier)
                     end
                   when String
-                    conditions << Condition.new(matcher_method, identifier, :selected => selected_value)
+                    value = case selected_value
+                      when Symbol, Fixnum
+                        selected_value.to_s
+                      when String, Array
+                        selected_value
+                      else
+                        raise "not supported"
+                    end
+                    conditions << Condition.new(matcher_method, identifier, :selected => value)
                   else
                     raise "not supported"
                 end

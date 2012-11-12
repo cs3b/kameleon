@@ -1,5 +1,7 @@
 h2. 0.2.1
 
+* fill_in select with just a number
+* see selected number within select_tag
 * checking order on page - can handle duplicates in both sides ( definition and page )
 
 h2. 0.2.0
