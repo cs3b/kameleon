@@ -93,6 +93,32 @@ describe "fill in" do
     end
   end
 
+  context "field identifications as symbols" do
+    it "text field" do
+      see :empty => :textarea2
+      fill_in 'some common value' => :textarea2
+      see 'some common value' => :textarea2
+    end
+
+    it "checkbox" do
+      pending
+      #see :unchecked => 'Sample unchecked checkbox'
+      #fill_in :check => :first_unchecked_checkbox
+      #see :checked => 'Sample unchecked checkbox'
+      #binding.pry
+      #fill_in :uncheck => "first_unchecked_checkbox"
+      #see :unchecked => 'Sample checked checkbox'
+    end
+
+    it "radio button"
+    it "select" do
+      select_options = {['2', '1'] => :multiSelect}
+      see :unselected => select_options
+      fill_in :select => select_options
+      see :selected => {['2', '1'] => 'multiSelect'}
+    end
+  end
+
   it "multiple values from one select" do
     select_options = {['2', '1'] => 'multiSelect'}
     see :unselected => select_options

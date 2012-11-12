@@ -23,11 +23,14 @@ module Kameleon
             case identifier
               when Array
                 identifier.each { |identifier| prepare_actions(value => identifier) }
+              when Symbol
+                prepare_actions(value => identifier.to_s)
               else
                 case value
                   when Fixnum, Float, String
                     actions << Action.new(:fill_in, identifier, :with => value)
                   when :check, :choose, :uncheck
+                    puts identifier.class
                     actions << Action.new(value, identifier)
                   when :select, :unselect
                     actions.concat SelectTag.new(value, identifier).actions
@@ -53,12 +56,17 @@ module Kameleon
 
         def parse_params(params)
           params.each_pair do |option, id|
-            if option.kind_of?(Array)
-              option.each do |o|
-                parse_params(o => id)
-              end
-            else
-              actions << Action.new(action, option.to_s, :from => id)
+            case id
+              when Symbol
+                parse_params(option => id.to_s)
+              when String
+                if option.kind_of?(Array)
+                  option.each do |o|
+                    parse_params(o => id)
+                  end
+                else
+                  actions << Action.new(action, option.to_s, :from => id)
+                end
             end
           end
         end

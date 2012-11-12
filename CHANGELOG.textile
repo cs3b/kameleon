@@ -1,5 +1,6 @@
 h2. 0.2.1
 
+* field locators as symbols (except checkboxes, radiobuttons)
 * support to fill_in float, fixnum into textfield
 * fill_in select with just a number
 * see selected number within select_tag

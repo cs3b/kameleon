@@ -228,6 +228,8 @@ module Kameleon
 
         def parse_params(params)
           case params
+            when Symbol
+              parse_params(params.to_s)
             when String
               conditions << Condition.new(:have_field, params, :with => value)
             when Array
@@ -251,6 +253,8 @@ module Kameleon
 
         def parse_params(params)
           case params
+            when Symbol
+              parse_params(params.to_s)
             when String
               conditions << condition(params)
             when Array
@@ -324,6 +328,8 @@ module Kameleon
                     selected_value.each do |value|
                       parse_params(value => identifier)
                     end
+                  when Symbol
+                    parse_params(selected_value => identifier.to_s)
                   when String
                     value = case selected_value
                       when Symbol, Fixnum
