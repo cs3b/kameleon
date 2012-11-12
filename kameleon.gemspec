@@ -1,7 +1,7 @@
 # encoding: utf-8
 Gem::Specification.new do |s|
   s.name = 'kameleon'
-  s.version = '0.2.0'
+  s.version = '0.2.1'
   s.files = Dir['lib/**/*.rb'] + %w(LICENCE README.md)
   s.add_runtime_dependency 'rspec'
   s.add_runtime_dependency 'capybara'
@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'pry'
   s.summary = "high abstraction dsl for end user perspective tests"
   s.description = "high abstraction dsl for end user perspective tests, kameleon - it's a polish word for chameleon"
-  s.authors = ["Michał Czyż [cs3b]", "Radosław Jędryszczak [socjopata]", "Szymon Kieloch [Skieloch]"]
+  s.authors = ["Michal Czyz [cs3b]", "Radoslaw Jedryszczak [socjopata]", "Szymon Kieloch [Skieloch]"]
   s.email = 'michalczyz@gmail.com'
   s.homepage = 'https://github.com/cs3b/kameleon'
 
