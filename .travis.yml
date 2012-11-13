@@ -3,9 +3,8 @@ rvm:
   - 1.9.3
   - 1.8.7
 env:
-  - CAPYBARA_DEFAULT_DRIVER=rack_test
-  - CAPYBARA_DEFAULT_DRIVER=selenium
-  - CAPYBARA_DEFAULT_DRIVER=webkit
+  - CAPYBARA_DEFAULT_DRIVER=poltergeist
+
 branches:
   only:
     - master
