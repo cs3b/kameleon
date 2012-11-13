@@ -3,11 +3,11 @@ rvm:
   - 1.9.3
   - 1.8.7
 env:
-  - CAPYBARA_DEFAULT_DRIVER=rack_test
-  - CAPYBARA_DEFAULT_DRIVER=poltergeist
-  - CAPYBARA_DEFAULT_DRIVER=selenium
-  - CAPYBARA_DEFAULT_DRIVER=webkit
-install: sudo apt-get install xvfb firefox libqt4-dev libqtwebkit-dev
+  - PATH=~/phantomjs/bin:$PATH CAPYBARA_DEFAULT_DRIVER=rack_test
+  - PATH=~/phantomjs/bin:$PATH CAPYBARA_DEFAULT_DRIVER=poltergeist
+  - PATH=~/phantomjs/bin:$PATH CAPYBARA_DEFAULT_DRIVER=selenium
+  - PATH=~/phantomjs/bin:$PATH CAPYBARA_DEFAULT_DRIVER=webkit
+install: ~/builds/cs3b/kameleon/.travis/phantom_js.sh'
 before_script:
   - 'bundle'
 script: 'bundle exec rspec'
