@@ -3,12 +3,10 @@ rvm:
   - 1.9.3
   - 1.8.7
 env:
+  - CAPYBARA_DEFAULT_DRIVER=rack_test
   - CAPYBARA_DEFAULT_DRIVER=poltergeist
-
-branches:
-  only:
-    - master
-    - 0_2_2
+  - CAPYBARA_DEFAULT_DRIVER=selenium
+  - CAPYBARA_DEFAULT_DRIVER=webkit
 install: sudo apt-get install xvfb firefox libqt4-dev libqtwebkit-dev
 before_script:
   - 'bundle'
