@@ -8,7 +8,7 @@ env:
 branches:
   only:
     - master
-    - 0_1_x
+    - 0_2_2
 install: sudo apt-get install xvfb firefox libqt4-dev libqtwebkit-dev
 before_script:
   - 'bundle'
