@@ -9,6 +9,16 @@ env:
   - CAPYBARA_DEFAULT_DRIVER=poltergeist
   - CAPYBARA_DEFAULT_DRIVER=selenium
   - CAPYBARA_DEFAULT_DRIVER=webkit
+matrix:
+  exclude:
+    - rvm: 1.8.7
+      env: CAPYBARA_DEFAULT_DRIVER=webkit
+    - rvm: jruby
+      env: CAPYBARA_DEFAULT_DRIVER=webkit
+    - rvm: rbx-19mode
+      env: CAPYBARA_DEFAULT_DRIVER=webkit
+    - rvm: rbx-19mode
+      env: CAPYBARA_DEFAULT_DRIVER=poltergeist
 before_install:
   - wget http://phantomjs.googlecode.com/files/phantomjs-1.7.0-linux-i686.tar.bz2
   - tar -xf phantomjs-1.7.0-linux-i686.tar.bz2
