@@ -1,24 +1,19 @@
 language: ruby
 rvm:
   - 1.9.3
-  - 1.8.7
-  - jruby-19mode
-  - rbx-19mode
 env:
   - CAPYBARA_DEFAULT_DRIVER=rack_test
   - CAPYBARA_DEFAULT_DRIVER=poltergeist
   - CAPYBARA_DEFAULT_DRIVER=selenium
   - CAPYBARA_DEFAULT_DRIVER=webkit
 matrix:
-  exclude:
+  include:
     - rvm: 1.8.7
-      env: CAPYBARA_DEFAULT_DRIVER=webkit
-    - rvm: jruby
-      env: CAPYBARA_DEFAULT_DRIVER=webkit
+      env: CAPYBARA_DEFAULT_DRIVER=rack_test
+    - rvm: jruby-19mode
+      env: CAPYBARA_DEFAULT_DRIVER=rack_test
     - rvm: rbx-19mode
-      env: CAPYBARA_DEFAULT_DRIVER=webkit
-    - rvm: rbx-19mode
-      env: CAPYBARA_DEFAULT_DRIVER=poltergeist
+      env: CAPYBARA_DEFAULT_DRIVER=rack_test
 before_install:
   - wget http://phantomjs.googlecode.com/files/phantomjs-1.7.0-linux-i686.tar.bz2
   - tar -xf phantomjs-1.7.0-linux-i686.tar.bz2
