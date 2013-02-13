@@ -28,6 +28,8 @@ module Kameleon
               param.size == 1 ?
                   detect_selector(param.first) :
                   normalize(param)
+            when Capybara::Node::Element
+              param
             when nil
               normalize(default_selector)
             else
