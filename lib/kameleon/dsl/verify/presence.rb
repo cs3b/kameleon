@@ -231,7 +231,12 @@ module Kameleon
             when Symbol
               parse_params(params.to_s)
             when String
-              conditions << Condition.new(:have_field, params, :with => value)
+              conditions <<
+                  if value.nil? or value == ""
+                    Condition.new(:have_field, params)
+                  else
+                    Condition.new(:have_field, params, :with => value)
+                  end
             when Array
               params.each { |param| parse_params(param) }
             else
@@ -332,13 +337,13 @@ module Kameleon
                     parse_params(selected_value => identifier.to_s)
                   when String
                     value = case selected_value
-                      when Symbol, Fixnum
-                        selected_value.to_s
-                      when String, Array
-                        selected_value
-                      else
-                        raise "not supported"
-                    end
+                              when Symbol, Fixnum
+                                selected_value.to_s
+                              when String, Array
+                                selected_value
+                              else
+                                raise "not supported"
+                            end
                     conditions << Condition.new(matcher_method, identifier, :selected => value)
                   else
                     raise "not supported"

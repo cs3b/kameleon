@@ -41,12 +41,12 @@ describe "presence of" do
       it "link text doesn't isn't present" do
         expect do
           see :links => "What I Would like"
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.to raise_error(Capybara::ExpectationNotMet)
       end
       it "url for link is different" do
         expect do
           see :link => {"What I need" => '/what-i/have'}
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.to raise_error(Capybara::ExpectationNotMet)
       end
     end
   end
@@ -72,7 +72,7 @@ describe "presence of" do
         it "element is not present" do
           expect do
             see :element => [:xpath, ".//image[@id='not_present']"]
-          end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+          end.to raise_error(Capybara::ExpectationNotMet)
         end
       end
     end

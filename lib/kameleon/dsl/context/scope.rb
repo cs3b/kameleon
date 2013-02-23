@@ -80,7 +80,9 @@ module Kameleon
             [:xpath, "//tbody/tr[#{value_in_row}]/td[#{value_in_column}]"]
           else
             #! on page there might be more then one table
-            position = Capybara.current_session.all(:xpath, "//table//th").index { |n| n.text =~ /#{value_in_column}/ }
+            result = Capybara.current_session.all(:xpath, "//table//th")
+            elements = result.each.to_a
+            position = elements.index { |n| n.text =~ /#{value_in_column}/ }
             [:xpath, "//tr[*='#{value_in_row}'][1]/td[#{position+1}]"]
           end
         end

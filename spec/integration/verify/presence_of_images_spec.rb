@@ -19,13 +19,13 @@ describe "presence of images" do
     it "haven't found image with alt" do
       expect do
         see :image => 'NoImageWithThatAlt'
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end.to raise_error(Capybara::ExpectationNotMet)
     end
 
     it "haven't found image with src" do
       expect do
         see :images => ['Logo_redmine', "/images/logo_selleo_com.png"]
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end.to raise_error(Capybara::ExpectationNotMet)
     end
   end
 end

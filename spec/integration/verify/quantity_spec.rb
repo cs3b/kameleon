@@ -25,13 +25,13 @@ describe 'quantity' do
     it "there is less elements" do
        expect do
         see 6 => '#fiveElements'
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end.to raise_error(Capybara::ExpectationNotMet)
     end
 
     it "there is more elements" do
       expect do
         see 4 => '#fiveElements'
-      end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end.to raise_error(Capybara::ExpectationNotMet)
     end
   end
 

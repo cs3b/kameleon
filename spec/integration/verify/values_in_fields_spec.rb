@@ -16,7 +16,7 @@ describe "values in fields" do
       it 'not exist' do
         expect do
           see :field => 'doestNotExist'
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.to raise_error(Capybara::ExpectationNotMet)
       end
     end
   end
@@ -28,7 +28,7 @@ describe "values in fields" do
 
     it "multiple" do
       see :empty => ['Prepended text',
-                     'Textarea']
+                     'Textarea 21']
     end
 
     context "raise errors when" do
@@ -55,13 +55,13 @@ describe "values in fields" do
       it "field not present" do
         expect do
           see 'this is great value' => 'textareaDoesNotExist'
-        end.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.should raise_error(Capybara::ExpectationNotMet)
       end
 
       it "one of the field have different value" do
         expect do
           see 'this is great value' => 'xlInput', 'one other non existent text' => 'Textarea 3'
-        end.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.should raise_error(Capybara::ExpectationNotMet)
       end
     end
   end
@@ -76,8 +76,7 @@ describe "values in fields" do
     end
 
     it "multiple at once" do
-      see :checked => ['Option two can also be checked and included in form results',
-                       'Option two can also be checked and included in form results'],
+      see :checked => ['Option two can also be checked and included in form results'],
           :unchecked => ["Sample unchecked checkbox",
                          "Option four cannot be checked as it is disabled."]
     end
@@ -86,13 +85,13 @@ describe "values in fields" do
       it "non checked" do
         expect do
           see :checked => "Sample unchecked checkbox"
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.to raise_error(Capybara::ExpectationNotMet)
       end
 
       it "checked" do
         expect do
           see :unchecked => 'Option two can also be checked and included in form results'
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.to raise_error(Capybara::ExpectationNotMet)
       end
     end
   end
@@ -117,14 +116,14 @@ describe "values in fields" do
       it "non checked" do
         expect do
           see :checked => "Option three not checked"
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.to raise_error(Capybara::ExpectationNotMet)
       end
 
       it "checked" do
         expect do
           see :unchecked => ["Option three not checked",
                              'Option six is checked']
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.to raise_error(Capybara::ExpectationNotMet)
       end
     end
   end
@@ -160,7 +159,7 @@ describe "values in fields" do
         expect do
           see :selected => {'5' => 'Select one option',
                             '3' => 'Select one option'}
-        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end.to raise_error(Capybara::ExpectationNotMet)
       end
     end
   end
