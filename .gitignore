@@ -2,3 +2,4 @@
 *.gem
 .rspec
 .DS_Store
+tmp/*
