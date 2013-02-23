@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'headless'
-  s.add_development_dependency 'guard-rspec'
   s.add_development_dependency 'selenium-webdriver', ["~> 2.0"]
   s.add_development_dependency 'capybara-webkit', ["~> 1.14"]
   s.add_development_dependency 'poltergeist', ["~> 1.1"]
