@@ -16,7 +16,7 @@ matrix:
       env: CAPYBARA_DEFAULT_DRIVER=rack_test
     - rvm: rbx-19mode
       env: CAPYBARA_DEFAULT_DRIVER=rack_test
-    - rvm: 2.0.0-rc2
+    - rvm: head
       env: CAPYBARA_DEFAULT_DRIVER=rack_test
 before_install:
   - wget http://phantomjs.googlecode.com/files/phantomjs-1.8.1-linux-i686.tar.bz2
