@@ -1,6 +1,10 @@
 language: ruby
 rvm:
   - 1.9.3
+branches:
+  only:
+    - master
+    - 0_x_capybara_1_x
 env:
   - CAPYBARA_DEFAULT_DRIVER=rack_test
   - CAPYBARA_DEFAULT_DRIVER=poltergeist

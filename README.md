@@ -1,6 +1,6 @@
 # Kameleon [chameleon]
 
-[![Build Status](https://secure.travis-ci.org/cs3b/kameleon.png?branch=master)](http://travis-ci.org/cs3b/kameleon)
+[![Build Status](https://secure.travis-ci.org/cs3b/kameleon.png?branch=0_x_capybara_1_x)](http://travis-ci.org/cs3b/kameleon)
 
 [![CoderWall](http://api.coderwall.com/cs3b/endorsecount.png)](http://coderwall.com/cs3b)
 
