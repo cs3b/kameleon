@@ -12,8 +12,6 @@ env:
   - CAPYBARA_DEFAULT_DRIVER=webkit
 matrix:
   include:
-    - rvm: jruby-19mode
-      env: CAPYBARA_DEFAULT_DRIVER=rack_test
     - rvm: rbx-19mode
       env: CAPYBARA_DEFAULT_DRIVER=rack_test
 before_install:
