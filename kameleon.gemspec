@@ -4,14 +4,14 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 1.9.0"
 
-  s.version = '1.0.0'
+  s.version = '1.0.1'
   s.files = Dir['lib/**/*.rb'] + %w(LICENCE README.md)
-  s.add_runtime_dependency 'rspec'
+  s.add_runtime_dependency 'rspec', ["~> 2.0"]
   s.add_runtime_dependency 'capybara', ["~> 2.0"]
   s.add_runtime_dependency 'headless'
   s.add_runtime_dependency 'pry'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'capybara'
+  s.add_development_dependency 'rspec', ["~> 2.0"]
+  s.add_development_dependency 'capybara', ["~> 2.0"]
   s.add_development_dependency 'headless'
   s.add_development_dependency 'selenium-webdriver', ["~> 2.0"]
   s.add_development_dependency 'capybara-webkit', ["~> 1.14"]
