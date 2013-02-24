@@ -4,7 +4,6 @@ rvm:
 branches:
   only:
     - master
-    - 1_x_capybara_2_x
 env:
   - CAPYBARA_DEFAULT_DRIVER=rack_test
   - CAPYBARA_DEFAULT_DRIVER=poltergeist

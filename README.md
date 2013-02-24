@@ -4,8 +4,18 @@
 
 [![CoderWall](http://api.coderwall.com/cs3b/endorsecount.png)](http://coderwall.com/cs3b)
 
-Kameleon is a high abstraction dsl for better writing acceptance and integrationtests using Capybara.
+Kameleon is a high abstraction dsl for better writing acceptance and integration tests using Capybara.
 And "better" means: more easily to mimic how user interact with browser.
+
+## note on Capybara versions
+
+for 1.x capybara please use kameleon in version below 1.0
+
+    gem 'kameleon', '< 1.0'
+
+for 2.x capybara please use kameleon in version higher or equeal 1.0
+
+    gem 'kameleon', '>= 1.0.0'
 
 ## Setup
 

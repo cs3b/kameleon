@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 1.9.0"
 
-  s.version = '1.0.0.alpha'
+  s.version = '1.0.0'
   s.files = Dir['lib/**/*.rb'] + %w(LICENCE README.md)
   s.add_runtime_dependency 'rspec'
   s.add_runtime_dependency 'capybara', ["~> 2.0"]
