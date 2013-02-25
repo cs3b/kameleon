@@ -254,6 +254,13 @@ Kameleon::Session.defined_areas.merge!({ :menu => [:xpath, "//nav/ul"],
 ```
 
 ## Credits
-* [Michał Czyż](http://selleo.com/people/michal-czyz)
+
+[Michał Czyż](http://selleo.com/people/michal-czyz)
+
+## Contributors
+
+* [Alexander Paramonov](https://github.com/AlexParamonov)
+* [Artur Roszczyk](https://github.com/sevos)
+* [Hugo Frappier](https://github.com/frahugo)
 * [Radosław Jędryszczak](http://selleo.com/people/radoslaw-jedryszczak)
 * [Szymon Kieloch](http://selleo.com/people/szymon-kieloch)
