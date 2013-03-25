@@ -57,8 +57,7 @@ module Kameleon
               param.each { |parameter| prepare_conditions(parameter) }
             else
               raise Kameleon::NotImplementedException, "Not implemented #{param}" unless param.respond_to? :to_s
-              param = param.to_s
-              conditions << Condition.new(:have_content, param)
+              conditions << Condition.new(:have_content, param.to_s)
           end
         end
       end

@@ -25,6 +25,36 @@ describe "absence of" do
     end
   end
 
+  describe "objects with to_s method" do
+    before(:each) do
+      visit('/special_elements.html')
+      @existing_user   = DummyUser.new('Michal', 'Czyz')
+      @non_existing_user_1 = DummyUser.new('Alfred', 'Boom')
+      @non_existing_user_2 = DummyUser.new('Tony', 'Pony')
+    end
+
+    before(:each) { visit('/special_elements') }
+
+    it "can be tested by single or multiple arguments" do
+      not_see @non_existing_user_1
+      not_see @non_existing_user_1, @non_existing_user_2
+    end
+
+    context "raise errors when" do
+      it "text present" do
+        expect do
+          not_see @existing_user
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+
+      it "one of texts is present" do
+        expect do
+          not_see @non_existing_user_1, @existing_user
+        end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
   describe "links" do
     before(:each) { visit('/texts') }
 

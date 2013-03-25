@@ -250,7 +250,7 @@ node = page.all('div.item')[2]
 within(node).see('Something cool!')
 ```
 
-* ```see``` and ```click``` can also work with objects, that respond to overwritten to_s method. Example: You have list of users and you want navigate to someone's profile
+* ```see```, ```not_see``` and ```click``` can also work with objects, that respond to overwritten to_s method. Example: You have list of users and you want navigate to someone's profile
 
 ``` ruby
 class User < ActiveRecord::Base

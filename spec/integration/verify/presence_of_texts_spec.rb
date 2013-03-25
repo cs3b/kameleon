@@ -22,7 +22,7 @@ describe "presence of" do
     end
   end
 
-  describe "objects" do
+  describe "objects with to_s method" do
     before(:each) do
       visit('/special_elements.html')
       @existing_user_1   = DummyUser.new('Michal', 'Czyz')
