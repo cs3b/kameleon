@@ -243,7 +243,15 @@ Kameleon::Session.defined_areas.merge!({ :menu => [:xpath, "//nav/ul"],
                                          :col_aside => '.col_aside' })
 ```
 
+* ```within``` can also work with Capybara::Node::Element objects. It is usefull when you want to fetch the node by your own
+
+``` ruby
+node = page.all('div.item')[2]
+within(node).see('Something cool!')
+```
+
 ## Credits
 * [Michał Czyż](http://selleo.com/people/michal-czyz)
 * [Radosław Jędryszczak](http://selleo.com/people/radoslaw-jedryszczak)
 * [Szymon Kieloch](http://selleo.com/people/szymon-kieloch)
+* [Tomasz Borowski](http://selleo.com/people/tomasz-borowski)
