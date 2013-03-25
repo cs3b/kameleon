@@ -53,6 +53,46 @@ describe 'Scope' do
 
   end
 
+  describe "using Capybara::Node::Element objects as selectors" do
+    it "allow to pass block that will be evaluated" do
+      within(find("#main")) do
+        see "Left side", "Right side"
+      end
+
+      within(find("#left")) do
+        see "Left side"
+        not_see "Right side"
+      end
+    end
+
+    context "allow to use method chain" do
+      it "see" do
+        within(find("#left")).see "Left side"
+        within(find("#right")).not_see "Left side"
+      end
+
+      it "click" do
+        within(find("#underFooter")).click "Show Me Lists"
+        within(find("ul#menu")).see 7 => "li"
+      end
+
+      context 'with many parameters passed to method' do
+        it 'see' do
+          within(find('#main')).see 'Left side', 'Right side'
+          within(find('#footer')).not_see 'Left side', 'Right side'
+        end
+      end
+
+      context "errors" do
+        it "raise when element not found" do
+          expect do
+            within(find('#right')).see "Left side"
+          end.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+        end
+      end
+    end
+  end
+
   describe "defined areas" do
     before do
       Kameleon::Session.stub!(:defined_areas).and_return({
