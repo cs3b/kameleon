@@ -1,9 +1,8 @@
 require 'spec_helper'
 
 describe "presence of" do
-  before(:each) { visit('/texts.html') }
-
   describe "texts" do
+    before(:each) { visit('/texts.html') }
 
     it "check single text" do
       see 'This is simple app'
@@ -23,7 +22,34 @@ describe "presence of" do
     end
   end
 
+  describe "objects" do
+    before(:each) do
+      visit('/special_elements.html')
+      @existing_user_1   = DummyUser.new('Michal', 'Czyz')
+      @existing_user_2   = DummyUser.new('Michal', 'Czyz')
+      @non_existing_user = DummyUser.new('Alfred', 'Boom')
+    end
+
+    it "check single object" do
+      see @existing_user_1
+    end
+
+    it "many at once" do
+      see @existing_user_1,
+          @existing_user_2
+    end
+
+    context "raise errors when" do
+      it "text is not found" do
+        expect do
+          see @non_existing_user
+        end.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+      end
+    end
+  end
+
   describe "links" do
+    before(:each) { visit('/texts.html') }
 
     it "by text" do
       see :link => 'What you want'
@@ -52,6 +78,8 @@ describe "presence of" do
   end
 
   describe "Elements" do
+    before(:each) { visit('/texts.html') }
+
     context "defined by" do
       it "default selector type" do
         see :element => "ul.pretty"
