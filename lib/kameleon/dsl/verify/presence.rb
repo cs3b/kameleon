@@ -20,9 +20,6 @@ module Kameleon
 
         def prepare_conditions(param)
           case param
-            when String, Fixnum
-              param = param.to_s
-              conditions << Condition.new(:have_content, param)
             when Symbol
               prepare_conditions(:element => param)
             when Hash
@@ -36,12 +33,6 @@ module Kameleon
                     conditions.concat Sequence.new(values).conditions
                   when Fixnum
                     conditions.concat Quantity.new(type, values).conditions
-                  when String
-                    if type == ""
-                      prepare_conditions(:empty => values)
-                    else
-                      conditions.concat TextInput.new(type, values).conditions
-                    end
                   when :checked, :unchecked, :check, :uncheck
                     conditions.concat CheckBoxInput.new(type, values).conditions
                   when :selected, :unselected, :select, :unselect
@@ -59,7 +50,9 @@ module Kameleon
             when Array
               param.each { |parameter| prepare_conditions(parameter) }
             else
-              raise Kameleon::NotImplementedException, "Not implemented #{param}"
+              raise Kameleon::NotImplementedException, "Not implemented #{param}" unless param.respond_to? :to_s
+              param = param.to_s
+              conditions << Condition.new(:have_content, param)
           end
         end
       end
