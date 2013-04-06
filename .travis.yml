@@ -5,20 +5,22 @@ branches:
   only:
     - master
 env:
-  - CAPYBARA_DEFAULT_DRIVER=rack_test CACHE_BUNDLE=0
-  - CAPYBARA_DEFAULT_DRIVER=poltergeist CACHE_BUNDLE=0
+#  - CAPYBARA_DEFAULT_DRIVER=rack_test CACHE_BUNDLE=0
+#  - CAPYBARA_DEFAULT_DRIVER=poltergeist CACHE_BUNDLE=0
   - CAPYBARA_DEFAULT_DRIVER=selenium CACHE_BUNDLE=0
-  - CAPYBARA_DEFAULT_DRIVER=webkit CACHE_BUNDLE=1
-matrix:
-  include:
-    - rvm: rbx-19mode
-      env: CAPYBARA_DEFAULT_DRIVER=rack_test CACHE_BUNDLE=0
+#  - CAPYBARA_DEFAULT_DRIVER=webkit CACHE_BUNDLE=1
+#matrix:
+#  include:
+#    - rvm: rbx-19mode
+#      env: CAPYBARA_DEFAULT_DRIVER=rack_test CACHE_BUNDLE=0
 before_install:
   - "./script/travisci/phantomjs_install.sh"
   - "./script/travisci/bundle_install.sh"
-  - "./script/travisci/bundle_cache.sh"
+  - "scp -v -c blowfish -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -q ./bundle.tgz travisci_kameleon@selleo.com:/home/travisci_kameleon/bundle.tgz"
+#  - "./script/travisci/bundle_cache.sh"
 before_script:
   - 'bundle'
-script: 'bundle exec rspec'
+#script: 'bundle exec rspec'
+script: touch 'nothing.here'
 
 
