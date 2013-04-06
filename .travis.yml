@@ -5,9 +5,9 @@ branches:
   only:
     - master
 env:
-  - CAPYBARA_DEFAULT_DRIVER=rack_test
-  - CAPYBARA_DEFAULT_DRIVER=poltergeist
-  - CAPYBARA_DEFAULT_DRIVER=selenium
+  - CAPYBARA_DEFAULT_DRIVER=rack_test CACHE_BUNDLE=0
+  - CAPYBARA_DEFAULT_DRIVER=poltergeist CACHE_BUNDLE=0
+  - CAPYBARA_DEFAULT_DRIVER=selenium CACHE_BUNDLE=0
   - CAPYBARA_DEFAULT_DRIVER=webkit CACHE_BUNDLE=1
 matrix:
   include:
