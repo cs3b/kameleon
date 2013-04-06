@@ -12,11 +12,11 @@ env:
 matrix:
   include:
     - rvm: rbx-19mode
-      env: CAPYBARA_DEFAULT_DRIVER=rack_test
+      env: CAPYBARA_DEFAULT_DRIVER=rack_test CACHE_BUNDLE=0
 before_install:
   - "./script/travisci/phantomjs_install.sh"
   - "./script/travisci/bundle_install.sh"
-  - "./script/travisci/bundle_cache.sh &"
+  - "./script/travisci/bundle_cache.sh"
 before_script:
   - 'bundle'
 script: 'bundle exec rspec'
