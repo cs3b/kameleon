@@ -8,16 +8,15 @@ env:
   - CAPYBARA_DEFAULT_DRIVER=rack_test
   - CAPYBARA_DEFAULT_DRIVER=poltergeist
   - CAPYBARA_DEFAULT_DRIVER=selenium
-  - CAPYBARA_DEFAULT_DRIVER=webkit
+  - CAPYBARA_DEFAULT_DRIVER=webkit CACHE_BUNDLE=1
 matrix:
   include:
     - rvm: rbx-19mode
       env: CAPYBARA_DEFAULT_DRIVER=rack_test
 before_install:
-  - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2
-  - tar -xf phantomjs-1.9.0-linux-x86_64.tar.bz2
-  - sudo rm -rf /usr/local/phantomjs
-  - sudo mv phantomjs-1.9.0-linux-x86_64 /usr/local/phantomjs
+  - "./script/travisci/phantomjs_install.sh"
+  - "./script/travisci/bundle_install.sh"
+  - "./script/travisci/bundle_cache.sh &"
 before_script:
   - 'bundle'
 script: 'bundle exec rspec'
