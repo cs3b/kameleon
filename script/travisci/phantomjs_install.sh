@@ -7,3 +7,5 @@ sudo rm -rf /usr/local/phantomjs
 sudo mv phantomjs-1.9.0-linux-x86_64 /usr/local/phantomjs
 
 fi
+
+exit 0

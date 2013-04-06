@@ -7,4 +7,4 @@ rm -rf bundle.tgz
     bundle.tgz travisci_kameleon@selleo.com:/home/travisci_kameleon/bundle.tgz
 fi
 
-exit 3
+exit 0
