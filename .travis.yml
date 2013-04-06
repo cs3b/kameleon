@@ -14,10 +14,10 @@ matrix:
     - rvm: rbx-19mode
       env: CAPYBARA_DEFAULT_DRIVER=rack_test
 before_install:
-  - wget http://phantomjs.googlecode.com/files/phantomjs-1.8.1-linux-i686.tar.bz2
-  - tar -xf phantomjs-1.8.1-linux-i686.tar.bz2
+  - wget https://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-i686.tar.bz2
+  - tar -xf phantomjs-1.9.0-linux-i686.tar.bz2
   - sudo rm -rf /usr/local/phantomjs
-  - sudo mv phantomjs-1.8.1-linux-i686 /usr/local/phantomjs
+  - sudo mv phantomjs-1.9.0-linux-i686 /usr/local/phantomjs
 before_script:
   - 'bundle'
 script: 'bundle exec rspec'
