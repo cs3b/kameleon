@@ -253,11 +253,31 @@ Kameleon::Session.defined_areas.merge!({ :menu => [:xpath, "//nav/ul"],
                                          :col_aside => '.col_aside' })
 ```
 
-* ```within``` can also work with Capybara::Node::Element objects. It is usefull when you want to fetch the node by your own
+* ```within``` can also work with Capybara::Node::Element objects. It is useful when you want to fetch the node by your own
 
 ``` ruby
 node = page.all('div.item')[2]
 within(node).see('Something cool!')
+```
+
+* ```see```, ```not_see``` and ```click``` can also work with objects, that respond to overwritten to_s method. Example: You have list of users and you want navigate to someone's profile
+
+``` ruby
+class User < ActiveRecord::Base
+  def to_s
+    full_name
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+end
+
+
+user = User.create(first_name: 'Michal', last_name: 'Czyz')
+...
+see user
+click user
 ```
 
 ## Credits

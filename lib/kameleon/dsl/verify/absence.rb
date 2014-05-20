@@ -20,8 +20,6 @@ module Kameleon
 
         def prepare_conditions(param)
           case param
-            when String
-              conditions << Condition.new(:have_no_content, param)
             when Hash
               param.each_pair do |type, values|
                 case type
@@ -38,7 +36,8 @@ module Kameleon
             when Array
               params.each { |parameter| prepare_conditions(parameter) }
             else
-              raise "not implemented"
+              raise Kameleon::NotImplementedException, "Not implemented #{param}" unless param.respond_to? :to_s
+              conditions << Condition.new(:have_no_content, param.to_s)
           end
         end
 

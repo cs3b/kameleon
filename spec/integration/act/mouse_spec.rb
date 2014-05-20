@@ -47,6 +47,12 @@ describe "mouse" do
         click :homepage_link
         see "Welcome on Home Page"
       end
+
+      it "object with to_s method" do
+        user = DummyUser.new("Michal", "Czyz")
+        click user
+        see "and there is many lines"
+      end
     end
 
     it "image defined by alt" do

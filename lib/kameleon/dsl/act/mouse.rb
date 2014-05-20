@@ -20,8 +20,6 @@ module Kameleon
 
           def prepare_actions(param)
             case param
-              when String
-                actions << Action.new(:click_on, param)
               when Symbol
                 prepare_actions(:element => param)
               when Hash
@@ -67,7 +65,8 @@ module Kameleon
               when Array
                 params.each { |parameter| prepare_actions(parameter) }
               else
-                raise "not implemented"
+                raise "not implemented" unless param.respond_to? :to_s
+                actions << Action.new(:click_on, param.to_s)
             end
           end
         end
